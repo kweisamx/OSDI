@@ -43,7 +43,7 @@ push the error code and interrupt number to kernel stack and jump to allraps han
 TRAPHANDLER_NOEC(Default_ISR, T_DEFAULT)
 TRAPHANDLER_NOEC(KBD_Input, IRQ_OFFSET+IRQ_KBD)
 TRAPHANDLER_NOEC(TIM_ISR, IRQ_OFFSET+IRQ_TIMER)
-
+TRAPHANDLER_NOEC(do_sys, T_SYSCALL)
 // TODO: Lab 5
 // Please add interface of system call
 

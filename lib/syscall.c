@@ -44,15 +44,26 @@ puts(const char *s, size_t len)
 {
 	syscall(SYS_puts,(uint32_t)s, len, 0, 0, 0);
 }
-
-SYSCALL_NOARG(sleep, void)
-SYSCALL_NOARG(settextcolor, void)
-SYSCALL_NOARG(kill_self, void)
-SYSCALL_NOARG(fork, void)
-SYSCALL_NOARG(getpid, void)
-SYSCALL_NOARG(cls, void)
-SYSCALL_NOARG(get_num_free_page, void)
-SYSCALL_NOARG(get_num_used_page, void)
+//see inc/syscall.h
+void sleep(uint32_t ticks)
+{
+    syscall(SYS_sleep,ticks,0,0,0,0);
+}
+void settextcolor(unsigned char forecolor,unsigned char backcolor){
+    syscall(SYS_settextcolor,forecolor,backcolor,0,0,0);
+}
+void kill_self()
+{
+    int pid = getpid();
+    syscall(SYS_kill,pid,0,0,0,0);
+}
+SYSCALL_NOARG(fork, int32_t)
+SYSCALL_NOARG(getpid, int32_t)
+SYSCALL_NOARG(cls, int32_t)
+SYSCALL_NOARG(get_num_free_page, int32_t)
+SYSCALL_NOARG(get_num_used_page, int32_t)
+//tick??????
+SYSCALL_NOARG(get_ticks,unsigned long)
 /* TODO: Lab 5
  * Please add interface needed for 
  * sleep, settextcolor, kill_self, fork, getpid, cls, get_num_free_page,

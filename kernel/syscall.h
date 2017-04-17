@@ -6,4 +6,6 @@
 int32_t do_syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5);
 
 void syscall_init();
+extern void sys_settextcolor(unsigned char forecolor,unsigned char backcolor);
+extern void sys_cls();
 #endif

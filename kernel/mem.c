@@ -574,6 +574,14 @@ setupvm(pde_t *pgdir, uint32_t start, uint32_t size)
 pde_t *
 setupkvm()
 {
+    struct PageInfo *s;
+    s = page_alloc(ALLOC_ZERO);
+    pde_t u_pgdir = page2kva(s);
+    boot_map_region(u_pgdir, UPAGES, ROUNDUP((sizeof(struct PageInfo) * npages), PGSIZE), PADDR(pages), (PTE_U | PTE_P));
+    boot_map_region(u_pgdir,KSTACKTOP - KSTKSIZE,KSTKSIZE,PADDR(bootstack),PTE_W);
+    boot_map_region(u_pgdir,KERNBASE,0xffffffff-KERNBASE,0,PTE_W);
+    boot_map_region(u_pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W) | (PTE_P));
+    return u_pgdir;
 }
 
 
@@ -584,14 +592,22 @@ setupkvm()
 int32_t
 sys_get_num_free_page(void)
 {
-  return num_free_pages;
+    int i = 0;
+    num_free_pages = 0;
+    for(i=0;i<npages;i++)
+    {
+        if(pages[i].pp_ref==0)
+            num_free_pages++;
+    }
+    return num_free_pages;
 }
 
 /* This is the system call implementation of get_num_used_page */
 int32_t
 sys_get_num_used_page(void)
 {
-  return npages - num_free_pages; 
+    num_free_pages = sys_get_num_free_page();
+    return npages - num_free_pages; 
 }
 
 // --------------------------------------------------------------
