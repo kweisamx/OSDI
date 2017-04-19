@@ -32,7 +32,7 @@ void sched_yield(void)
             i = 0;
         if(next == cur_task->task_id)
             if(cur_task->state==TASK_RUNNING)
-            break; 
+                break; 
         if(tasks[next].state==TASK_RUNNABLE)
         {
             cur_task =&(tasks[next]);
@@ -45,29 +45,6 @@ void sched_yield(void)
         
 
     }
-    /*
-    int i;
-    int next_i = 0;
-    i = (index +1)%NR_TASKS;
-    while (1)
-    {
-        if ((tasks[i].state == TASK_RUNNABLE))                                                
-        {
-            next_i = i;                                                       
-            break;
-        }
-        if (++i >= NR_TASKS) i = 0;
-        
-        if (index == i)
-        {   
-            next_i = -1;
-            break;
-        }
-    }
-    if (next_i == -1 ) //only one task can run
-                next_i = index;
-    if (next_i >= 0 && next_i < NR_TASKS)
-            {*/
             
 }
 

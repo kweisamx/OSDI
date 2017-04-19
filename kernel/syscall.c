@@ -115,7 +115,8 @@ static void syscall_handler(struct Trapframe *tf)
    * call do_syscall
    * Please remember to fill in the return value
    * HINT: You have to know where to put the return value
-   */int32_t val;
+   */
+    int32_t val;
     val = do_syscall(tf->tf_regs.reg_eax, tf->tf_regs.reg_edx, tf->tf_regs.reg_ecx, tf->tf_regs.reg_ebx, tf->tf_regs.reg_edi, tf->tf_regs.reg_esi); 
     tf->tf_regs.reg_eax = val;
 

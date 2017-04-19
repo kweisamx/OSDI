@@ -3668,14 +3668,14 @@ f010187f:	e8 8c 0f 00 00       	call   f0102810 <mem_init>
 
   printk("Kernel code base start=0x%08x to = 0x%08x\n", stext, etext);
 f0101884:	50                   	push   %eax
-f0101885:	68 9e 43 10 f0       	push   $0xf010439e
+f0101885:	68 ba 43 10 f0       	push   $0xf01043ba
 f010188a:	68 00 00 10 f0       	push   $0xf0100000
 f010188f:	68 44 54 10 f0       	push   $0xf0105444
 f0101894:	e8 37 09 00 00       	call   f01021d0 <printk>
   printk("Readonly data start=0x%08x to = 0x%08x\n", etext, rdata_end);
 f0101899:	83 c4 0c             	add    $0xc,%esp
 f010189c:	68 b3 65 10 f0       	push   $0xf01065b3
-f01018a1:	68 9e 43 10 f0       	push   $0xf010439e
+f01018a1:	68 ba 43 10 f0       	push   $0xf01043ba
 f01018a6:	68 6f 54 10 f0       	push   $0xf010546f
 f01018ab:	e8 20 09 00 00       	call   f01021d0 <printk>
   printk("Kernel data base start=0x%08x to = 0x%08x\n", data_start, end);
@@ -3687,10 +3687,10 @@ f01018c2:	e8 09 09 00 00       	call   f01021d0 <printk>
   timer_init();
 f01018c7:	e8 51 24 00 00       	call   f0103d1d <timer_init>
   syscall_init();
-f01018cc:	e8 f0 29 00 00       	call   f01042c1 <syscall_init>
+f01018cc:	e8 0c 2a 00 00       	call   f01042dd <syscall_init>
 
   task_init();
-f01018d1:	e8 72 27 00 00       	call   f0104048 <task_init>
+f01018d1:	e8 8d 27 00 00       	call   f0104063 <task_init>
   /* Enable interrupt */
   __asm __volatile("sti");
 f01018d6:	fb                   	sti    
@@ -8960,7 +8960,7 @@ f0103cd7:	75 0c                	jne    f0103ce5 <timer_handler+0x55>
                 cur_task->state = TASK_RUNNABLE;
 f0103cd9:	c7 40 50 01 00 00 00 	movl   $0x1,0x50(%eax)
                 sched_yield();
-f0103ce0:	e8 fb 05 00 00       	call   f01042e0 <sched_yield>
+f0103ce0:	e8 17 06 00 00       	call   f01042fc <sched_yield>
 f0103ce5:	83 c3 58             	add    $0x58,%ebx
    *
    * 4. sched_yield() if the time is up for current task
@@ -9163,10 +9163,10 @@ f0103dd4:	e8 dc e9 ff ff       	call   f01027b5 <page_insert>
 f0103dd9:	83 c4 10             	add    $0x10,%esp
 f0103ddc:	81 fe 00 e0 bf ee    	cmp    $0xeebfe000,%esi
 f0103de2:	75 ce                	jne    f0103db2 <task_create+0x56>
-      p = page_alloc(ALLOC_ZERO);
-      if (!p || page_insert(ts->pgdir, p, (void*)(USTACKTOP-USR_STACK_SIZE+j), PTE_W|PTE_U))
-          panic("Not enough memory for user stack!\n");
-  }*/
+        if(u_stack==NULL)
+            return -1;
+        page_insert(ts->pgdir,u_stack,(void *)USTACKTOP-USR_STACK_SIZE+PGSIZE*j,PTE_W|PTE_U);
+    }
 	/* Setup Trapframe */
 	memset( &(ts->tf), 0, sizeof(ts->tf));
 f0103de4:	6b f3 58             	imul   $0x58,%ebx,%esi
@@ -9188,7 +9188,7 @@ f0103dfb:	8d 86 f8 76 11 f0    	lea    -0xfee8908(%esi),%eax
     ts->state = TASK_RUNNABLE;
     if(cur_task==NULL)
 f0103e01:	83 c4 10             	add    $0x10,%esp
-  }*/
+    }
 	/* Setup Trapframe */
 	memset( &(ts->tf), 0, sizeof(ts->tf));
 
@@ -9204,8 +9204,8 @@ f0103e0a:	66 c7 40 08 23 00    	movw   $0x23,0x8(%eax)
     ts->state = TASK_RUNNABLE;
     if(cur_task==NULL)
 f0103e10:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
-          panic("Not enough memory for user stack!\n");
-  }*/
+        page_insert(ts->pgdir,u_stack,(void *)USTACKTOP-USR_STACK_SIZE+PGSIZE*j,PTE_W|PTE_U);
+    }
 	/* Setup Trapframe */
 	memset( &(ts->tf), 0, sizeof(ts->tf));
 
@@ -9270,8 +9270,8 @@ f0103e69:	5f                   	pop    %edi
 f0103e6a:	c3                   	ret    
 
 f0103e6b <sys_kill>:
+
     pgdir_remove(tasks[pid].pgdir);
-    */
 }
 
 void sys_kill(int pid)
@@ -9312,7 +9312,7 @@ f0103e94:	77 15                	ja     f0103eab <sys_kill+0x40>
 		_panic(file, line, "PADDR called with invalid kva %08lx", kva);
 f0103e96:	50                   	push   %eax
 f0103e97:	68 c2 54 10 f0       	push   $0xf01054c2
-f0103e9c:	68 b3 00 00 00       	push   $0xb3
+f0103e9c:	68 aa 00 00 00       	push   $0xaa
 f0103ea1:	68 6a 65 10 f0       	push   $0xf010656a
 f0103ea6:	e8 3d fd ff ff       	call   f0103be8 <_panic>
 	return (physaddr_t)kva - KERNBASE;
@@ -9374,7 +9374,7 @@ f0103ef7:	5f                   	pop    %edi
         cur_task->state = TASK_STOP;
         task_free(cur_task->task_id);
         sched_yield();
-f0103ef8:	e9 e3 03 00 00       	jmp    f01042e0 <sched_yield>
+f0103ef8:	e9 ff 03 00 00       	jmp    f01042fc <sched_yield>
 	}
 }
 f0103efd:	5b                   	pop    %ebx
@@ -9407,878 +9407,899 @@ int sys_fork()
   /* pid for newly created process */
   int pid,i;
   pid = task_create();
-f0103f0f:	89 c3                	mov    %eax,%ebx
+f0103f0f:	89 44 24 08          	mov    %eax,0x8(%esp)
   uint32_t src_addr, dst_addr, *src, *dst;
   if(pid<0)
-f0103f11:	0f 88 24 01 00 00    	js     f010403b <sys_fork+0x13a>
+f0103f13:	0f 88 36 01 00 00    	js     f010404f <sys_fork+0x14e>
       return -1;
         if ((uint32_t)cur_task)
-f0103f17:	8b 35 2c 4e 11 f0    	mov    0xf0114e2c,%esi
-f0103f1d:	85 f6                	test   %esi,%esi
-f0103f1f:	0f 84 19 01 00 00    	je     f010403e <sys_fork+0x13d>
+f0103f19:	8b 35 2c 4e 11 f0    	mov    0xf0114e2c,%esi
+f0103f1f:	85 f6                	test   %esi,%esi
+f0103f21:	0f 84 30 01 00 00    	je     f0104057 <sys_fork+0x156>
         {
             tasks[pid].tf = cur_task->tf;
-f0103f25:	6b c0 58             	imul   $0x58,%eax,%eax
-f0103f28:	83 c6 08             	add    $0x8,%esi
-f0103f2b:	b9 11 00 00 00       	mov    $0x11,%ecx
-f0103f30:	8d b8 e0 76 11 f0    	lea    -0xfee8920(%eax),%edi
+f0103f27:	6b e8 58             	imul   $0x58,%eax,%ebp
+f0103f2a:	83 c6 08             	add    $0x8,%esi
+f0103f2d:	b9 11 00 00 00       	mov    $0x11,%ecx
             for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
             {
                 src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
                 src_addr = PTE_ADDR(*src);
                 dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
-f0103f36:	05 dc 76 11 f0       	add    $0xf01176dc,%eax
+f0103f32:	8d 85 dc 76 11 f0    	lea    -0xfee8924(%ebp),%eax
   uint32_t src_addr, dst_addr, *src, *dst;
   if(pid<0)
       return -1;
         if ((uint32_t)cur_task)
         {
             tasks[pid].tf = cur_task->tf;
-f0103f3b:	f3 a5                	rep movsl %ds:(%esi),%es:(%edi)
-f0103f3d:	bf 00 40 bf ee       	mov    $0xeebf4000,%edi
+f0103f38:	8d bd e0 76 11 f0    	lea    -0xfee8920(%ebp),%edi
             for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
             {
                 src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
                 src_addr = PTE_ADDR(*src);
                 dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
-f0103f42:	89 44 24 0c          	mov    %eax,0xc(%esp)
+f0103f3e:	89 44 24 0c          	mov    %eax,0xc(%esp)
+  uint32_t src_addr, dst_addr, *src, *dst;
+  if(pid<0)
+      return -1;
         if ((uint32_t)cur_task)
         {
             tasks[pid].tf = cur_task->tf;
+f0103f42:	f3 a5                	rep movsl %ds:(%esi),%es:(%edi)
+f0103f44:	bf 00 40 bf ee       	mov    $0xeebf4000,%edi
             for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
             {
                 src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
-f0103f46:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
-f0103f4b:	52                   	push   %edx
-f0103f4c:	6a 00                	push   $0x0
-f0103f4e:	57                   	push   %edi
-f0103f4f:	ff 70 54             	pushl  0x54(%eax)
-f0103f52:	e8 28 e7 ff ff       	call   f010267f <pgdir_walk>
+f0103f49:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
+f0103f4e:	51                   	push   %ecx
+f0103f4f:	6a 00                	push   $0x0
+f0103f51:	57                   	push   %edi
+f0103f52:	ff 70 54             	pushl  0x54(%eax)
+f0103f55:	e8 25 e7 ff ff       	call   f010267f <pgdir_walk>
                 src_addr = PTE_ADDR(*src);
                 dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
-f0103f57:	83 c4 0c             	add    $0xc,%esp
+f0103f5a:	83 c4 0c             	add    $0xc,%esp
         {
             tasks[pid].tf = cur_task->tf;
             for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
             {
                 src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
                 src_addr = PTE_ADDR(*src);
-f0103f5a:	8b 30                	mov    (%eax),%esi
+f0103f5d:	8b 30                	mov    (%eax),%esi
                 dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
-f0103f5c:	6a 00                	push   $0x0
-f0103f5e:	57                   	push   %edi
-f0103f5f:	8b 44 24 18          	mov    0x18(%esp),%eax
-f0103f63:	8b 6c 24 18          	mov    0x18(%esp),%ebp
+f0103f5f:	6a 00                	push   $0x0
+f0103f61:	57                   	push   %edi
+f0103f62:	8b 54 24 18          	mov    0x18(%esp),%edx
+f0103f66:	8b 5c 24 18          	mov    0x18(%esp),%ebx
         {
             tasks[pid].tf = cur_task->tf;
             for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
             {
                 src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
                 src_addr = PTE_ADDR(*src);
-f0103f67:	81 e6 00 f0 ff ff    	and    $0xfffff000,%esi
+f0103f6a:	81 e6 00 f0 ff ff    	and    $0xfffff000,%esi
                 dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
-f0103f6d:	ff 70 50             	pushl  0x50(%eax)
-f0103f70:	83 c5 50             	add    $0x50,%ebp
-f0103f73:	e8 07 e7 ff ff       	call   f010267f <pgdir_walk>
+f0103f70:	ff 72 50             	pushl  0x50(%edx)
+f0103f73:	83 c3 50             	add    $0x50,%ebx
+f0103f76:	e8 04 e7 ff ff       	call   f010267f <pgdir_walk>
 }
 
 static inline void*
 _kaddr(const char *file, int line, physaddr_t pa)
 {
 	if (PGNUM(pa) >= npages)
-f0103f78:	89 f1                	mov    %esi,%ecx
-f0103f7a:	83 c4 10             	add    $0x10,%esp
-f0103f7d:	c1 e9 0c             	shr    $0xc,%ecx
+f0103f7b:	8b 15 c4 76 11 f0    	mov    0xf01176c4,%edx
+f0103f81:	89 f1                	mov    %esi,%ecx
+f0103f83:	c1 e9 0c             	shr    $0xc,%ecx
+f0103f86:	83 c4 10             	add    $0x10,%esp
+f0103f89:	39 d1                	cmp    %edx,%ecx
                 dst_addr = PTE_ADDR(*dst);
-f0103f80:	8b 10                	mov    (%eax),%edx
-f0103f82:	a1 c4 76 11 f0       	mov    0xf01176c4,%eax
-f0103f87:	39 c1                	cmp    %eax,%ecx
-f0103f89:	72 03                	jb     f0103f8e <sys_fork+0x8d>
+f0103f8b:	8b 00                	mov    (%eax),%eax
+f0103f8d:	72 03                	jb     f0103f92 <sys_fork+0x91>
 		_panic(file, line, "KADDR called with invalid pa %08lx", pa);
-f0103f8b:	56                   	push   %esi
-f0103f8c:	eb 10                	jmp    f0103f9e <sys_fork+0x9d>
-f0103f8e:	81 e2 00 f0 ff ff    	and    $0xfffff000,%edx
+f0103f8f:	56                   	push   %esi
+f0103f90:	eb 0f                	jmp    f0103fa1 <sys_fork+0xa0>
+f0103f92:	25 00 f0 ff ff       	and    $0xfffff000,%eax
 }
 
 static inline void*
 _kaddr(const char *file, int line, physaddr_t pa)
 {
 	if (PGNUM(pa) >= npages)
-f0103f94:	89 d1                	mov    %edx,%ecx
-f0103f96:	c1 e9 0c             	shr    $0xc,%ecx
-f0103f99:	39 c1                	cmp    %eax,%ecx
-f0103f9b:	72 15                	jb     f0103fb2 <sys_fork+0xb1>
+f0103f97:	89 c1                	mov    %eax,%ecx
+f0103f99:	c1 e9 0c             	shr    $0xc,%ecx
+f0103f9c:	39 d1                	cmp    %edx,%ecx
+f0103f9e:	72 15                	jb     f0103fb5 <sys_fork+0xb4>
 		_panic(file, line, "KADDR called with invalid pa %08lx", pa);
-f0103f9d:	52                   	push   %edx
-f0103f9e:	68 9c 5a 10 f0       	push   $0xf0105a9c
-f0103fa3:	68 fc 00 00 00       	push   $0xfc
-f0103fa8:	68 6a 65 10 f0       	push   $0xf010656a
-f0103fad:	e8 36 fc ff ff       	call   f0103be8 <_panic>
+f0103fa0:	50                   	push   %eax
+f0103fa1:	68 9c 5a 10 f0       	push   $0xf0105a9c
+f0103fa6:	68 eb 00 00 00       	push   $0xeb
+f0103fab:	68 6a 65 10 f0       	push   $0xf010656a
+f0103fb0:	e8 33 fc ff ff       	call   f0103be8 <_panic>
                 memcpy(KADDR(dst_addr), KADDR(src_addr), PGSIZE);
-f0103fb2:	50                   	push   %eax
+f0103fb5:	52                   	push   %edx
 	return (void *)(pa + KERNBASE);
-f0103fb3:	81 ee 00 00 00 10    	sub    $0x10000000,%esi
-f0103fb9:	68 00 10 00 00       	push   $0x1000
-f0103fbe:	81 ea 00 00 00 10    	sub    $0x10000000,%edx
-f0103fc4:	56                   	push   %esi
-f0103fc5:	81 c7 00 10 00 00    	add    $0x1000,%edi
-f0103fcb:	52                   	push   %edx
-f0103fcc:	e8 d8 c2 ff ff       	call   f01002a9 <memcpy>
+f0103fb6:	81 ee 00 00 00 10    	sub    $0x10000000,%esi
+f0103fbc:	68 00 10 00 00       	push   $0x1000
+f0103fc1:	2d 00 00 00 10       	sub    $0x10000000,%eax
+f0103fc6:	56                   	push   %esi
+f0103fc7:	81 c7 00 10 00 00    	add    $0x1000,%edi
+f0103fcd:	50                   	push   %eax
+f0103fce:	e8 d6 c2 ff ff       	call   f01002a9 <memcpy>
   if(pid<0)
       return -1;
         if ((uint32_t)cur_task)
         {
             tasks[pid].tf = cur_task->tf;
             for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
-f0103fd1:	83 c4 10             	add    $0x10,%esp
-f0103fd4:	81 ff 00 e0 bf ee    	cmp    $0xeebfe000,%edi
-f0103fda:	0f 85 66 ff ff ff    	jne    f0103f46 <sys_fork+0x45>
+f0103fd3:	83 c4 10             	add    $0x10,%esp
+f0103fd6:	81 ff 00 e0 bf ee    	cmp    $0xeebfe000,%edi
+f0103fdc:	0f 85 67 ff ff ff    	jne    f0103f49 <sys_fork+0x48>
                 dst_addr = PTE_ADDR(*dst);
                 memcpy(KADDR(dst_addr), KADDR(src_addr), PGSIZE);
             }
             
         /* Step 4: All user program use the same code for now */
         setupvm(tasks[pid].pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
-f0103fe0:	57                   	push   %edi
-f0103fe1:	ff 35 54 7a 11 f0    	pushl  0xf0117a54
-f0103fe7:	68 00 00 10 f0       	push   $0xf0100000
-f0103fec:	ff 75 00             	pushl  0x0(%ebp)
-f0103fef:	e8 9f fa ff ff       	call   f0103a93 <setupvm>
+f0103fe2:	57                   	push   %edi
+f0103fe3:	ff 35 54 7a 11 f0    	pushl  0xf0117a54
+f0103fe9:	68 00 00 10 f0       	push   $0xf0100000
+f0103fee:	ff 33                	pushl  (%ebx)
+f0103ff0:	e8 9e fa ff ff       	call   f0103a93 <setupvm>
         setupvm(tasks[pid].pgdir, (uint32_t)UDATA_start, UDATA_SZ);
-f0103ff4:	83 c4 0c             	add    $0xc,%esp
-f0103ff7:	ff 35 50 7a 11 f0    	pushl  0xf0117a50
-f0103ffd:	68 00 70 10 f0       	push   $0xf0107000
-f0104002:	ff 75 00             	pushl  0x0(%ebp)
+f0103ff5:	83 c4 0c             	add    $0xc,%esp
+f0103ff8:	ff 35 50 7a 11 f0    	pushl  0xf0117a50
+f0103ffe:	68 00 70 10 f0       	push   $0xf0107000
+f0104003:	ff 33                	pushl  (%ebx)
 f0104005:	e8 89 fa ff ff       	call   f0103a93 <setupvm>
         setupvm(tasks[pid].pgdir, (uint32_t)UBSS_start, UBSS_SZ);
 f010400a:	83 c4 0c             	add    $0xc,%esp
 f010400d:	ff 35 48 7a 11 f0    	pushl  0xf0117a48
 f0104013:	68 00 b0 10 f0       	push   $0xf010b000
-f0104018:	ff 75 00             	pushl  0x0(%ebp)
-f010401b:	e8 73 fa ff ff       	call   f0103a93 <setupvm>
+f0104018:	ff 33                	pushl  (%ebx)
+f010401a:	e8 74 fa ff ff       	call   f0103a93 <setupvm>
         setupvm(tasks[pid].pgdir, (uint32_t)URODATA_start, URODATA_SZ);
-f0104020:	83 c4 0c             	add    $0xc,%esp
-f0104023:	ff 35 4c 7a 11 f0    	pushl  0xf0117a4c
-f0104029:	68 00 50 10 f0       	push   $0xf0105000
-f010402e:	ff 75 00             	pushl  0x0(%ebp)
-f0104031:	e8 5d fa ff ff       	call   f0103a93 <setupvm>
-f0104036:	83 c4 10             	add    $0x10,%esp
-f0104039:	eb 03                	jmp    f010403e <sys_fork+0x13d>
+f010401f:	83 c4 0c             	add    $0xc,%esp
+f0104022:	ff 35 4c 7a 11 f0    	pushl  0xf0117a4c
+f0104028:	68 00 50 10 f0       	push   $0xf0105000
+f010402d:	ff 33                	pushl  (%ebx)
+f010402f:	e8 5f fa ff ff       	call   f0103a93 <setupvm>
+        
+
+        cur_task->tf.tf_regs.reg_eax = pid;
+f0104034:	8b 54 24 18          	mov    0x18(%esp),%edx
+        tasks[pid].tf.tf_regs.reg_eax = 0;
+f0104038:	83 c4 10             	add    $0x10,%esp
+        setupvm(tasks[pid].pgdir, (uint32_t)UDATA_start, UDATA_SZ);
+        setupvm(tasks[pid].pgdir, (uint32_t)UBSS_start, UBSS_SZ);
+        setupvm(tasks[pid].pgdir, (uint32_t)URODATA_start, URODATA_SZ);
+        
+
+        cur_task->tf.tf_regs.reg_eax = pid;
+f010403b:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
+f0104040:	89 50 24             	mov    %edx,0x24(%eax)
+        tasks[pid].tf.tf_regs.reg_eax = 0;
+f0104043:	c7 85 fc 76 11 f0 00 	movl   $0x0,-0xfee8904(%ebp)
+f010404a:	00 00 00 
+f010404d:	eb 08                	jmp    f0104057 <sys_fork+0x156>
   /* pid for newly created process */
   int pid,i;
   pid = task_create();
   uint32_t src_addr, dst_addr, *src, *dst;
   if(pid<0)
       return -1;
-f010403b:	83 cb ff             	or     $0xffffffff,%ebx
+f010404f:	c7 44 24 08 ff ff ff 	movl   $0xffffffff,0x8(%esp)
+f0104056:	ff 
 
-        //cur_task->tf.tf_regs.reg_eax = pid;
-        //tasks[pid].tf.tf_regs.reg_eax = 0;
+        cur_task->tf.tf_regs.reg_eax = pid;
+        tasks[pid].tf.tf_regs.reg_eax = 0;
         }
     return pid;
 }
-f010403e:	83 c4 1c             	add    $0x1c,%esp
-f0104041:	89 d8                	mov    %ebx,%eax
-f0104043:	5b                   	pop    %ebx
-f0104044:	5e                   	pop    %esi
-f0104045:	5f                   	pop    %edi
-f0104046:	5d                   	pop    %ebp
-f0104047:	c3                   	ret    
+f0104057:	8b 44 24 08          	mov    0x8(%esp),%eax
+f010405b:	83 c4 1c             	add    $0x1c,%esp
+f010405e:	5b                   	pop    %ebx
+f010405f:	5e                   	pop    %esi
+f0104060:	5f                   	pop    %edi
+f0104061:	5d                   	pop    %ebp
+f0104062:	c3                   	ret    
 
-f0104048 <task_init>:
+f0104063 <task_init>:
  */
 void task_init()
 {
   extern int user_entry();
 	int i;
   UTEXT_SZ = (uint32_t)(UTEXT_end - UTEXT_start);
-f0104048:	b8 f8 17 10 f0       	mov    $0xf01017f8,%eax
+f0104063:	b8 f8 17 10 f0       	mov    $0xf01017f8,%eax
 /* TODO: Lab5
  * We've done the initialization for you,
  * please make sure you understand the code.
  */
 void task_init()
 {
-f010404d:	53                   	push   %ebx
+f0104068:	53                   	push   %ebx
   extern int user_entry();
 	int i;
   UTEXT_SZ = (uint32_t)(UTEXT_end - UTEXT_start);
-f010404e:	2d 00 00 10 f0       	sub    $0xf0100000,%eax
+f0104069:	2d 00 00 10 f0       	sub    $0xf0100000,%eax
 /* TODO: Lab5
  * We've done the initialization for you,
  * please make sure you understand the code.
  */
 void task_init()
 {
-f0104053:	83 ec 08             	sub    $0x8,%esp
+f010406e:	83 ec 08             	sub    $0x8,%esp
   extern int user_entry();
 	int i;
   UTEXT_SZ = (uint32_t)(UTEXT_end - UTEXT_start);
   UDATA_SZ = (uint32_t)(UDATA_end - UDATA_start);
   UBSS_SZ = (uint32_t)(UBSS_end - UBSS_start);
   URODATA_SZ = (uint32_t)(URODATA_end - URODATA_start);
-f0104056:	bb d8 76 11 f0       	mov    $0xf01176d8,%ebx
+f0104071:	bb d8 76 11 f0       	mov    $0xf01176d8,%ebx
  */
 void task_init()
 {
   extern int user_entry();
 	int i;
   UTEXT_SZ = (uint32_t)(UTEXT_end - UTEXT_start);
-f010405b:	a3 54 7a 11 f0       	mov    %eax,0xf0117a54
+f0104076:	a3 54 7a 11 f0       	mov    %eax,0xf0117a54
   UDATA_SZ = (uint32_t)(UDATA_end - UDATA_start);
-f0104060:	b8 3c 70 10 f0       	mov    $0xf010703c,%eax
-f0104065:	2d 00 70 10 f0       	sub    $0xf0107000,%eax
-f010406a:	a3 50 7a 11 f0       	mov    %eax,0xf0117a50
+f010407b:	b8 3c 70 10 f0       	mov    $0xf010703c,%eax
+f0104080:	2d 00 70 10 f0       	sub    $0xf0107000,%eax
+f0104085:	a3 50 7a 11 f0       	mov    %eax,0xf0117a50
   UBSS_SZ = (uint32_t)(UBSS_end - UBSS_start);
-f010406f:	b8 58 7a 11 f0       	mov    $0xf0117a58,%eax
-f0104074:	2d 00 b0 10 f0       	sub    $0xf010b000,%eax
-f0104079:	a3 48 7a 11 f0       	mov    %eax,0xf0117a48
+f010408a:	b8 58 7a 11 f0       	mov    $0xf0117a58,%eax
+f010408f:	2d 00 b0 10 f0       	sub    $0xf010b000,%eax
+f0104094:	a3 48 7a 11 f0       	mov    %eax,0xf0117a48
   URODATA_SZ = (uint32_t)(URODATA_end - URODATA_start);
-f010407e:	b8 88 51 10 f0       	mov    $0xf0105188,%eax
-f0104083:	2d 00 50 10 f0       	sub    $0xf0105000,%eax
-f0104088:	a3 4c 7a 11 f0       	mov    %eax,0xf0117a4c
+f0104099:	b8 88 51 10 f0       	mov    $0xf0105188,%eax
+f010409e:	2d 00 50 10 f0       	sub    $0xf0105000,%eax
+f01040a3:	a3 4c 7a 11 f0       	mov    %eax,0xf0117a4c
 
 	/* Initial task sturcture */
 	for (i = 0; i < NR_TASKS; i++)
 	{
 		memset(&(tasks[i]), 0, sizeof(Task));
-f010408d:	50                   	push   %eax
-f010408e:	6a 58                	push   $0x58
-f0104090:	6a 00                	push   $0x0
-f0104092:	53                   	push   %ebx
-f0104093:	e8 37 c1 ff ff       	call   f01001cf <memset>
+f01040a8:	50                   	push   %eax
+f01040a9:	6a 58                	push   $0x58
+f01040ab:	6a 00                	push   $0x0
+f01040ad:	53                   	push   %ebx
+f01040ae:	e8 1c c1 ff ff       	call   f01001cf <memset>
   UDATA_SZ = (uint32_t)(UDATA_end - UDATA_start);
   UBSS_SZ = (uint32_t)(UBSS_end - UBSS_start);
   URODATA_SZ = (uint32_t)(URODATA_end - URODATA_start);
 
 	/* Initial task sturcture */
 	for (i = 0; i < NR_TASKS; i++)
-f0104098:	83 c4 10             	add    $0x10,%esp
+f01040b3:	83 c4 10             	add    $0x10,%esp
 	{
 		memset(&(tasks[i]), 0, sizeof(Task));
 		tasks[i].state = TASK_FREE;
-f010409b:	c7 43 50 00 00 00 00 	movl   $0x0,0x50(%ebx)
-f01040a2:	83 c3 58             	add    $0x58,%ebx
+f01040b6:	c7 43 50 00 00 00 00 	movl   $0x0,0x50(%ebx)
+f01040bd:	83 c3 58             	add    $0x58,%ebx
   UDATA_SZ = (uint32_t)(UDATA_end - UDATA_start);
   UBSS_SZ = (uint32_t)(UBSS_end - UBSS_start);
   URODATA_SZ = (uint32_t)(URODATA_end - URODATA_start);
 
 	/* Initial task sturcture */
 	for (i = 0; i < NR_TASKS; i++)
-f01040a5:	81 fb 48 7a 11 f0    	cmp    $0xf0117a48,%ebx
-f01040ab:	75 e0                	jne    f010408d <task_init+0x45>
+f01040c0:	81 fb 48 7a 11 f0    	cmp    $0xf0117a48,%ebx
+f01040c6:	75 e0                	jne    f01040a8 <task_init+0x45>
 		tasks[i].state = TASK_FREE;
 
 	}
 	// Setup a TSS so that we get the right stack
 	// when we trap to the kernel.
 	memset(&(tss), 0, sizeof(tss));
-f01040ad:	51                   	push   %ecx
-f01040ae:	6a 68                	push   $0x68
-f01040b0:	6a 00                	push   $0x0
-f01040b2:	68 30 4e 11 f0       	push   $0xf0114e30
-f01040b7:	e8 13 c1 ff ff       	call   f01001cf <memset>
+f01040c8:	53                   	push   %ebx
+f01040c9:	6a 68                	push   $0x68
+f01040cb:	6a 00                	push   $0x0
+f01040cd:	68 30 4e 11 f0       	push   $0xf0114e30
+f01040d2:	e8 f8 c0 ff ff       	call   f01001cf <memset>
 	// fs and gs stay in user data segment
 	tss.ts_fs = GD_UD | 0x03;
 	tss.ts_gs = GD_UD | 0x03;
 
 	/* Setup TSS in GDT */
 	gdt[GD_TSS0 >> 3] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
-f01040bc:	b8 30 4e 11 f0       	mov    $0xf0114e30,%eax
-f01040c1:	89 c2                	mov    %eax,%edx
-f01040c3:	c1 ea 10             	shr    $0x10,%edx
-f01040c6:	66 a3 2a a0 10 f0    	mov    %ax,0xf010a02a
-f01040cc:	c1 e8 18             	shr    $0x18,%eax
-f01040cf:	88 15 2c a0 10 f0    	mov    %dl,0xf010a02c
+f01040d7:	b8 30 4e 11 f0       	mov    $0xf0114e30,%eax
+f01040dc:	89 c2                	mov    %eax,%edx
+f01040de:	c1 ea 10             	shr    $0x10,%edx
+f01040e1:	66 a3 2a a0 10 f0    	mov    %ax,0xf010a02a
+f01040e7:	c1 e8 18             	shr    $0x18,%eax
+f01040ea:	88 15 2c a0 10 f0    	mov    %dl,0xf010a02c
 
 	}
 	// Setup a TSS so that we get the right stack
 	// when we trap to the kernel.
 	memset(&(tss), 0, sizeof(tss));
 	tss.ts_esp0 = (uint32_t)bootstack + KSTKSIZE;
-f01040d5:	c7 05 34 4e 11 f0 00 	movl   $0xf0114000,0xf0114e34
-f01040dc:	40 11 f0 
+f01040f0:	c7 05 34 4e 11 f0 00 	movl   $0xf0114000,0xf0114e34
+f01040f7:	40 11 f0 
 	tss.ts_ss0 = GD_KD;
-f01040df:	66 c7 05 38 4e 11 f0 	movw   $0x10,0xf0114e38
-f01040e6:	10 00 
+f01040fa:	66 c7 05 38 4e 11 f0 	movw   $0x10,0xf0114e38
+f0104101:	10 00 
 
 	// fs and gs stay in user data segment
 	tss.ts_fs = GD_UD | 0x03;
-f01040e8:	66 c7 05 88 4e 11 f0 	movw   $0x23,0xf0114e88
-f01040ef:	23 00 
+f0104103:	66 c7 05 88 4e 11 f0 	movw   $0x23,0xf0114e88
+f010410a:	23 00 
 	tss.ts_gs = GD_UD | 0x03;
-f01040f1:	66 c7 05 8c 4e 11 f0 	movw   $0x23,0xf0114e8c
-f01040f8:	23 00 
+f010410c:	66 c7 05 8c 4e 11 f0 	movw   $0x23,0xf0114e8c
+f0104113:	23 00 
 
 	/* Setup TSS in GDT */
 	gdt[GD_TSS0 >> 3] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
-f01040fa:	66 c7 05 28 a0 10 f0 	movw   $0x68,0xf010a028
-f0104101:	68 00 
-f0104103:	c6 05 2e a0 10 f0 40 	movb   $0x40,0xf010a02e
-f010410a:	a2 2f a0 10 f0       	mov    %al,0xf010a02f
+f0104115:	66 c7 05 28 a0 10 f0 	movw   $0x68,0xf010a028
+f010411c:	68 00 
+f010411e:	c6 05 2e a0 10 f0 40 	movb   $0x40,0xf010a02e
+f0104125:	a2 2f a0 10 f0       	mov    %al,0xf010a02f
 	gdt[GD_TSS0 >> 3].sd_s = 0;
-f010410f:	c6 05 2d a0 10 f0 89 	movb   $0x89,0xf010a02d
+f010412a:	c6 05 2d a0 10 f0 89 	movb   $0x89,0xf010a02d
 
 	/* Setup first task */
 	i = task_create();
-f0104116:	e8 41 fc ff ff       	call   f0103d5c <task_create>
+f0104131:	e8 26 fc ff ff       	call   f0103d5c <task_create>
 	cur_task = &(tasks[i]);
 
   /* For user program */
   setupvm(cur_task->pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
-f010411b:	83 c4 0c             	add    $0xc,%esp
-f010411e:	ff 35 54 7a 11 f0    	pushl  0xf0117a54
-f0104124:	68 00 00 10 f0       	push   $0xf0100000
+f0104136:	83 c4 0c             	add    $0xc,%esp
+f0104139:	ff 35 54 7a 11 f0    	pushl  0xf0117a54
+f010413f:	68 00 00 10 f0       	push   $0xf0100000
 	gdt[GD_TSS0 >> 3] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
 	gdt[GD_TSS0 >> 3].sd_s = 0;
 
 	/* Setup first task */
 	i = task_create();
 	cur_task = &(tasks[i]);
-f0104129:	6b c0 58             	imul   $0x58,%eax,%eax
+f0104144:	6b c0 58             	imul   $0x58,%eax,%eax
 
   /* For user program */
   setupvm(cur_task->pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
-f010412c:	ff b0 2c 77 11 f0    	pushl  -0xfee88d4(%eax)
+f0104147:	ff b0 2c 77 11 f0    	pushl  -0xfee88d4(%eax)
 	gdt[GD_TSS0 >> 3] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
 	gdt[GD_TSS0 >> 3].sd_s = 0;
 
 	/* Setup first task */
 	i = task_create();
 	cur_task = &(tasks[i]);
-f0104132:	8d 90 d8 76 11 f0    	lea    -0xfee8928(%eax),%edx
-f0104138:	89 15 2c 4e 11 f0    	mov    %edx,0xf0114e2c
+f010414d:	8d 90 d8 76 11 f0    	lea    -0xfee8928(%eax),%edx
+f0104153:	89 15 2c 4e 11 f0    	mov    %edx,0xf0114e2c
 
   /* For user program */
   setupvm(cur_task->pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
-f010413e:	e8 50 f9 ff ff       	call   f0103a93 <setupvm>
-  setupvm(cur_task->pgdir, (uint32_t)UDATA_start, UDATA_SZ);
-f0104143:	83 c4 0c             	add    $0xc,%esp
-f0104146:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
-f010414b:	ff 35 50 7a 11 f0    	pushl  0xf0117a50
-f0104151:	68 00 70 10 f0       	push   $0xf0107000
-f0104156:	ff 70 54             	pushl  0x54(%eax)
 f0104159:	e8 35 f9 ff ff       	call   f0103a93 <setupvm>
-  setupvm(cur_task->pgdir, (uint32_t)UBSS_start, UBSS_SZ);
+  setupvm(cur_task->pgdir, (uint32_t)UDATA_start, UDATA_SZ);
 f010415e:	83 c4 0c             	add    $0xc,%esp
 f0104161:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
-f0104166:	ff 35 48 7a 11 f0    	pushl  0xf0117a48
-f010416c:	68 00 b0 10 f0       	push   $0xf010b000
+f0104166:	ff 35 50 7a 11 f0    	pushl  0xf0117a50
+f010416c:	68 00 70 10 f0       	push   $0xf0107000
 f0104171:	ff 70 54             	pushl  0x54(%eax)
 f0104174:	e8 1a f9 ff ff       	call   f0103a93 <setupvm>
-  setupvm(cur_task->pgdir, (uint32_t)URODATA_start, URODATA_SZ);
+  setupvm(cur_task->pgdir, (uint32_t)UBSS_start, UBSS_SZ);
 f0104179:	83 c4 0c             	add    $0xc,%esp
 f010417c:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
-f0104181:	ff 35 4c 7a 11 f0    	pushl  0xf0117a4c
-f0104187:	68 00 50 10 f0       	push   $0xf0105000
+f0104181:	ff 35 48 7a 11 f0    	pushl  0xf0117a48
+f0104187:	68 00 b0 10 f0       	push   $0xf010b000
 f010418c:	ff 70 54             	pushl  0x54(%eax)
 f010418f:	e8 ff f8 ff ff       	call   f0103a93 <setupvm>
+  setupvm(cur_task->pgdir, (uint32_t)URODATA_start, URODATA_SZ);
+f0104194:	83 c4 0c             	add    $0xc,%esp
+f0104197:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
+f010419c:	ff 35 4c 7a 11 f0    	pushl  0xf0117a4c
+f01041a2:	68 00 50 10 f0       	push   $0xf0105000
+f01041a7:	ff 70 54             	pushl  0x54(%eax)
+f01041aa:	e8 e4 f8 ff ff       	call   f0103a93 <setupvm>
   cur_task->tf.tf_eip = (uint32_t)user_entry;
-f0104194:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
+f01041af:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 }
 
 static __inline void
 lgdt(void *p)
 {
 	__asm __volatile("lgdt (%0)" : : "r" (p));
-f0104199:	ba 30 a0 10 f0       	mov    $0xf010a030,%edx
-f010419e:	c7 40 38 b8 14 10 f0 	movl   $0xf01014b8,0x38(%eax)
-f01041a5:	0f 01 12             	lgdtl  (%edx)
+f01041b4:	ba 30 a0 10 f0       	mov    $0xf010a030,%edx
+f01041b9:	c7 40 38 b8 14 10 f0 	movl   $0xf01014b8,0x38(%eax)
+f01041c0:	0f 01 12             	lgdtl  (%edx)
 }
 
 static __inline void
 lldt(uint16_t sel)
 {
 	__asm __volatile("lldt %0" : : "r" (sel));
-f01041a8:	31 d2                	xor    %edx,%edx
-f01041aa:	0f 00 d2             	lldt   %dx
+f01041c3:	31 d2                	xor    %edx,%edx
+f01041c5:	0f 00 d2             	lldt   %dx
 }
 
 static __inline void
 ltr(uint16_t sel)
 {
 	__asm __volatile("ltr %0" : : "r" (sel));
-f01041ad:	b2 28                	mov    $0x28,%dl
-f01041af:	0f 00 da             	ltr    %dx
+f01041c8:	b2 28                	mov    $0x28,%dl
+f01041ca:	0f 00 da             	ltr    %dx
 	lldt(0);
 
 	// Load the TSS selector 
 	ltr(GD_TSS0);
 
 	cur_task->state = TASK_RUNNING;
-f01041b2:	c7 40 50 02 00 00 00 	movl   $0x2,0x50(%eax)
+f01041cd:	c7 40 50 02 00 00 00 	movl   $0x2,0x50(%eax)
 	
 }
-f01041b9:	83 c4 18             	add    $0x18,%esp
-f01041bc:	5b                   	pop    %ebx
-f01041bd:	c3                   	ret    
+f01041d4:	83 c4 18             	add    $0x18,%esp
+f01041d7:	5b                   	pop    %ebx
+f01041d8:	c3                   	ret    
+f01041d9:	00 00                	add    %al,(%eax)
 	...
 
-f01041c0 <do_puts>:
+f01041dc <do_puts>:
 #include <kernel/syscall.h>
 #include <kernel/trap.h>
 #include <inc/stdio.h>
 
 void do_puts(char *str, uint32_t len)
 {
-f01041c0:	57                   	push   %edi
-f01041c1:	56                   	push   %esi
-f01041c2:	53                   	push   %ebx
+f01041dc:	57                   	push   %edi
+f01041dd:	56                   	push   %esi
+f01041de:	53                   	push   %ebx
 	uint32_t i;
 	for (i = 0; i < len; i++)
-f01041c3:	31 db                	xor    %ebx,%ebx
+f01041df:	31 db                	xor    %ebx,%ebx
 #include <kernel/syscall.h>
 #include <kernel/trap.h>
 #include <inc/stdio.h>
 
 void do_puts(char *str, uint32_t len)
 {
-f01041c5:	8b 7c 24 10          	mov    0x10(%esp),%edi
-f01041c9:	8b 74 24 14          	mov    0x14(%esp),%esi
+f01041e1:	8b 7c 24 10          	mov    0x10(%esp),%edi
+f01041e5:	8b 74 24 14          	mov    0x14(%esp),%esi
 	uint32_t i;
 	for (i = 0; i < len; i++)
-f01041cd:	eb 11                	jmp    f01041e0 <do_puts+0x20>
+f01041e9:	eb 11                	jmp    f01041fc <do_puts+0x20>
 	{
 		k_putch(str[i]);
-f01041cf:	0f b6 04 1f          	movzbl (%edi,%ebx,1),%eax
-f01041d3:	83 ec 0c             	sub    $0xc,%esp
+f01041eb:	0f b6 04 1f          	movzbl (%edi,%ebx,1),%eax
+f01041ef:	83 ec 0c             	sub    $0xc,%esp
 #include <inc/stdio.h>
 
 void do_puts(char *str, uint32_t len)
 {
 	uint32_t i;
 	for (i = 0; i < len; i++)
-f01041d6:	43                   	inc    %ebx
+f01041f2:	43                   	inc    %ebx
 	{
 		k_putch(str[i]);
-f01041d7:	50                   	push   %eax
-f01041d8:	e8 42 da ff ff       	call   f0101c1f <k_putch>
+f01041f3:	50                   	push   %eax
+f01041f4:	e8 26 da ff ff       	call   f0101c1f <k_putch>
 #include <inc/stdio.h>
 
 void do_puts(char *str, uint32_t len)
 {
 	uint32_t i;
 	for (i = 0; i < len; i++)
-f01041dd:	83 c4 10             	add    $0x10,%esp
-f01041e0:	39 f3                	cmp    %esi,%ebx
-f01041e2:	72 eb                	jb     f01041cf <do_puts+0xf>
+f01041f9:	83 c4 10             	add    $0x10,%esp
+f01041fc:	39 f3                	cmp    %esi,%ebx
+f01041fe:	72 eb                	jb     f01041eb <do_puts+0xf>
 	{
 		k_putch(str[i]);
 	}
 }
-f01041e4:	5b                   	pop    %ebx
-f01041e5:	5e                   	pop    %esi
-f01041e6:	5f                   	pop    %edi
-f01041e7:	c3                   	ret    
+f0104200:	5b                   	pop    %ebx
+f0104201:	5e                   	pop    %esi
+f0104202:	5f                   	pop    %edi
+f0104203:	c3                   	ret    
 
-f01041e8 <do_getc>:
+f0104204 <do_getc>:
 
 int32_t do_getc()
 {
-f01041e8:	83 ec 0c             	sub    $0xc,%esp
+f0104204:	83 ec 0c             	sub    $0xc,%esp
 	return k_getc();
 }
-f01041eb:	83 c4 0c             	add    $0xc,%esp
+f0104207:	83 c4 0c             	add    $0xc,%esp
 	}
 }
 
 int32_t do_getc()
 {
 	return k_getc();
-f01041ee:	e9 2d d9 ff ff       	jmp    f0101b20 <k_getc>
+f010420a:	e9 11 d9 ff ff       	jmp    f0101b20 <k_getc>
 
-f01041f3 <do_syscall>:
+f010420f <do_syscall>:
 }
 
 int32_t do_syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
 {
-f01041f3:	53                   	push   %ebx
+f010420f:	53                   	push   %ebx
 	int32_t retVal = -1;
-f01041f4:	83 c8 ff             	or     $0xffffffff,%eax
+f0104210:	83 c8 ff             	or     $0xffffffff,%eax
 {
 	return k_getc();
 }
 
 int32_t do_syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
 {
-f01041f7:	83 ec 08             	sub    $0x8,%esp
-f01041fa:	8b 5c 24 10          	mov    0x10(%esp),%ebx
-f01041fe:	8b 54 24 14          	mov    0x14(%esp),%edx
-f0104202:	8b 4c 24 18          	mov    0x18(%esp),%ecx
+f0104213:	83 ec 08             	sub    $0x8,%esp
+f0104216:	8b 5c 24 10          	mov    0x10(%esp),%ebx
+f010421a:	8b 54 24 14          	mov    0x14(%esp),%edx
+f010421e:	8b 4c 24 18          	mov    0x18(%esp),%ecx
 	int32_t retVal = -1;
 	extern Task *cur_task;
 
 	switch (syscallno)
-f0104206:	83 fb 0a             	cmp    $0xa,%ebx
-f0104209:	0f 87 87 00 00 00    	ja     f0104296 <do_syscall+0xa3>
-f010420f:	ff 24 9d 78 65 10 f0 	jmp    *-0xfef9a88(,%ebx,4)
+f0104222:	83 fb 0a             	cmp    $0xa,%ebx
+f0104225:	0f 87 87 00 00 00    	ja     f01042b2 <do_syscall+0xa3>
+f010422b:	ff 24 9d 78 65 10 f0 	jmp    *-0xfef9a88(,%ebx,4)
     retVal = 0;
     break;
 
 	}
 	return retVal;
 }
-f0104216:	83 c4 08             	add    $0x8,%esp
-f0104219:	5b                   	pop    %ebx
+f0104232:	83 c4 08             	add    $0x8,%esp
+f0104235:	5b                   	pop    %ebx
 	{
 	case SYS_fork:
 		/* TODO: Lab 5
      * You can reference kernel/task.c, kernel/task.h
      */
         retVal =sys_fork();
-f010421a:	e9 e2 fc ff ff       	jmp    f0103f01 <sys_fork>
+f0104236:	e9 c6 fc ff ff       	jmp    f0103f01 <sys_fork>
     retVal = 0;
     break;
 
 	}
 	return retVal;
 }
-f010421f:	83 c4 08             	add    $0x8,%esp
-f0104222:	5b                   	pop    %ebx
+f010423b:	83 c4 08             	add    $0x8,%esp
+f010423e:	5b                   	pop    %ebx
 	}
 }
 
 int32_t do_getc()
 {
 	return k_getc();
-f0104223:	e9 f8 d8 ff ff       	jmp    f0101b20 <k_getc>
+f010423f:	e9 dc d8 ff ff       	jmp    f0101b20 <k_getc>
 	case SYS_getc:
 		retVal = do_getc();
 		break;
 
 	case SYS_puts:
 		do_puts((char*)a1, a2);
-f0104228:	53                   	push   %ebx
-f0104229:	53                   	push   %ebx
-f010422a:	51                   	push   %ecx
-f010422b:	52                   	push   %edx
-f010422c:	e8 8f ff ff ff       	call   f01041c0 <do_puts>
-f0104231:	eb 57                	jmp    f010428a <do_syscall+0x97>
+f0104244:	53                   	push   %ebx
+f0104245:	53                   	push   %ebx
+f0104246:	51                   	push   %ecx
+f0104247:	52                   	push   %edx
+f0104248:	e8 8f ff ff ff       	call   f01041dc <do_puts>
+f010424d:	eb 57                	jmp    f01042a6 <do_syscall+0x97>
 
 	case SYS_getpid:
 		/* TODO: Lab 5
      * Get current task's pid
      */
         retVal = cur_task->task_id;
-f0104233:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
-f0104238:	8b 00                	mov    (%eax),%eax
+f010424f:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
+f0104254:	8b 00                	mov    (%eax),%eax
 		break;
-f010423a:	eb 5a                	jmp    f0104296 <do_syscall+0xa3>
+f0104256:	eb 5a                	jmp    f01042b2 <do_syscall+0xa3>
 	case SYS_sleep:
 		/* TODO: Lab 5
      * Yield this task
      * You can reference kernel/sched.c for yielding the task
      */ 
         cur_task->remind_ticks = a1;
-f010423c:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
-f0104241:	89 50 4c             	mov    %edx,0x4c(%eax)
+f0104258:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
+f010425d:	89 50 4c             	mov    %edx,0x4c(%eax)
         cur_task->state = TASK_SLEEP;
-f0104244:	c7 40 50 03 00 00 00 	movl   $0x3,0x50(%eax)
+f0104260:	c7 40 50 03 00 00 00 	movl   $0x3,0x50(%eax)
         sched_yield();
-f010424b:	e8 90 00 00 00       	call   f01042e0 <sched_yield>
+f0104267:	e8 90 00 00 00       	call   f01042fc <sched_yield>
 	return k_getc();
 }
 
 int32_t do_syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
 {
 	int32_t retVal = -1;
-f0104250:	83 c8 ff             	or     $0xffffffff,%eax
+f010426c:	83 c8 ff             	or     $0xffffffff,%eax
      * You can reference kernel/sched.c for yielding the task
      */ 
         cur_task->remind_ticks = a1;
         cur_task->state = TASK_SLEEP;
         sched_yield();
 		break;
-f0104253:	eb 41                	jmp    f0104296 <do_syscall+0xa3>
+f010426f:	eb 41                	jmp    f01042b2 <do_syscall+0xa3>
 	case SYS_kill:
 		/* TODO: Lab 5
      * Kill specific task
      * You can reference kernel/task.c, kernel/task.h
      */
         sys_kill(a1);
-f0104255:	83 ec 0c             	sub    $0xc,%esp
-f0104258:	52                   	push   %edx
-f0104259:	e8 0d fc ff ff       	call   f0103e6b <sys_kill>
-f010425e:	eb 2a                	jmp    f010428a <do_syscall+0x97>
+f0104271:	83 ec 0c             	sub    $0xc,%esp
+f0104274:	52                   	push   %edx
+f0104275:	e8 f1 fb ff ff       	call   f0103e6b <sys_kill>
+f010427a:	eb 2a                	jmp    f01042a6 <do_syscall+0x97>
     retVal = 0;
     break;
 
 	}
 	return retVal;
 }
-f0104260:	83 c4 08             	add    $0x8,%esp
-f0104263:	5b                   	pop    %ebx
+f010427c:	83 c4 08             	add    $0x8,%esp
+f010427f:	5b                   	pop    %ebx
 
   case SYS_get_num_free_page:
 		/* TODO: Lab 5
      * You can reference kernel/mem.c
      */
     retVal = sys_get_num_free_page();
-f0104264:	e9 41 f9 ff ff       	jmp    f0103baa <sys_get_num_free_page>
+f0104280:	e9 25 f9 ff ff       	jmp    f0103baa <sys_get_num_free_page>
     retVal = 0;
     break;
 
 	}
 	return retVal;
 }
-f0104269:	83 c4 08             	add    $0x8,%esp
-f010426c:	5b                   	pop    %ebx
+f0104285:	83 c4 08             	add    $0x8,%esp
+f0104288:	5b                   	pop    %ebx
 
   case SYS_get_num_used_page:
 		/* TODO: Lab 5
      * You can reference kernel/mem.c
      */
     retVal = sys_get_num_used_page();
-f010426d:	e9 60 f9 ff ff       	jmp    f0103bd2 <sys_get_num_used_page>
+f0104289:	e9 44 f9 ff ff       	jmp    f0103bd2 <sys_get_num_used_page>
     retVal = 0;
     break;
 
 	}
 	return retVal;
 }
-f0104272:	83 c4 08             	add    $0x8,%esp
-f0104275:	5b                   	pop    %ebx
+f010428e:	83 c4 08             	add    $0x8,%esp
+f0104291:	5b                   	pop    %ebx
 
   case SYS_get_ticks:
 		/* TODO: Lab 5
      * You can reference kernel/timer.c
      */
     retVal = sys_get_ticks();
-f0104276:	e9 9c fa ff ff       	jmp    f0103d17 <sys_get_ticks>
+f0104292:	e9 80 fa ff ff       	jmp    f0103d17 <sys_get_ticks>
 
   case SYS_settextcolor:
 		/* TODO: Lab 5
      * You can reference kernel/screen.c
      */
     sys_settextcolor((unsigned char) a1,(unsigned char) a2);
-f010427b:	50                   	push   %eax
-f010427c:	0f b6 c9             	movzbl %cl,%ecx
-f010427f:	50                   	push   %eax
-f0104280:	0f b6 d2             	movzbl %dl,%edx
-f0104283:	51                   	push   %ecx
-f0104284:	52                   	push   %edx
-f0104285:	e8 8b da ff ff       	call   f0101d15 <sys_settextcolor>
+f0104297:	50                   	push   %eax
+f0104298:	0f b6 c9             	movzbl %cl,%ecx
+f010429b:	50                   	push   %eax
+f010429c:	0f b6 d2             	movzbl %dl,%edx
+f010429f:	51                   	push   %ecx
+f01042a0:	52                   	push   %edx
+f01042a1:	e8 6f da ff ff       	call   f0101d15 <sys_settextcolor>
     retVal = 0;
     break;
-f010428a:	83 c4 10             	add    $0x10,%esp
-f010428d:	eb 05                	jmp    f0104294 <do_syscall+0xa1>
+f01042a6:	83 c4 10             	add    $0x10,%esp
+f01042a9:	eb 05                	jmp    f01042b0 <do_syscall+0xa1>
 
   case SYS_cls:
 		/* TODO: Lab 5
      * You can reference kernel/screen.c
      */
     sys_cls();
-f010428f:	e8 35 d9 ff ff       	call   f0101bc9 <sys_cls>
+f01042ab:	e8 19 d9 ff ff       	call   f0101bc9 <sys_cls>
     retVal = 0;
-f0104294:	31 c0                	xor    %eax,%eax
+f01042b0:	31 c0                	xor    %eax,%eax
     break;
 
 	}
 	return retVal;
 }
-f0104296:	83 c4 08             	add    $0x8,%esp
-f0104299:	5b                   	pop    %ebx
-f010429a:	c3                   	ret    
+f01042b2:	83 c4 08             	add    $0x8,%esp
+f01042b5:	5b                   	pop    %ebx
+f01042b6:	c3                   	ret    
 
-f010429b <syscall_handler>:
+f01042b7 <syscall_handler>:
 
 static void syscall_handler(struct Trapframe *tf)
 {
-f010429b:	53                   	push   %ebx
-f010429c:	83 ec 10             	sub    $0x10,%esp
-f010429f:	8b 5c 24 18          	mov    0x18(%esp),%ebx
-	/* TODO: Lab5
+f01042b7:	53                   	push   %ebx
+f01042b8:	83 ec 10             	sub    $0x10,%esp
+f01042bb:	8b 5c 24 18          	mov    0x18(%esp),%ebx
    * call do_syscall
    * Please remember to fill in the return value
    * HINT: You have to know where to put the return value
-   */int32_t val;
+   */
+    int32_t val;
     val = do_syscall(tf->tf_regs.reg_eax, tf->tf_regs.reg_edx, tf->tf_regs.reg_ecx, tf->tf_regs.reg_ebx, tf->tf_regs.reg_edi, tf->tf_regs.reg_esi); 
-f01042a3:	ff 73 04             	pushl  0x4(%ebx)
-f01042a6:	ff 33                	pushl  (%ebx)
-f01042a8:	ff 73 10             	pushl  0x10(%ebx)
-f01042ab:	ff 73 18             	pushl  0x18(%ebx)
-f01042ae:	ff 73 14             	pushl  0x14(%ebx)
-f01042b1:	ff 73 1c             	pushl  0x1c(%ebx)
-f01042b4:	e8 3a ff ff ff       	call   f01041f3 <do_syscall>
+f01042bf:	ff 73 04             	pushl  0x4(%ebx)
+f01042c2:	ff 33                	pushl  (%ebx)
+f01042c4:	ff 73 10             	pushl  0x10(%ebx)
+f01042c7:	ff 73 18             	pushl  0x18(%ebx)
+f01042ca:	ff 73 14             	pushl  0x14(%ebx)
+f01042cd:	ff 73 1c             	pushl  0x1c(%ebx)
+f01042d0:	e8 3a ff ff ff       	call   f010420f <do_syscall>
     tf->tf_regs.reg_eax = val;
-f01042b9:	89 43 1c             	mov    %eax,0x1c(%ebx)
+f01042d5:	89 43 1c             	mov    %eax,0x1c(%ebx)
 
 
 }
-f01042bc:	83 c4 28             	add    $0x28,%esp
-f01042bf:	5b                   	pop    %ebx
-f01042c0:	c3                   	ret    
+f01042d8:	83 c4 28             	add    $0x28,%esp
+f01042db:	5b                   	pop    %ebx
+f01042dc:	c3                   	ret    
 
-f01042c1 <syscall_init>:
+f01042dd <syscall_init>:
 
 void syscall_init()
 {
-f01042c1:	83 ec 18             	sub    $0x18,%esp
+f01042dd:	83 ec 18             	sub    $0x18,%esp
   /* TODO: Lab5
    * Please set gate of system call into IDT
    * You can leverage the API register_handler in kernel/trap.c
    */
     extern void do_sys();
     register_handler( T_SYSCALL, &syscall_handler, &do_sys, 1, 3);
-f01042c4:	6a 03                	push   $0x3
-f01042c6:	6a 01                	push   $0x1
-f01042c8:	68 42 21 10 f0       	push   $0xf0102142
-f01042cd:	68 9b 42 10 f0       	push   $0xf010429b
-f01042d2:	6a 30                	push   $0x30
-f01042d4:	e8 6c dc ff ff       	call   f0101f45 <register_handler>
+f01042e0:	6a 03                	push   $0x3
+f01042e2:	6a 01                	push   $0x1
+f01042e4:	68 42 21 10 f0       	push   $0xf0102142
+f01042e9:	68 b7 42 10 f0       	push   $0xf01042b7
+f01042ee:	6a 30                	push   $0x30
+f01042f0:	e8 50 dc ff ff       	call   f0101f45 <register_handler>
 
 }
-f01042d9:	83 c4 2c             	add    $0x2c,%esp
-f01042dc:	c3                   	ret    
-f01042dd:	00 00                	add    %al,(%eax)
+f01042f5:	83 c4 2c             	add    $0x2c,%esp
+f01042f8:	c3                   	ret    
+f01042f9:	00 00                	add    %al,(%eax)
 	...
 
-f01042e0 <sched_yield>:
+f01042fc <sched_yield>:
 *    Please make sure you understand the mechanism.
 */
 static int i=1;
 void sched();
 void sched_yield(void)
 {   
-f01042e0:	55                   	push   %ebp
+f01042fc:	55                   	push   %ebp
 	extern Task *cur_task;
     volatile int next;
     while(1){
         next = (cur_task->task_id + i++)%NR_TASKS;
         if(i==NR_TASKS)
             i = 0;
-f01042e1:	31 ed                	xor    %ebp,%ebp
+f01042fd:	31 ed                	xor    %ebp,%ebp
 *    Please make sure you understand the mechanism.
 */
 static int i=1;
 void sched();
 void sched_yield(void)
 {   
-f01042e3:	57                   	push   %edi
+f01042ff:	57                   	push   %edi
 	extern Task tasks[];
 	extern Task *cur_task;
     volatile int next;
     while(1){
         next = (cur_task->task_id + i++)%NR_TASKS;
-f01042e4:	bf 0a 00 00 00       	mov    $0xa,%edi
+f0104300:	bf 0a 00 00 00       	mov    $0xa,%edi
 *    Please make sure you understand the mechanism.
 */
 static int i=1;
 void sched();
 void sched_yield(void)
 {   
-f01042e9:	56                   	push   %esi
-f01042ea:	53                   	push   %ebx
-f01042eb:	83 ec 1c             	sub    $0x1c,%esp
+f0104305:	56                   	push   %esi
+f0104306:	53                   	push   %ebx
+f0104307:	83 ec 1c             	sub    $0x1c,%esp
 	extern Task tasks[];
 	extern Task *cur_task;
     volatile int next;
     while(1){
         next = (cur_task->task_id + i++)%NR_TASKS;
-f01042ee:	8b 35 2c 4e 11 f0    	mov    0xf0114e2c,%esi
-f01042f4:	8b 0d 38 a0 10 f0    	mov    0xf010a038,%ecx
-f01042fa:	8b 1e                	mov    (%esi),%ebx
-f01042fc:	8d 04 19             	lea    (%ecx,%ebx,1),%eax
-f01042ff:	41                   	inc    %ecx
-f0104300:	99                   	cltd   
-f0104301:	f7 ff                	idiv   %edi
+f010430a:	8b 35 2c 4e 11 f0    	mov    0xf0114e2c,%esi
+f0104310:	8b 0d 38 a0 10 f0    	mov    0xf010a038,%ecx
+f0104316:	8b 1e                	mov    (%esi),%ebx
+f0104318:	8d 04 19             	lea    (%ecx,%ebx,1),%eax
+f010431b:	41                   	inc    %ecx
+f010431c:	99                   	cltd   
+f010431d:	f7 ff                	idiv   %edi
         if(i==NR_TASKS)
             i = 0;
-f0104303:	83 f9 0a             	cmp    $0xa,%ecx
-f0104306:	0f 44 cd             	cmove  %ebp,%ecx
+f010431f:	83 f9 0a             	cmp    $0xa,%ecx
+f0104322:	0f 44 cd             	cmove  %ebp,%ecx
 {   
 	extern Task tasks[];
 	extern Task *cur_task;
     volatile int next;
     while(1){
         next = (cur_task->task_id + i++)%NR_TASKS;
-f0104309:	89 54 24 0c          	mov    %edx,0xc(%esp)
+f0104325:	89 54 24 0c          	mov    %edx,0xc(%esp)
         if(i==NR_TASKS)
             i = 0;
         if(next == cur_task->task_id)
-f010430d:	8b 44 24 0c          	mov    0xc(%esp),%eax
-f0104311:	39 d8                	cmp    %ebx,%eax
-f0104313:	75 06                	jne    f010431b <sched_yield+0x3b>
+f0104329:	8b 44 24 0c          	mov    0xc(%esp),%eax
+f010432d:	39 d8                	cmp    %ebx,%eax
+f010432f:	75 06                	jne    f0104337 <sched_yield+0x3b>
             if(cur_task->state==TASK_RUNNING)
-f0104315:	83 7e 50 02          	cmpl   $0x2,0x50(%esi)
-f0104319:	74 75                	je     f0104390 <sched_yield+0xb0>
-            break; 
+f0104331:	83 7e 50 02          	cmpl   $0x2,0x50(%esi)
+f0104335:	74 75                	je     f01043ac <sched_yield+0xb0>
+                break; 
         if(tasks[next].state==TASK_RUNNABLE)
-f010431b:	8b 44 24 0c          	mov    0xc(%esp),%eax
-f010431f:	6b c0 58             	imul   $0x58,%eax,%eax
-f0104322:	83 b8 28 77 11 f0 01 	cmpl   $0x1,-0xfee88d8(%eax)
-f0104329:	75 d1                	jne    f01042fc <sched_yield+0x1c>
+f0104337:	8b 44 24 0c          	mov    0xc(%esp),%eax
+f010433b:	6b c0 58             	imul   $0x58,%eax,%eax
+f010433e:	83 b8 28 77 11 f0 01 	cmpl   $0x1,-0xfee88d8(%eax)
+f0104345:	75 d1                	jne    f0104318 <sched_yield+0x1c>
         {
             cur_task =&(tasks[next]);
-f010432b:	8b 44 24 0c          	mov    0xc(%esp),%eax
+f0104347:	8b 44 24 0c          	mov    0xc(%esp),%eax
         if(i==NR_TASKS)
             i = 0;
         if(next == cur_task->task_id)
             if(cur_task->state==TASK_RUNNING)
-            break; 
+                break; 
         if(tasks[next].state==TASK_RUNNABLE)
-f010432f:	89 0d 38 a0 10 f0    	mov    %ecx,0xf010a038
+f010434b:	89 0d 38 a0 10 f0    	mov    %ecx,0xf010a038
         {
             cur_task =&(tasks[next]);
-f0104335:	6b c0 58             	imul   $0x58,%eax,%eax
-f0104338:	8d 90 d8 76 11 f0    	lea    -0xfee8928(%eax),%edx
+f0104351:	6b c0 58             	imul   $0x58,%eax,%eax
+f0104354:	8d 90 d8 76 11 f0    	lea    -0xfee8928(%eax),%edx
             cur_task->state = TASK_RUNNING;
             cur_task->remind_ticks = TIME_QUANT;
-f010433e:	c7 80 24 77 11 f0 64 	movl   $0x64,-0xfee88dc(%eax)
-f0104345:	00 00 00 
+f010435a:	c7 80 24 77 11 f0 64 	movl   $0x64,-0xfee88dc(%eax)
+f0104361:	00 00 00 
             lcr3(PADDR(cur_task->pgdir));
-f0104348:	8b 80 2c 77 11 f0    	mov    -0xfee88d4(%eax),%eax
+f0104364:	8b 80 2c 77 11 f0    	mov    -0xfee88d4(%eax),%eax
         if(next == cur_task->task_id)
             if(cur_task->state==TASK_RUNNING)
-            break; 
+                break; 
         if(tasks[next].state==TASK_RUNNABLE)
         {
             cur_task =&(tasks[next]);
-f010434e:	89 15 2c 4e 11 f0    	mov    %edx,0xf0114e2c
+f010436a:	89 15 2c 4e 11 f0    	mov    %edx,0xf0114e2c
             cur_task->state = TASK_RUNNING;
-f0104354:	c7 42 50 02 00 00 00 	movl   $0x2,0x50(%edx)
+f0104370:	c7 42 50 02 00 00 00 	movl   $0x2,0x50(%edx)
 /* -------------- Inline Functions --------------  */
 
 static inline physaddr_t
 _paddr(const char *file, int line, void *kva)
 {
 	if ((uint32_t)kva < KERNBASE)
-f010435b:	3d ff ff ff ef       	cmp    $0xefffffff,%eax
-f0104360:	77 12                	ja     f0104374 <sched_yield+0x94>
+f0104377:	3d ff ff ff ef       	cmp    $0xefffffff,%eax
+f010437c:	77 12                	ja     f0104390 <sched_yield+0x94>
 		_panic(file, line, "PADDR called with invalid kva %08lx", kva);
-f0104362:	50                   	push   %eax
-f0104363:	68 c2 54 10 f0       	push   $0xf01054c2
-f0104368:	6a 29                	push   $0x29
-f010436a:	68 a4 65 10 f0       	push   $0xf01065a4
-f010436f:	e8 74 f8 ff ff       	call   f0103be8 <_panic>
+f010437e:	50                   	push   %eax
+f010437f:	68 c2 54 10 f0       	push   $0xf01054c2
+f0104384:	6a 29                	push   $0x29
+f0104386:	68 a4 65 10 f0       	push   $0xf01065a4
+f010438b:	e8 58 f8 ff ff       	call   f0103be8 <_panic>
 	return (physaddr_t)kva - KERNBASE;
-f0104374:	05 00 00 00 10       	add    $0x10000000,%eax
+f0104390:	05 00 00 00 10       	add    $0x10000000,%eax
 }
 
 static __inline void
 lcr3(uint32_t val)
 {
 	__asm __volatile("movl %0,%%cr3" : : "r" (val));
-f0104379:	0f 22 d8             	mov    %eax,%cr3
+f0104395:	0f 22 d8             	mov    %eax,%cr3
             cur_task->remind_ticks = TIME_QUANT;
             lcr3(PADDR(cur_task->pgdir));
             env_pop_tf(&cur_task->tf);
-f010437c:	83 ec 0c             	sub    $0xc,%esp
-f010437f:	83 c2 08             	add    $0x8,%edx
-f0104382:	52                   	push   %edx
-f0104383:	e8 26 dc ff ff       	call   f0101fae <env_pop_tf>
-f0104388:	83 c4 10             	add    $0x10,%esp
-f010438b:	e9 5e ff ff ff       	jmp    f01042ee <sched_yield+0xe>
-f0104390:	89 0d 38 a0 10 f0    	mov    %ecx,0xf010a038
-    if (next_i == -1 ) //only one task can run
-                next_i = index;
-    if (next_i >= 0 && next_i < NR_TASKS)
-            {*/
+f0104398:	83 ec 0c             	sub    $0xc,%esp
+f010439b:	83 c2 08             	add    $0x8,%edx
+f010439e:	52                   	push   %edx
+f010439f:	e8 0a dc ff ff       	call   f0101fae <env_pop_tf>
+f01043a4:	83 c4 10             	add    $0x10,%esp
+f01043a7:	e9 5e ff ff ff       	jmp    f010430a <sched_yield+0xe>
+f01043ac:	89 0d 38 a0 10 f0    	mov    %ecx,0xf010a038
+
+        
+
+    }
             
 }
-f0104396:	83 c4 1c             	add    $0x1c,%esp
-f0104399:	5b                   	pop    %ebx
-f010439a:	5e                   	pop    %esi
-f010439b:	5f                   	pop    %edi
-f010439c:	5d                   	pop    %ebp
-f010439d:	c3                   	ret    
+f01043b2:	83 c4 1c             	add    $0x1c,%esp
+f01043b5:	5b                   	pop    %ebx
+f01043b6:	5e                   	pop    %esi
+f01043b7:	5f                   	pop    %edi
+f01043b8:	5d                   	pop    %ebp
+f01043b9:	c3                   	ret    
