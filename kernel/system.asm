@@ -2400,10 +2400,10 @@ f0100f35:	83 c4 0c             	add    $0xc,%esp
 f0100f38:	c3                   	ret    
 
 f0100f39 <puts>:
+SYSCALL_NOARG(getcid, int32_t)
 
 void
 puts(const char *s, size_t len)
-{
 f0100f39:	83 ec 0c             	sub    $0xc,%esp
 f0100f3c:	89 1c 24             	mov    %ebx,(%esp)
 f0100f3f:	89 74 24 04          	mov    %esi,0x4(%esp)
@@ -2421,12 +2421,12 @@ f0100f54:	89 c3                	mov    %eax,%ebx
 f0100f56:	89 c7                	mov    %eax,%edi
 f0100f58:	89 c6                	mov    %eax,%esi
 f0100f5a:	cd 30                	int    $0x30
+SYSCALL_NOARG(getcid, int32_t)
 
 void
 puts(const char *s, size_t len)
 {
 	syscall(SYS_puts,(uint32_t)s, len, 0, 0, 0);
-}
 f0100f5c:	8b 1c 24             	mov    (%esp),%ebx
 f0100f5f:	8b 74 24 04          	mov    0x4(%esp),%esi
 f0100f63:	8b 7c 24 08          	mov    0x8(%esp),%edi
@@ -2434,9 +2434,9 @@ f0100f67:	83 c4 0c             	add    $0xc,%esp
 f0100f6a:	c3                   	ret    
 
 f0100f6b <sleep>:
+}
 //see inc/syscall.h
 void sleep(uint32_t ticks)
-{
 f0100f6b:	83 ec 0c             	sub    $0xc,%esp
 f0100f6e:	89 1c 24             	mov    %ebx,(%esp)
 f0100f71:	89 74 24 04          	mov    %esi,0x4(%esp)
@@ -2454,12 +2454,12 @@ f0100f87:	89 cb                	mov    %ecx,%ebx
 f0100f89:	89 cf                	mov    %ecx,%edi
 f0100f8b:	89 ce                	mov    %ecx,%esi
 f0100f8d:	cd 30                	int    $0x30
+	syscall(SYS_puts,(uint32_t)s, len, 0, 0, 0);
 }
 //see inc/syscall.h
 void sleep(uint32_t ticks)
 {
     syscall(SYS_sleep,ticks,0,0,0,0);
-}
 f0100f8f:	8b 1c 24             	mov    (%esp),%ebx
 f0100f92:	8b 74 24 04          	mov    0x4(%esp),%esi
 f0100f96:	8b 7c 24 08          	mov    0x8(%esp),%edi
@@ -2467,12 +2467,12 @@ f0100f9a:	83 c4 0c             	add    $0xc,%esp
 f0100f9d:	c3                   	ret    
 
 f0100f9e <settextcolor>:
-void settextcolor(unsigned char forecolor,unsigned char backcolor){
+}
 f0100f9e:	83 ec 0c             	sub    $0xc,%esp
 f0100fa1:	89 1c 24             	mov    %ebx,(%esp)
 f0100fa4:	89 74 24 04          	mov    %esi,0x4(%esp)
 f0100fa8:	89 7c 24 08          	mov    %edi,0x8(%esp)
-    syscall(SYS_settextcolor,forecolor,backcolor,0,0,0);
+void settextcolor(unsigned char forecolor,unsigned char backcolor){
 f0100fac:	0f b6 54 24 10       	movzbl 0x10(%esp),%edx
 f0100fb1:	0f b6 4c 24 14       	movzbl 0x14(%esp),%ecx
 	//
@@ -2486,12 +2486,12 @@ f0100fbb:	b8 09 00 00 00       	mov    $0x9,%eax
 f0100fc0:	89 df                	mov    %ebx,%edi
 f0100fc2:	89 de                	mov    %ebx,%esi
 f0100fc4:	cd 30                	int    $0x30
+void sleep(uint32_t ticks)
 {
     syscall(SYS_sleep,ticks,0,0,0,0);
 }
 void settextcolor(unsigned char forecolor,unsigned char backcolor){
     syscall(SYS_settextcolor,forecolor,backcolor,0,0,0);
-}
 f0100fc6:	8b 1c 24             	mov    (%esp),%ebx
 f0100fc9:	8b 74 24 04          	mov    0x4(%esp),%esi
 f0100fcd:	8b 7c 24 08          	mov    0x8(%esp),%edi
@@ -2499,12 +2499,12 @@ f0100fd1:	83 c4 0c             	add    $0xc,%esp
 f0100fd4:	c3                   	ret    
 
 f0100fd5 <fork>:
+}
 void kill_self()
 {
     int pid = getpid();
     syscall(SYS_kill,pid,0,0,0,0);
 }
-SYSCALL_NOARG(fork, int32_t)
 f0100fd5:	83 ec 0c             	sub    $0xc,%esp
 f0100fd8:	89 1c 24             	mov    %ebx,(%esp)
 f0100fdb:	89 74 24 04          	mov    %esi,0x4(%esp)
@@ -2522,12 +2522,12 @@ f0100fef:	89 d3                	mov    %edx,%ebx
 f0100ff1:	89 d7                	mov    %edx,%edi
 f0100ff3:	89 d6                	mov    %edx,%esi
 f0100ff5:	cd 30                	int    $0x30
+}
 void kill_self()
 {
     int pid = getpid();
     syscall(SYS_kill,pid,0,0,0,0);
 }
-SYSCALL_NOARG(fork, int32_t)
 f0100ff7:	8b 1c 24             	mov    (%esp),%ebx
 f0100ffa:	8b 74 24 04          	mov    0x4(%esp),%esi
 f0100ffe:	8b 7c 24 08          	mov    0x8(%esp),%edi
@@ -2535,7 +2535,7 @@ f0101002:	83 c4 0c             	add    $0xc,%esp
 f0101005:	c3                   	ret    
 
 f0101006 <getpid>:
-SYSCALL_NOARG(getpid, int32_t)
+SYSCALL_NOARG(fork, int32_t)
 f0101006:	83 ec 0c             	sub    $0xc,%esp
 f0101009:	89 1c 24             	mov    %ebx,(%esp)
 f010100c:	89 74 24 04          	mov    %esi,0x4(%esp)
@@ -2553,12 +2553,12 @@ f0101020:	89 d3                	mov    %edx,%ebx
 f0101022:	89 d7                	mov    %edx,%edi
 f0101024:	89 d6                	mov    %edx,%esi
 f0101026:	cd 30                	int    $0x30
+void kill_self()
 {
     int pid = getpid();
     syscall(SYS_kill,pid,0,0,0,0);
 }
 SYSCALL_NOARG(fork, int32_t)
-SYSCALL_NOARG(getpid, int32_t)
 f0101028:	8b 1c 24             	mov    (%esp),%ebx
 f010102b:	8b 74 24 04          	mov    0x4(%esp),%esi
 f010102f:	8b 7c 24 08          	mov    0x8(%esp),%edi
@@ -2566,17 +2566,17 @@ f0101033:	83 c4 0c             	add    $0xc,%esp
 f0101036:	c3                   	ret    
 
 f0101037 <kill_self>:
+    syscall(SYS_sleep,ticks,0,0,0,0);
 }
 void settextcolor(unsigned char forecolor,unsigned char backcolor){
     syscall(SYS_settextcolor,forecolor,backcolor,0,0,0);
 }
 void kill_self()
-{
 f0101037:	83 ec 0c             	sub    $0xc,%esp
 f010103a:	89 1c 24             	mov    %ebx,(%esp)
 f010103d:	89 74 24 04          	mov    %esi,0x4(%esp)
 f0101041:	89 7c 24 08          	mov    %edi,0x8(%esp)
-    int pid = getpid();
+{
 f0101045:	e8 bc ff ff ff       	call   f0101006 <getpid>
 f010104a:	89 c2                	mov    %eax,%edx
 	//
@@ -2591,12 +2591,12 @@ f0101056:	89 cb                	mov    %ecx,%ebx
 f0101058:	89 cf                	mov    %ecx,%edi
 f010105a:	89 ce                	mov    %ecx,%esi
 f010105c:	cd 30                	int    $0x30
+    syscall(SYS_settextcolor,forecolor,backcolor,0,0,0);
 }
 void kill_self()
 {
     int pid = getpid();
     syscall(SYS_kill,pid,0,0,0,0);
-}
 f010105e:	8b 1c 24             	mov    (%esp),%ebx
 f0101061:	8b 74 24 04          	mov    0x4(%esp),%esi
 f0101065:	8b 7c 24 08          	mov    0x8(%esp),%edi
@@ -2604,9 +2604,9 @@ f0101069:	83 c4 0c             	add    $0xc,%esp
 f010106c:	c3                   	ret    
 
 f010106d <cls>:
+}
 SYSCALL_NOARG(fork, int32_t)
 SYSCALL_NOARG(getpid, int32_t)
-SYSCALL_NOARG(cls, int32_t)
 f010106d:	83 ec 0c             	sub    $0xc,%esp
 f0101070:	89 1c 24             	mov    %ebx,(%esp)
 f0101073:	89 74 24 04          	mov    %esi,0x4(%esp)
@@ -2624,12 +2624,12 @@ f0101087:	89 d3                	mov    %edx,%ebx
 f0101089:	89 d7                	mov    %edx,%edi
 f010108b:	89 d6                	mov    %edx,%esi
 f010108d:	cd 30                	int    $0x30
+{
     int pid = getpid();
     syscall(SYS_kill,pid,0,0,0,0);
 }
 SYSCALL_NOARG(fork, int32_t)
 SYSCALL_NOARG(getpid, int32_t)
-SYSCALL_NOARG(cls, int32_t)
 f010108f:	8b 1c 24             	mov    (%esp),%ebx
 f0101092:	8b 74 24 04          	mov    0x4(%esp),%esi
 f0101096:	8b 7c 24 08          	mov    0x8(%esp),%edi
@@ -2637,7 +2637,7 @@ f010109a:	83 c4 0c             	add    $0xc,%esp
 f010109d:	c3                   	ret    
 
 f010109e <get_num_free_page>:
-SYSCALL_NOARG(get_num_free_page, int32_t)
+SYSCALL_NOARG(cls, int32_t)
 f010109e:	83 ec 0c             	sub    $0xc,%esp
 f01010a1:	89 1c 24             	mov    %ebx,(%esp)
 f01010a4:	89 74 24 04          	mov    %esi,0x4(%esp)
@@ -2655,12 +2655,12 @@ f01010b8:	89 d3                	mov    %edx,%ebx
 f01010ba:	89 d7                	mov    %edx,%edi
 f01010bc:	89 d6                	mov    %edx,%esi
 f01010be:	cd 30                	int    $0x30
+    int pid = getpid();
     syscall(SYS_kill,pid,0,0,0,0);
 }
 SYSCALL_NOARG(fork, int32_t)
 SYSCALL_NOARG(getpid, int32_t)
 SYSCALL_NOARG(cls, int32_t)
-SYSCALL_NOARG(get_num_free_page, int32_t)
 f01010c0:	8b 1c 24             	mov    (%esp),%ebx
 f01010c3:	8b 74 24 04          	mov    0x4(%esp),%esi
 f01010c7:	8b 7c 24 08          	mov    0x8(%esp),%edi
@@ -2668,7 +2668,7 @@ f01010cb:	83 c4 0c             	add    $0xc,%esp
 f01010ce:	c3                   	ret    
 
 f01010cf <get_num_used_page>:
-SYSCALL_NOARG(get_num_used_page, int32_t)
+SYSCALL_NOARG(get_num_free_page, int32_t)
 f01010cf:	83 ec 0c             	sub    $0xc,%esp
 f01010d2:	89 1c 24             	mov    %ebx,(%esp)
 f01010d5:	89 74 24 04          	mov    %esi,0x4(%esp)
@@ -2686,12 +2686,12 @@ f01010e9:	89 d3                	mov    %edx,%ebx
 f01010eb:	89 d7                	mov    %edx,%edi
 f01010ed:	89 d6                	mov    %edx,%esi
 f01010ef:	cd 30                	int    $0x30
+    syscall(SYS_kill,pid,0,0,0,0);
 }
 SYSCALL_NOARG(fork, int32_t)
 SYSCALL_NOARG(getpid, int32_t)
 SYSCALL_NOARG(cls, int32_t)
 SYSCALL_NOARG(get_num_free_page, int32_t)
-SYSCALL_NOARG(get_num_used_page, int32_t)
 f01010f1:	8b 1c 24             	mov    (%esp),%ebx
 f01010f4:	8b 74 24 04          	mov    0x4(%esp),%esi
 f01010f8:	8b 7c 24 08          	mov    0x8(%esp),%edi
@@ -2699,8 +2699,8 @@ f01010fc:	83 c4 0c             	add    $0xc,%esp
 f01010ff:	c3                   	ret    
 
 f0101100 <get_ticks>:
+SYSCALL_NOARG(get_num_used_page, int32_t)
 //tick??????
-SYSCALL_NOARG(get_ticks,unsigned long)
 f0101100:	83 ec 0c             	sub    $0xc,%esp
 f0101103:	89 1c 24             	mov    %ebx,(%esp)
 f0101106:	89 74 24 04          	mov    %esi,0x4(%esp)
@@ -2718,12 +2718,12 @@ f010111a:	89 d3                	mov    %edx,%ebx
 f010111c:	89 d7                	mov    %edx,%edi
 f010111e:	89 d6                	mov    %edx,%esi
 f0101120:	cd 30                	int    $0x30
+SYSCALL_NOARG(fork, int32_t)
 SYSCALL_NOARG(getpid, int32_t)
 SYSCALL_NOARG(cls, int32_t)
 SYSCALL_NOARG(get_num_free_page, int32_t)
 SYSCALL_NOARG(get_num_used_page, int32_t)
 //tick??????
-SYSCALL_NOARG(get_ticks,unsigned long)
 f0101122:	8b 1c 24             	mov    (%esp),%ebx
 f0101125:	8b 74 24 04          	mov    0x4(%esp),%esi
 f0101129:	8b 7c 24 08          	mov    0x8(%esp),%edi
@@ -2732,19 +2732,19 @@ f0101130:	c3                   	ret
 	...
 
 f0101140 <mon_help>:
+  cprintf("%-10s MEM_STAT %10s\n", "--------", "--------");
+  cprintf("Used: %18d pages\n", get_num_used_page());
   cprintf("Free: %18d pages\n", get_num_free_page());
   return 0;
 }
 
-int mon_help(int argc, char **argv)
-{
 f0101140:	53                   	push   %ebx
 f0101141:	83 ec 18             	sub    $0x18,%esp
 f0101144:	bb 00 00 00 00       	mov    $0x0,%ebx
+int mon_help(int argc, char **argv)
+{
   int i;
 
-  for (i = 0; i < NCOMMANDS; i++)
-    cprintf("%s - %s\n", commands[i].name, commands[i].desc);
 f0101149:	8b 83 04 70 10 f0    	mov    -0xfef8ffc(%ebx),%eax
 f010114f:	89 44 24 08          	mov    %eax,0x8(%esp)
 f0101153:	8b 83 00 70 10 f0    	mov    -0xfef9000(%ebx),%eax
@@ -2752,273 +2752,273 @@ f0101159:	89 44 24 04          	mov    %eax,0x4(%esp)
 f010115d:	c7 04 24 51 52 10 f0 	movl   $0xf0105251,(%esp)
 f0101164:	e8 6e f3 ff ff       	call   f01004d7 <cprintf>
 f0101169:	83 c3 0c             	add    $0xc,%ebx
+  return 0;
+}
 
 int mon_help(int argc, char **argv)
 {
   int i;
-
-  for (i = 0; i < NCOMMANDS; i++)
 f010116c:	83 fb 3c             	cmp    $0x3c,%ebx
 f010116f:	75 d8                	jne    f0101149 <mon_help+0x9>
+
+  for (i = 0; i < NCOMMANDS; i++)
     cprintf("%s - %s\n", commands[i].name, commands[i].desc);
-  return 0;
-}
 f0101171:	b8 00 00 00 00       	mov    $0x0,%eax
 f0101176:	83 c4 18             	add    $0x18,%esp
 f0101179:	5b                   	pop    %ebx
 f010117a:	c3                   	ret    
 
 f010117b <chgcolor>:
+int print_tick(int argc, char **argv)
+{
   cprintf("Now tick = %d\n", get_ticks());
   return 0;
 }
 
-int chgcolor(int argc, char **argv)
-{
 f010117b:	53                   	push   %ebx
 f010117c:	83 ec 18             	sub    $0x18,%esp
-  if (argc > 1)
+int chgcolor(int argc, char **argv)
 f010117f:	83 7c 24 20 01       	cmpl   $0x1,0x20(%esp)
 f0101184:	7e 35                	jle    f01011bb <chgcolor+0x40>
-  {
-    char fore = argv[1][0] - '0';
+{
+  if (argc > 1)
 f0101186:	8b 44 24 24          	mov    0x24(%esp),%eax
 f010118a:	8b 40 04             	mov    0x4(%eax),%eax
 f010118d:	0f b6 18             	movzbl (%eax),%ebx
 f0101190:	83 eb 30             	sub    $0x30,%ebx
-    settextcolor(fore, 0);
+  {
 f0101193:	c7 44 24 04 00 00 00 	movl   $0x0,0x4(%esp)
 f010119a:	00 
 f010119b:	0f b6 c3             	movzbl %bl,%eax
 f010119e:	89 04 24             	mov    %eax,(%esp)
 f01011a1:	e8 f8 fd ff ff       	call   f0100f9e <settextcolor>
-    cprintf("Change color %d!\n", fore);
+    char fore = argv[1][0] - '0';
 f01011a6:	0f be db             	movsbl %bl,%ebx
 f01011a9:	89 5c 24 04          	mov    %ebx,0x4(%esp)
 f01011ad:	c7 04 24 5a 52 10 f0 	movl   $0xf010525a,(%esp)
 f01011b4:	e8 1e f3 ff ff       	call   f01004d7 <cprintf>
 f01011b9:	eb 0c                	jmp    f01011c7 <chgcolor+0x4c>
+    settextcolor(fore, 0);
+    cprintf("Change color %d!\n", fore);
   }
   else
-  {
-    cprintf("No input text color!\n");
 f01011bb:	c7 04 24 6c 52 10 f0 	movl   $0xf010526c,(%esp)
 f01011c2:	e8 10 f3 ff ff       	call   f01004d7 <cprintf>
+  {
+    cprintf("No input text color!\n");
   }
-  return 0;
-}
 f01011c7:	b8 00 00 00 00       	mov    $0x0,%eax
 f01011cc:	83 c4 18             	add    $0x18,%esp
 f01011cf:	5b                   	pop    %ebx
 f01011d0:	c3                   	ret    
 
 f01011d1 <print_tick>:
+
+  for (i = 0; i < NCOMMANDS; i++)
     cprintf("%s - %s\n", commands[i].name, commands[i].desc);
   return 0;
 }
 
-int print_tick(int argc, char **argv)
-{
 f01011d1:	83 ec 1c             	sub    $0x1c,%esp
-  cprintf("Now tick = %d\n", get_ticks());
+int print_tick(int argc, char **argv)
 f01011d4:	e8 27 ff ff ff       	call   f0101100 <get_ticks>
 f01011d9:	89 44 24 04          	mov    %eax,0x4(%esp)
 f01011dd:	c7 04 24 82 52 10 f0 	movl   $0xf0105282,(%esp)
 f01011e4:	e8 ee f2 ff ff       	call   f01004d7 <cprintf>
-  return 0;
-}
+{
+  cprintf("Now tick = %d\n", get_ticks());
 f01011e9:	b8 00 00 00 00       	mov    $0x0,%eax
 f01011ee:	83 c4 1c             	add    $0x1c,%esp
 f01011f1:	c3                   	ret    
 
 f01011f2 <mem_stat>:
-  { "forktest", "Test functionality of fork()", forktest }
+  { "chgcolor", "Change screen text color", chgcolor },
+  { "forktest", "Test functionality of fork()", forktest },
+  { "spinlocktest", "Test spinlock", spinlocktest }
 };
 const int NCOMMANDS = (sizeof(commands)/sizeof(commands[0]));
 
-int mem_stat(int argc, char **argv)
-{
 f01011f2:	83 ec 1c             	sub    $0x1c,%esp
-  cprintf("%-10s MEM_STAT %10s\n", "--------", "--------");
+int mem_stat(int argc, char **argv)
 f01011f5:	c7 44 24 08 91 52 10 	movl   $0xf0105291,0x8(%esp)
 f01011fc:	f0 
 f01011fd:	c7 44 24 04 91 52 10 	movl   $0xf0105291,0x4(%esp)
 f0101204:	f0 
 f0101205:	c7 04 24 9a 52 10 f0 	movl   $0xf010529a,(%esp)
 f010120c:	e8 c6 f2 ff ff       	call   f01004d7 <cprintf>
-  cprintf("Used: %18d pages\n", get_num_used_page());
+{
 f0101211:	e8 b9 fe ff ff       	call   f01010cf <get_num_used_page>
 f0101216:	89 44 24 04          	mov    %eax,0x4(%esp)
 f010121a:	c7 04 24 af 52 10 f0 	movl   $0xf01052af,(%esp)
 f0101221:	e8 b1 f2 ff ff       	call   f01004d7 <cprintf>
-  cprintf("Free: %18d pages\n", get_num_free_page());
+  cprintf("%-10s MEM_STAT %10s\n", "--------", "--------");
 f0101226:	e8 73 fe ff ff       	call   f010109e <get_num_free_page>
 f010122b:	89 44 24 04          	mov    %eax,0x4(%esp)
 f010122f:	c7 04 24 c1 52 10 f0 	movl   $0xf01052c1,(%esp)
 f0101236:	e8 9c f2 ff ff       	call   f01004d7 <cprintf>
-  return 0;
-}
+  cprintf("Used: %18d pages\n", get_num_used_page());
+  cprintf("Free: %18d pages\n", get_num_free_page());
 f010123b:	b8 00 00 00 00       	mov    $0x0,%eax
 f0101240:	83 c4 1c             	add    $0x1c,%esp
 f0101243:	c3                   	ret    
 
 f0101244 <task_job>:
+  cprintf("Unknown command '%s'\n", argv[0]);
+  return 0;
 }
 
 
 
-void task_job()
-{
 f0101244:	56                   	push   %esi
 f0101245:	53                   	push   %ebx
 f0101246:	83 ec 14             	sub    $0x14,%esp
+void task_job()
+{
 	int pid = 0;
-	int i;
-
-	pid = getpid();
+	int cid = 0;
 f0101249:	e8 b8 fd ff ff       	call   f0101006 <getpid>
 f010124e:	89 c6                	mov    %eax,%esi
-	for (i = 0; i < 10; i++)
+	int i;
 f0101250:	bb 00 00 00 00       	mov    $0x0,%ebx
-	{
-		cprintf("Im %d, now=%d\n", pid, i);
+
+	pid = getpid();
 f0101255:	89 5c 24 08          	mov    %ebx,0x8(%esp)
 f0101259:	89 74 24 04          	mov    %esi,0x4(%esp)
 f010125d:	c7 04 24 d3 52 10 f0 	movl   $0xf01052d3,(%esp)
 f0101264:	e8 6e f2 ff ff       	call   f01004d7 <cprintf>
-		sleep(100);
+	cid = getcid();
 f0101269:	c7 04 24 64 00 00 00 	movl   $0x64,(%esp)
 f0101270:	e8 f6 fc ff ff       	call   f0100f6b <sleep>
+
+void task_job()
 {
 	int pid = 0;
+	int cid = 0;
 	int i;
-
-	pid = getpid();
-	for (i = 0; i < 10; i++)
 f0101275:	83 c3 01             	add    $0x1,%ebx
 f0101278:	83 fb 0a             	cmp    $0xa,%ebx
 f010127b:	75 d8                	jne    f0101255 <task_job+0x11>
+
+	pid = getpid();
+	cid = getcid();
+	for (i = 0; i < 10; i++)
 	{
-		cprintf("Im %d, now=%d\n", pid, i);
-		sleep(100);
-	}
-}
 f010127d:	83 c4 14             	add    $0x14,%esp
 f0101280:	5b                   	pop    %ebx
 f0101281:	5e                   	pop    %esi
 f0101282:	c3                   	ret    
 
 f0101283 <forktest>:
-
-int forktest(int argc, char **argv)
-{
+		cprintf("Pid=%d, Cid=%d, now=%d\n", pid, cid, i);
+		sleep(100);
+	}
 f0101283:	83 ec 0c             	sub    $0xc,%esp
-  /* Below code is running on user mode */
-  if (!fork())
+}
+
 f0101286:	e8 4a fd ff ff       	call   f0100fd5 <fork>
 f010128b:	85 c0                	test   %eax,%eax
 f010128d:	75 48                	jne    f01012d7 <forktest+0x54>
-  {
-
-    /*Child*/
-    task_job();
+int forktest(int argc, char **argv)
+{
+  /* Below code is running on user mode */
+  if (!fork())
 f010128f:	e8 b0 ff ff ff       	call   f0101244 <task_job>
-    if (fork())
+  {
 f0101294:	e8 3c fd ff ff       	call   f0100fd5 <fork>
 f0101299:	85 c0                	test   %eax,%eax
 f010129b:	74 0a                	je     f01012a7 <forktest+0x24>
 f010129d:	8d 76 00             	lea    0x0(%esi),%esi
-      task_job();
+
 f01012a0:	e8 9f ff ff ff       	call   f0101244 <task_job>
 f01012a5:	eb 30                	jmp    f01012d7 <forktest+0x54>
-    else
-    {
-      if (fork())
+    /*Child*/
+    task_job();
+    if (fork())
 f01012a7:	e8 29 fd ff ff       	call   f0100fd5 <fork>
 f01012ac:	85 c0                	test   %eax,%eax
 f01012ae:	66 90                	xchg   %ax,%ax
 f01012b0:	74 07                	je     f01012b9 <forktest+0x36>
-        task_job();
+      task_job();
 f01012b2:	e8 8d ff ff ff       	call   f0101244 <task_job>
 f01012b7:	eb 1e                	jmp    f01012d7 <forktest+0x54>
 f01012b9:	8d b4 26 00 00 00 00 	lea    0x0(%esi,%eiz,1),%esi
-      else
-        if (fork())
+    else
+    {
 f01012c0:	e8 10 fd ff ff       	call   f0100fd5 <fork>
 f01012c5:	85 c0                	test   %eax,%eax
 f01012c7:	74 09                	je     f01012d2 <forktest+0x4f>
-          task_job();
+      if (fork())
 f01012c9:	e8 76 ff ff ff       	call   f0101244 <task_job>
 f01012ce:	66 90                	xchg   %ax,%ax
 f01012d0:	eb 05                	jmp    f01012d7 <forktest+0x54>
+        task_job();
+      else
+f01012d2:	e8 6d ff ff ff       	call   f0101244 <task_job>
+        if (fork())
+          task_job();
         else
           task_job();
-f01012d2:	e8 6d ff ff ff       	call   f0101244 <task_job>
-    }
-  }
-  /* task recycle */
-  kill_self();
 f01012d7:	e8 5b fd ff ff       	call   f0101037 <kill_self>
-  return 0;
-}
+    }
+    /* task recycle */
 f01012dc:	b8 00 00 00 00       	mov    $0x0,%eax
 f01012e1:	83 c4 0c             	add    $0xc,%esp
 f01012e4:	c3                   	ret    
 
 f01012e5 <shell>:
-
-void shell()
-{
+    kill_self();
+  }
+  return 0;
 f01012e5:	55                   	push   %ebp
 f01012e6:	57                   	push   %edi
 f01012e7:	56                   	push   %esi
 f01012e8:	53                   	push   %ebx
 f01012e9:	83 ec 5c             	sub    $0x5c,%esp
-  char *buf;
-  hist_head = 0;
+}
+
 f01012ec:	c7 05 a4 4e 11 f0 00 	movl   $0x0,0xf0114ea4
 f01012f3:	00 00 00 
-  hist_tail = 0;
+int spinlocktest(int argc, char **argv)
 f01012f6:	c7 05 a8 4e 11 f0 00 	movl   $0x0,0xf0114ea8
 f01012fd:	00 00 00 
-  hist_curr = 0;
+{
 f0101300:	c7 05 a0 4e 11 f0 00 	movl   $0x0,0xf0114ea0
 f0101307:	00 00 00 
-
-  cprintf("Welcome to the OSDI course!\n");
+  /* Below code is running on user mode */
+  if (!fork())
 f010130a:	c7 04 24 e2 52 10 f0 	movl   $0xf01052e2,(%esp)
 f0101311:	e8 c1 f1 ff ff       	call   f01004d7 <cprintf>
-  cprintf("Type 'help' for a list of commands.\n");
+  {
 f0101316:	c7 04 24 d4 53 10 f0 	movl   $0xf01053d4,(%esp)
 f010131d:	e8 b5 f1 ff ff       	call   f01004d7 <cprintf>
-  {
-    buf = readline("OSDI> ");
-    if (buf != NULL)
-    {
-      strcpy(hist[hist_tail], buf);
-      hist_tail = (hist_tail + 1) % SHELL_HIST_MAX;
+    fork();
+    fork();
+    sleep(500);
+    cprintf("Pid=%d, Cid=%d\n", getpid(), getcid());
+    /* task recycle */
+    kill_self();
 f0101322:	bd 67 66 66 66       	mov    $0x66666667,%ebp
-  cprintf("Welcome to the OSDI course!\n");
-  cprintf("Type 'help' for a list of commands.\n");
-
-  while(1)
+  if (!fork())
   {
-    buf = readline("OSDI> ");
+    /*Child*/
+    fork();
+    fork();
+    fork();
 f0101327:	c7 04 24 ff 52 10 f0 	movl   $0xf01052ff,(%esp)
 f010132e:	e8 2d f8 ff ff       	call   f0100b60 <readline>
 f0101333:	89 c3                	mov    %eax,%ebx
-    if (buf != NULL)
+    sleep(500);
 f0101335:	85 c0                	test   %eax,%eax
 f0101337:	74 ee                	je     f0101327 <shell+0x42>
-    {
-      strcpy(hist[hist_tail], buf);
+    cprintf("Pid=%d, Cid=%d\n", getpid(), getcid());
+    /* task recycle */
 f0101339:	89 44 24 04          	mov    %eax,0x4(%esp)
 f010133d:	a1 a8 4e 11 f0       	mov    0xf0114ea8,%eax
 f0101342:	c1 e0 0a             	shl    $0xa,%eax
 f0101345:	05 c0 4e 11 f0       	add    $0xf0114ec0,%eax
 f010134a:	89 04 24             	mov    %eax,(%esp)
 f010134d:	e8 ec ec ff ff       	call   f010003e <strcpy>
-      hist_tail = (hist_tail + 1) % SHELL_HIST_MAX;
+    kill_self();
 f0101352:	8b 35 a8 4e 11 f0    	mov    0xf0114ea8,%esi
 f0101358:	83 c6 01             	add    $0x1,%esi
 f010135b:	89 f0                	mov    %esi,%eax
@@ -3033,11 +3033,11 @@ f010136e:	01 c0                	add    %eax,%eax
 f0101370:	89 f1                	mov    %esi,%ecx
 f0101372:	29 c1                	sub    %eax,%ecx
 f0101374:	89 0d a8 4e 11 f0    	mov    %ecx,0xf0114ea8
-      if (hist_head == hist_tail)
+  }
 f010137a:	3b 0d a4 4e 11 f0    	cmp    0xf0114ea4,%ecx
 f0101380:	75 2a                	jne    f01013ac <shell+0xc7>
-      {
-        hist_head = (hist_head + 1) % SHELL_HIST_MAX;
+  return 0;
+}
 f0101382:	8d 71 01             	lea    0x1(%ecx),%esi
 f0101385:	89 f0                	mov    %esi,%eax
 f0101387:	f7 ed                	imul   %ebp
@@ -3049,42 +3049,42 @@ f0101393:	8d 04 92             	lea    (%edx,%edx,4),%eax
 f0101396:	01 c0                	add    %eax,%eax
 f0101398:	29 c6                	sub    %eax,%esi
 f010139a:	89 35 a4 4e 11 f0    	mov    %esi,0xf0114ea4
-        hist[hist_tail][0] = 0;
+
 f01013a0:	89 c8                	mov    %ecx,%eax
 f01013a2:	c1 e0 0a             	shl    $0xa,%eax
 f01013a5:	c6 80 c0 4e 11 f0 00 	movb   $0x0,-0xfeeb140(%eax)
-      }
-      hist_curr = hist_tail;
+void shell()
+{
 f01013ac:	89 0d a0 4e 11 f0    	mov    %ecx,0xf0114ea0
-  char *argv[MAXARGS];
-  int i;
-
-  // Parse the command buffer into whitespace-separated arguments
-  argc = 0;
-  argv[argc] = 0;
-f01013b2:	c7 44 24 10 00 00 00 	movl   $0x0,0x10(%esp)
-f01013b9:	00 
+{
   int argc;
   char *argv[MAXARGS];
   int i;
 
   // Parse the command buffer into whitespace-separated arguments
-  argc = 0;
+f01013b2:	c7 44 24 10 00 00 00 	movl   $0x0,0x10(%esp)
+f01013b9:	00 
+static int runcmd(char *buf)
+{
+  int argc;
+  char *argv[MAXARGS];
+  int i;
+
 f01013ba:	be 00 00 00 00       	mov    $0x0,%esi
 f01013bf:	eb 06                	jmp    f01013c7 <shell+0xe2>
-  argv[argc] = 0;
-  while (1) {
-    // gobble whitespace
-    while (*buf && strchr(WHITESPACE, *buf))
-      *buf++ = 0;
-f01013c1:	c6 03 00             	movb   $0x0,(%ebx)
-f01013c4:	83 c3 01             	add    $0x1,%ebx
   // Parse the command buffer into whitespace-separated arguments
   argc = 0;
   argv[argc] = 0;
   while (1) {
     // gobble whitespace
-    while (*buf && strchr(WHITESPACE, *buf))
+f01013c1:	c6 03 00             	movb   $0x0,(%ebx)
+f01013c4:	83 c3 01             	add    $0x1,%ebx
+  int i;
+
+  // Parse the command buffer into whitespace-separated arguments
+  argc = 0;
+  argv[argc] = 0;
+  while (1) {
 f01013c7:	0f b6 03             	movzbl (%ebx),%eax
 f01013ca:	84 c0                	test   %al,%al
 f01013cc:	74 70                	je     f010143e <shell+0x159>
@@ -3094,41 +3094,41 @@ f01013d5:	c7 04 24 06 53 10 f0 	movl   $0xf0105306,(%esp)
 f01013dc:	e8 90 ed ff ff       	call   f0100171 <strchr>
 f01013e1:	85 c0                	test   %eax,%eax
 f01013e3:	75 dc                	jne    f01013c1 <shell+0xdc>
-      *buf++ = 0;
-    if (*buf == 0)
+    // gobble whitespace
+    while (*buf && strchr(WHITESPACE, *buf))
 f01013e5:	80 3b 00             	cmpb   $0x0,(%ebx)
 f01013e8:	74 54                	je     f010143e <shell+0x159>
+      *buf++ = 0;
+    if (*buf == 0)
       break;
 
-    // save and scan past next arg
-    if (argc == MAXARGS-1) {
 f01013ea:	83 fe 0f             	cmp    $0xf,%esi
 f01013ed:	8d 76 00             	lea    0x0(%esi),%esi
 f01013f0:	75 19                	jne    f010140b <shell+0x126>
-      cprintf("Too many arguments (max %d)\n", MAXARGS);
+    // save and scan past next arg
 f01013f2:	c7 44 24 04 10 00 00 	movl   $0x10,0x4(%esp)
 f01013f9:	00 
 f01013fa:	c7 04 24 0b 53 10 f0 	movl   $0xf010530b,(%esp)
 f0101401:	e8 d1 f0 ff ff       	call   f01004d7 <cprintf>
 f0101406:	e9 1c ff ff ff       	jmp    f0101327 <shell+0x42>
+    if (argc == MAXARGS-1) {
+      cprintf("Too many arguments (max %d)\n", MAXARGS);
       return 0;
-    }
-    argv[argc++] = buf;
 f010140b:	89 5c b4 10          	mov    %ebx,0x10(%esp,%esi,4)
 f010140f:	83 c6 01             	add    $0x1,%esi
-    while (*buf && !strchr(WHITESPACE, *buf))
+    }
 f0101412:	0f b6 03             	movzbl (%ebx),%eax
 f0101415:	84 c0                	test   %al,%al
 f0101417:	75 0c                	jne    f0101425 <shell+0x140>
 f0101419:	eb ac                	jmp    f01013c7 <shell+0xe2>
-      buf++;
+    argv[argc++] = buf;
 f010141b:	83 c3 01             	add    $0x1,%ebx
+
+    // save and scan past next arg
     if (argc == MAXARGS-1) {
       cprintf("Too many arguments (max %d)\n", MAXARGS);
       return 0;
     }
-    argv[argc++] = buf;
-    while (*buf && !strchr(WHITESPACE, *buf))
 f010141e:	0f b6 03             	movzbl (%ebx),%eax
 f0101421:	84 c0                	test   %al,%al
 f0101423:	74 a2                	je     f01013c7 <shell+0xe2>
@@ -3139,21 +3139,21 @@ f0101433:	e8 39 ed ff ff       	call   f0100171 <strchr>
 f0101438:	85 c0                	test   %eax,%eax
 f010143a:	74 df                	je     f010141b <shell+0x136>
 f010143c:	eb 89                	jmp    f01013c7 <shell+0xe2>
+    argv[argc++] = buf;
+    while (*buf && !strchr(WHITESPACE, *buf))
       buf++;
-  }
-  argv[argc] = 0;
 f010143e:	c7 44 b4 10 00 00 00 	movl   $0x0,0x10(%esp,%esi,4)
 f0101445:	00 
+  }
+  argv[argc] = 0;
 
-  // Lookup and invoke the command
-  if (argc == 0)
 f0101446:	85 f6                	test   %esi,%esi
 f0101448:	0f 84 d9 fe ff ff    	je     f0101327 <shell+0x42>
 f010144e:	bb 00 70 10 f0       	mov    $0xf0107000,%ebx
 f0101453:	bf 00 00 00 00       	mov    $0x0,%edi
+  // Lookup and invoke the command
+  if (argc == 0)
     return 0;
-  for (i = 0; i < NCOMMANDS; i++) {
-    if (strcmp(argv[0], commands[i].name) == 0)
 f0101458:	8b 03                	mov    (%ebx),%eax
 f010145a:	89 44 24 04          	mov    %eax,0x4(%esp)
 f010145e:	8b 44 24 10          	mov    0x10(%esp),%eax
@@ -3161,46 +3161,46 @@ f0101462:	89 04 24             	mov    %eax,(%esp)
 f0101465:	e8 90 ec ff ff       	call   f01000fa <strcmp>
 f010146a:	85 c0                	test   %eax,%eax
 f010146c:	75 1d                	jne    f010148b <shell+0x1a6>
-      return commands[i].func(argc, argv);
+  for (i = 0; i < NCOMMANDS; i++) {
 f010146e:	6b ff 0c             	imul   $0xc,%edi,%edi
 f0101471:	8d 44 24 10          	lea    0x10(%esp),%eax
 f0101475:	89 44 24 04          	mov    %eax,0x4(%esp)
 f0101479:	89 34 24             	mov    %esi,(%esp)
 f010147c:	ff 97 08 70 10 f0    	call   *-0xfef8ff8(%edi)
-        hist_head = (hist_head + 1) % SHELL_HIST_MAX;
-        hist[hist_tail][0] = 0;
-      }
-      hist_curr = hist_tail;
+}
 
-      if (runcmd(buf) < 0)
+void shell()
+{
+  char *buf;
+  hist_head = 0;
 f0101482:	85 c0                	test   %eax,%eax
 f0101484:	78 29                	js     f01014af <shell+0x1ca>
 f0101486:	e9 9c fe ff ff       	jmp    f0101327 <shell+0x42>
+      buf++;
+  }
   argv[argc] = 0;
 
   // Lookup and invoke the command
   if (argc == 0)
-    return 0;
-  for (i = 0; i < NCOMMANDS; i++) {
 f010148b:	83 c7 01             	add    $0x1,%edi
 f010148e:	83 c3 0c             	add    $0xc,%ebx
 f0101491:	83 ff 05             	cmp    $0x5,%edi
 f0101494:	75 c2                	jne    f0101458 <shell+0x173>
+    return 0;
+  for (i = 0; i < NCOMMANDS; i++) {
     if (strcmp(argv[0], commands[i].name) == 0)
       return commands[i].func(argc, argv);
-  }
-  cprintf("Unknown command '%s'\n", argv[0]);
 f0101496:	8b 44 24 10          	mov    0x10(%esp),%eax
 f010149a:	89 44 24 04          	mov    %eax,0x4(%esp)
 f010149e:	c7 04 24 28 53 10 f0 	movl   $0xf0105328,(%esp)
 f01014a5:	e8 2d f0 ff ff       	call   f01004d7 <cprintf>
 f01014aa:	e9 78 fe ff ff       	jmp    f0101327 <shell+0x42>
+  char *buf;
+  hist_head = 0;
+  hist_tail = 0;
+  hist_curr = 0;
 
-      if (runcmd(buf) < 0)
-        break;
-    }
-  }
-}
+  cprintf("Welcome to the OSDI course!\n");
 f01014af:	83 c4 5c             	add    $0x5c,%esp
 f01014b2:	5b                   	pop    %ebx
 f01014b3:	5e                   	pop    %esi
@@ -3643,59 +3643,59 @@ f0101864:	10 f0                	adc    %dh,%al
 	...
 
 f0101868 <kernel_main>:
+#include <kernel/cpu.h>
 
 extern void init_video(void);
+static void boot_aps(void);
 extern Task *cur_task;
 
+f0101868:	83 ec 0c             	sub    $0xc,%esp
 void kernel_main(void)
 {
-f0101868:	83 ec 0c             	sub    $0xc,%esp
 	extern char stext[];
 	extern char etext[], end[], data_start[],rdata_end[];
 	extern void task_job();
-
-	init_video();
 f010186b:	e8 bd 04 00 00       	call   f0101d2d <init_video>
 
-	trap_init();
+	init_video();
 f0101870:	e8 f2 07 00 00       	call   f0102067 <trap_init>
-	pic_init();
+  	mem_init();
 f0101875:	e8 c2 00 00 00       	call   f010193c <pic_init>
-	kbd_init();
+	//mp_init();
 f010187a:	e8 65 02 00 00       	call   f0101ae4 <kbd_init>
-     mem_init();
+	//lapic_init();
 f010187f:	e8 8c 0f 00 00       	call   f0102810 <mem_init>
-
-  printk("Kernel code base start=0x%08x to = 0x%08x\n", stext, etext);
+  	task_init();
+	trap_init();
 f0101884:	50                   	push   %eax
 f0101885:	68 ba 43 10 f0       	push   $0xf01043ba
 f010188a:	68 00 00 10 f0       	push   $0xf0100000
 f010188f:	68 44 54 10 f0       	push   $0xf0105444
 f0101894:	e8 37 09 00 00       	call   f01021d0 <printk>
-  printk("Readonly data start=0x%08x to = 0x%08x\n", etext, rdata_end);
+	pic_init();
 f0101899:	83 c4 0c             	add    $0xc,%esp
 f010189c:	68 b3 65 10 f0       	push   $0xf01065b3
 f01018a1:	68 ba 43 10 f0       	push   $0xf01043ba
 f01018a6:	68 6f 54 10 f0       	push   $0xf010546f
 f01018ab:	e8 20 09 00 00       	call   f01021d0 <printk>
-  printk("Kernel data base start=0x%08x to = 0x%08x\n", data_start, end);
+//<<<<<<< HEAD
 f01018b0:	83 c4 0c             	add    $0xc,%esp
 f01018b3:	68 58 7a 11 f0       	push   $0xf0117a58
 f01018b8:	68 00 70 10 f0       	push   $0xf0107000
 f01018bd:	68 97 54 10 f0       	push   $0xf0105497
 f01018c2:	e8 09 09 00 00       	call   f01021d0 <printk>
-  timer_init();
+  /* TODO: You should uncomment them
 f01018c7:	e8 51 24 00 00       	call   f0103d1d <timer_init>
-  syscall_init();
+   */
 f01018cc:	e8 0c 2a 00 00       	call   f01042dd <syscall_init>
-
-  task_init();
+//	 kbd_init();
+//	 timer_init();
 f01018d1:	e8 8d 27 00 00       	call   f0104063 <task_init>
-  /* Enable interrupt */
-  __asm __volatile("sti");
+//	 trap_init();
+ //      	mem_init();
 f01018d6:	fb                   	sti    
-
-  lcr3(PADDR(cur_task->pgdir));
+//=======
+	kbd_init();
 f01018d7:	8b 15 2c 4e 11 f0    	mov    0xf0114e2c,%edx
 /* -------------- Inline Functions --------------  */
 
@@ -3722,8 +3722,8 @@ lcr3(uint32_t val)
 {
 	__asm __volatile("movl %0,%%cr3" : : "r" (val));
 f0101901:	0f 22 d8             	mov    %eax,%cr3
-  /* Move to user mode */
-  asm volatile("movl %0,%%eax\n\t" \
+  	timer_init();
+  	syscall_init();
 f0101904:	8b 42 44             	mov    0x44(%edx),%eax
 f0101907:	6a 23                	push   $0x23
 f0101909:	50                   	push   %eax
@@ -3731,12 +3731,12 @@ f010190a:	9c                   	pushf
 f010190b:	6a 1b                	push   $0x1b
 f010190d:	ff 72 38             	pushl  0x38(%edx)
 f0101910:	cf                   	iret   
-  "pushl %2\n\t" \
-  "pushl %3\n\t" \
-  "iret\n" \
-  :: "m" (cur_task->tf.tf_esp), "i" (GD_UD | 0x03), "i" (GD_UT | 0x03), "m" (cur_task->tf.tf_eip)
-  :"ax");
-}
+//	printk("%d\n",k);
+  printk("Kernel code base start=0x%08x to = 0x%08x\n", stext, etext);
+  printk("Readonly data start=0x%08x to = 0x%08x\n", etext, rdata_end);
+  printk("Kernel data base start=0x%08x to = 0x%08x\n", data_start, end);
+
+//<<<<<<< HEAD
 f0101911:	83 c4 0c             	add    $0xc,%esp
 f0101914:	c3                   	ret    
 f0101915:	00 00                	add    %al,(%eax)
@@ -5432,54 +5432,54 @@ f01021f1:	c1 e0 0c             	shl    $0xc,%eax
 f01021f4:	c3                   	ret    
 
 f01021f5 <boot_alloc>:
-	// Initialize nextfree if this is the first time.
-	// 'end' is a magic symbol automatically generated by the linker,#end is behind on bss
-	// which points to the end of the kernel's bss segment:
-	// the first virtual address that the linker did *not* assign
-	// to any kernel code or global variables.
-	if (!nextfree) {
+// bytes.  Doesn't initialize the memory.  Returns a kernel virtual address.
+//
+// If n==0, returns the address of the next free page without allocating
+// anything.
+//
+// If we're out of memory, boot_alloc should panic.
 f01021f5:	83 3d 24 4e 11 f0 00 	cmpl   $0x0,0xf0114e24
+static physaddr_t check_va2pa(pde_t *pgdir, uintptr_t va);
+static void check_page(void);
+static void check_page_installed_pgdir(void);
+
+// This simple physical memory allocator is used only while JOS is setting
+// up its virtual memory system.  page_alloc() is the real allocator.
+f01021fc:	89 c2                	mov    %eax,%edx
+// bytes.  Doesn't initialize the memory.  Returns a kernel virtual address.
+//
+// If n==0, returns the address of the next free page without allocating
+// anything.
+//
+// If we're out of memory, boot_alloc should panic.
+f01021fe:	75 11                	jne    f0102211 <boot_alloc+0x1c>
 // This function may ONLY be used during initialization,
 // before the page_free_list list has been set up.
-// boot_alloc return the address which can be used
-static void *
-boot_alloc(uint32_t n)
-{
-f01021fc:	89 c2                	mov    %eax,%edx
-	// Initialize nextfree if this is the first time.
-	// 'end' is a magic symbol automatically generated by the linker,#end is behind on bss
-	// which points to the end of the kernel's bss segment:
-	// the first virtual address that the linker did *not* assign
-	// to any kernel code or global variables.
-	if (!nextfree) {
-f01021fe:	75 11                	jne    f0102211 <boot_alloc+0x1c>
-		extern char end[];
-		nextfree = ROUNDUP((char *) end, PGSIZE);
 f0102200:	b9 57 8a 11 f0       	mov    $0xf0118a57,%ecx
 f0102205:	81 e1 00 f0 ff ff    	and    $0xfffff000,%ecx
 f010220b:	89 0d 24 4e 11 f0    	mov    %ecx,0xf0114e24
+boot_alloc(uint32_t n)
+{
+	char *result;
 
-	//!! Allocate a chunk large enough to hold 'n' bytes, then update
-	//!! nextfree.  Make sure nextfree is kept aligned
-	//!!! to a multiple of PGSIZE.
-    //if n is zero return the address currently, else return the address can be div by page
-    if (n == 0)
+	// Initialize nextfree if this is the first time.
+	// 'end' is a magic symbol automatically generated by the linker,
 f0102211:	85 d2                	test   %edx,%edx
 f0102213:	a1 24 4e 11 f0       	mov    0xf0114e24,%eax
 f0102218:	74 15                	je     f010222f <boot_alloc+0x3a>
-        return nextfree;
-    else if (n > 0)
-    {
-        result = nextfree;
-        nextfree += ROUNDUP(n, PGSIZE);//find the nearest address which is nearest to address is be div by pagesize
+	// which points to the end of the kernel's bss segment:
+	// the first virtual address that the linker did *not* assign
+	// to any kernel code or global variables.
+	if (!nextfree) {
+		extern char end[];
 f010221a:	81 c2 ff 0f 00 00    	add    $0xfff,%edx
 f0102220:	81 e2 00 f0 ff ff    	and    $0xfffff000,%edx
 f0102226:	8d 14 10             	lea    (%eax,%edx,1),%edx
 f0102229:	89 15 24 4e 11 f0    	mov    %edx,0xf0114e24
-    }
+		nextfree = ROUNDUP((char *) end, PGSIZE);
+	}
 
-	return result;
-}
+	// Allocate a chunk large enough to hold 'n' bytes, then update
 f010222f:	c3                   	ret    
 
 f0102230 <_kaddr>:
@@ -5540,59 +5540,59 @@ f010226b:	b8 bf 5a 10 f0       	mov    $0xf0105abf,%eax
 f0102270:	eb be                	jmp    f0102230 <_kaddr>
 
 f0102272 <check_va2pa>:
-// this functionality for us!  We define our own version to help check
-// the check_kern_pgdir() function; it shouldn't be used elsewhere.
-
-static physaddr_t
-check_va2pa(pde_t *pgdir, uintptr_t va)
-{
+		// Move pages with lower addresses first in the free
+		// list, since entry_pgdir does not map all pages.
+		struct PageInfo *pp1, *pp2;
+		struct PageInfo **tp[2] = { &pp1, &pp2 };
+		for (pp = page_free_list; pp; pp = pp->pp_link) {
+			int pagetype = PDX(page2pa(pp)) >= pdx_limit;
 f0102272:	56                   	push   %esi
 f0102273:	89 d6                	mov    %edx,%esi
 f0102275:	53                   	push   %ebx
-	pte_t *p;
-
-	pgdir = &pgdir[PDX(va)];
-	if (!(*pgdir & PTE_P))
-		return ~0;
+			*tp[pagetype] = pp;
+			tp[pagetype] = &pp->pp_link;
+		}
+		*tp[1] = 0;
+		*tp[0] = pp2;
 f0102276:	83 cb ff             	or     $0xffffffff,%ebx
-static physaddr_t
-check_va2pa(pde_t *pgdir, uintptr_t va)
-{
-	pte_t *p;
-
-	pgdir = &pgdir[PDX(va)];
+		struct PageInfo **tp[2] = { &pp1, &pp2 };
+		for (pp = page_free_list; pp; pp = pp->pp_link) {
+			int pagetype = PDX(page2pa(pp)) >= pdx_limit;
+			*tp[pagetype] = pp;
+			tp[pagetype] = &pp->pp_link;
+		}
 f0102279:	c1 ea 16             	shr    $0x16,%edx
-// this functionality for us!  We define our own version to help check
-// the check_kern_pgdir() function; it shouldn't be used elsewhere.
-
-static physaddr_t
-check_va2pa(pde_t *pgdir, uintptr_t va)
-{
+		// Move pages with lower addresses first in the free
+		// list, since entry_pgdir does not map all pages.
+		struct PageInfo *pp1, *pp2;
+		struct PageInfo **tp[2] = { &pp1, &pp2 };
+		for (pp = page_free_list; pp; pp = pp->pp_link) {
+			int pagetype = PDX(page2pa(pp)) >= pdx_limit;
 f010227c:	83 ec 04             	sub    $0x4,%esp
-	pte_t *p;
-
-	pgdir = &pgdir[PDX(va)];
-	if (!(*pgdir & PTE_P))
+			*tp[pagetype] = pp;
+			tp[pagetype] = &pp->pp_link;
+		}
+		*tp[1] = 0;
 f010227f:	8b 0c 90             	mov    (%eax,%edx,4),%ecx
 f0102282:	f6 c1 01             	test   $0x1,%cl
 f0102285:	74 2e                	je     f01022b5 <check_va2pa+0x43>
-		return ~0;
-	p = (pte_t*) KADDR(PTE_ADDR(*pgdir));
+		*tp[0] = pp2;
+		page_free_list = pp1;
 f0102287:	81 e1 00 f0 ff ff    	and    $0xfffff000,%ecx
 f010228d:	ba 37 03 00 00       	mov    $0x337,%edx
 f0102292:	b8 ce 5a 10 f0       	mov    $0xf0105ace,%eax
 f0102297:	e8 94 ff ff ff       	call   f0102230 <_kaddr>
-	if (!(p[PTX(va)] & PTE_P))
+	}
 f010229c:	c1 ee 0c             	shr    $0xc,%esi
 f010229f:	81 e6 ff 03 00 00    	and    $0x3ff,%esi
 f01022a5:	8b 04 b0             	mov    (%eax,%esi,4),%eax
-		return ~0;
-	return PTE_ADDR(p[PTX(va)]);
+
+	// if there's a page that shouldn't be on the free list,
 f01022a8:	89 c2                	mov    %eax,%edx
 f01022aa:	81 e2 00 f0 ff ff    	and    $0xfffff000,%edx
 f01022b0:	a8 01                	test   $0x1,%al
 f01022b2:	0f 45 da             	cmovne %edx,%ebx
-}
+	// try to make sure it eventually causes trouble.
 f01022b5:	89 d8                	mov    %ebx,%eax
 f01022b7:	83 c4 04             	add    $0x4,%esp
 f01022ba:	5b                   	pop    %ebx
@@ -5625,107 +5625,107 @@ f01022e6:	83 c4 0c             	add    $0xc,%esp
 f01022e9:	c3                   	ret    
 
 f01022ea <check_page_free_list>:
+}
+
 //
-// Check that the pages on the page_free_list are reasonable.
+// Unmaps the physical page at virtual address 'va'.
+// If there is no physical page at that address, silently does nothing.
 //
-static void
-check_page_free_list(bool only_low_memory)
-{
 f01022ea:	55                   	push   %ebp
 f01022eb:	57                   	push   %edi
 f01022ec:	56                   	push   %esi
 f01022ed:	53                   	push   %ebx
 f01022ee:	83 ec 1c             	sub    $0x1c,%esp
-	struct PageInfo *pp;
-	unsigned pdx_limit = only_low_memory ? 1 : NPDENTRIES;
-	int nfree_basemem = 0, nfree_extmem = 0;
-	char *first_free_page;
-
-	if (!page_free_list)
+// Details:
+//   - The ref count on the physical page should decrement.
+//   - The physical page should be freed if the refcount reaches 0.
+//   - The pg table entry corresponding to 'va' should be set to 0.
+//     (if such a PTE exists)
+//   - The TLB must be invalidated if you remove an entry from
 f01022f1:	8b 1d 1c 4e 11 f0    	mov    0xf0114e1c,%ebx
 //
-static void
-check_page_free_list(bool only_low_memory)
-{
-	struct PageInfo *pp;
-	unsigned pdx_limit = only_low_memory ? 1 : NPDENTRIES;
+// Unmaps the physical page at virtual address 'va'.
+// If there is no physical page at that address, silently does nothing.
+//
+// Details:
+//   - The ref count on the physical page should decrement.
 f01022f7:	3c 01                	cmp    $0x1,%al
 f01022f9:	19 f6                	sbb    %esi,%esi
 f01022fb:	81 e6 ff 03 00 00    	and    $0x3ff,%esi
 f0102301:	46                   	inc    %esi
-	int nfree_basemem = 0, nfree_extmem = 0;
-	char *first_free_page;
-
-	if (!page_free_list)
+//   - The physical page should be freed if the refcount reaches 0.
+//   - The pg table entry corresponding to 'va' should be set to 0.
+//     (if such a PTE exists)
+//   - The TLB must be invalidated if you remove an entry from
 f0102302:	85 db                	test   %ebx,%ebx
 f0102304:	75 10                	jne    f0102316 <check_page_free_list+0x2c>
-		panic("'page_free_list' is a null pointer!");
+//     the page table.
 f0102306:	51                   	push   %ecx
 f0102307:	68 fa 5a 10 f0       	push   $0xf0105afa
 f010230c:	68 75 02 00 00       	push   $0x275
 f0102311:	e9 b6 00 00 00       	jmp    f01023cc <check_page_free_list+0xe2>
-
-	if (only_low_memory) {
+//
+// Hint: The TA solution is implemented using page_lookup,
 f0102316:	84 c0                	test   %al,%al
 f0102318:	74 4b                	je     f0102365 <check_page_free_list+0x7b>
-		// Move pages with lower addresses first in the free
-		// list, since entry_pgdir does not map all pages.
-		struct PageInfo *pp1, *pp2;
-		struct PageInfo **tp[2] = { &pp1, &pp2 };
+// 	tlb_invalidate, and page_decref.
+//
+void
+page_remove(pde_t *pgdir, void *va)
 f010231a:	8d 44 24 0c          	lea    0xc(%esp),%eax
 f010231e:	89 04 24             	mov    %eax,(%esp)
 f0102321:	8d 44 24 08          	lea    0x8(%esp),%eax
 f0102325:	89 44 24 04          	mov    %eax,0x4(%esp)
-		for (pp = page_free_list; pp; pp = pp->pp_link) {
-			int pagetype = PDX(page2pa(pp)) >= pdx_limit;
+{
+    /* TODO */
 f0102329:	89 d8                	mov    %ebx,%eax
 f010232b:	e8 b8 fe ff ff       	call   f01021e8 <page2pa>
 f0102330:	c1 e8 16             	shr    $0x16,%eax
 f0102333:	39 f0                	cmp    %esi,%eax
 f0102335:	0f 93 c0             	setae  %al
 f0102338:	0f b6 c0             	movzbl %al,%eax
-			*tp[pagetype] = pp;
+	pte_t *pte;
 f010233b:	8b 14 84             	mov    (%esp,%eax,4),%edx
 f010233e:	89 1a                	mov    %ebx,(%edx)
-			tp[pagetype] = &pp->pp_link;
+        pte_t **pte_store = &pte;
 f0102340:	89 1c 84             	mov    %ebx,(%esp,%eax,4)
-	if (only_low_memory) {
-		// Move pages with lower addresses first in the free
-		// list, since entry_pgdir does not map all pages.
-		struct PageInfo *pp1, *pp2;
-		struct PageInfo **tp[2] = { &pp1, &pp2 };
-		for (pp = page_free_list; pp; pp = pp->pp_link) {
+// Hint: The TA solution is implemented using page_lookup,
+// 	tlb_invalidate, and page_decref.
+//
+void
+page_remove(pde_t *pgdir, void *va)
+{
 f0102343:	8b 1b                	mov    (%ebx),%ebx
 f0102345:	85 db                	test   %ebx,%ebx
 f0102347:	75 e0                	jne    f0102329 <check_page_free_list+0x3f>
-			int pagetype = PDX(page2pa(pp)) >= pdx_limit;
-			*tp[pagetype] = pp;
-			tp[pagetype] = &pp->pp_link;
-		}
-		*tp[1] = 0;
+    /* TODO */
+	pte_t *pte;
+        pte_t **pte_store = &pte;
+        struct PageInfo *pp = page_lookup(pgdir, va, pte_store);
+        if(!pp)
 f0102349:	8b 44 24 04          	mov    0x4(%esp),%eax
 f010234d:	c7 00 00 00 00 00    	movl   $0x0,(%eax)
-		*tp[0] = pp2;
+                return;
 f0102353:	8b 04 24             	mov    (%esp),%eax
 f0102356:	8b 54 24 08          	mov    0x8(%esp),%edx
 f010235a:	89 10                	mov    %edx,(%eax)
-		page_free_list = pp1;
+ 
 f010235c:	8b 44 24 0c          	mov    0xc(%esp),%eax
 f0102360:	a3 1c 4e 11 f0       	mov    %eax,0xf0114e1c
-	}
-
-	// if there's a page that shouldn't be on the free list,
-	// try to make sure it eventually causes trouble.
-	for (pp = page_free_list; pp; pp = pp->pp_link)
+        page_decref(pp);
+ 
+        **pte_store = 0;
+        tlb_invalidate(pgdir, va);
+}
 f0102365:	8b 1d 1c 4e 11 f0    	mov    0xf0114e1c,%ebx
 f010236b:	eb 2b                	jmp    f0102398 <check_page_free_list+0xae>
-		if (PDX(page2pa(pp)) < pdx_limit)
+
 f010236d:	89 d8                	mov    %ebx,%eax
 f010236f:	e8 74 fe ff ff       	call   f01021e8 <page2pa>
 f0102374:	c1 e8 16             	shr    $0x16,%eax
 f0102377:	39 f0                	cmp    %esi,%eax
 f0102379:	73 1b                	jae    f0102396 <check_page_free_list+0xac>
-			memset(page2kva(pp), 0x97, 128);
+void
 f010237b:	89 d8                	mov    %ebx,%eax
 f010237d:	e8 d7 fe ff ff       	call   f0102259 <page2kva>
 f0102382:	52                   	push   %edx
@@ -5734,59 +5734,59 @@ f0102388:	68 97 00 00 00       	push   $0x97
 f010238d:	50                   	push   %eax
 f010238e:	e8 3c de ff ff       	call   f01001cf <memset>
 f0102393:	83 c4 10             	add    $0x10,%esp
-		page_free_list = pp1;
-	}
-
-	// if there's a page that shouldn't be on the free list,
-	// try to make sure it eventually causes trouble.
-	for (pp = page_free_list; pp; pp = pp->pp_link)
+ 
+        page_decref(pp);
+ 
+        **pte_store = 0;
+        tlb_invalidate(pgdir, va);
+}
 f0102396:	8b 1b                	mov    (%ebx),%ebx
 f0102398:	85 db                	test   %ebx,%ebx
 f010239a:	75 d1                	jne    f010236d <check_page_free_list+0x83>
-		if (PDX(page2pa(pp)) < pdx_limit)
-			memset(page2kva(pp), 0x97, 128);
 
-	first_free_page = (char *) boot_alloc(0);
+void
+ptable_remove(pde_t *pgdir)
+{
 f010239c:	31 c0                	xor    %eax,%eax
-static void
-check_page_free_list(bool only_low_memory)
-{
-	struct PageInfo *pp;
-	unsigned pdx_limit = only_low_memory ? 1 : NPDENTRIES;
-	int nfree_basemem = 0, nfree_extmem = 0;
+// Unmaps the physical page at virtual address 'va'.
+// If there is no physical page at that address, silently does nothing.
+//
+// Details:
+//   - The ref count on the physical page should decrement.
+//   - The physical page should be freed if the refcount reaches 0.
 f010239e:	31 f6                	xor    %esi,%esi
-	// try to make sure it eventually causes trouble.
-	for (pp = page_free_list; pp; pp = pp->pp_link)
-		if (PDX(page2pa(pp)) < pdx_limit)
-			memset(page2kva(pp), 0x97, 128);
+        tlb_invalidate(pgdir, va);
+}
 
-	first_free_page = (char *) boot_alloc(0);
-f01023a0:	e8 50 fe ff ff       	call   f01021f5 <boot_alloc>
-static void
-check_page_free_list(bool only_low_memory)
+void
+ptable_remove(pde_t *pgdir)
 {
-	struct PageInfo *pp;
-	unsigned pdx_limit = only_low_memory ? 1 : NPDENTRIES;
-	int nfree_basemem = 0, nfree_extmem = 0;
+f01023a0:	e8 50 fe ff ff       	call   f01021f5 <boot_alloc>
+// Unmaps the physical page at virtual address 'va'.
+// If there is no physical page at that address, silently does nothing.
+//
+// Details:
+//   - The ref count on the physical page should decrement.
+//   - The physical page should be freed if the refcount reaches 0.
 f01023a5:	31 ff                	xor    %edi,%edi
-	for (pp = page_free_list; pp; pp = pp->pp_link)
-		if (PDX(page2pa(pp)) < pdx_limit)
-			memset(page2kva(pp), 0x97, 128);
+}
 
-	first_free_page = (char *) boot_alloc(0);
-	for (pp = page_free_list; pp; pp = pp->pp_link) {
+void
+ptable_remove(pde_t *pgdir)
+{
+  int i;
 f01023a7:	8b 1d 1c 4e 11 f0    	mov    0xf0114e1c,%ebx
-	// try to make sure it eventually causes trouble.
-	for (pp = page_free_list; pp; pp = pp->pp_link)
-		if (PDX(page2pa(pp)) < pdx_limit)
-			memset(page2kva(pp), 0x97, 128);
+        tlb_invalidate(pgdir, va);
+}
 
-	first_free_page = (char *) boot_alloc(0);
+void
+ptable_remove(pde_t *pgdir)
+{
 f01023ad:	89 c5                	mov    %eax,%ebp
-	for (pp = page_free_list; pp; pp = pp->pp_link) {
+  int i;
 f01023af:	e9 ff 00 00 00       	jmp    f01024b3 <check_page_free_list+0x1c9>
-		// check that we didn't corrupt the free list itself
-		assert(pp >= pages);
+  /* Free Page Tables */
+  for (i = 0; i < 1024; i++)
 f01023b4:	a1 d0 76 11 f0       	mov    0xf01176d0,%eax
 f01023b9:	39 c3                	cmp    %eax,%ebx
 f01023bb:	73 19                	jae    f01023d6 <check_page_free_list+0xec>
@@ -5795,7 +5795,7 @@ f01023c2:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01023c7:	68 8f 02 00 00       	push   $0x28f
 f01023cc:	68 ce 5a 10 f0       	push   $0xf0105ace
 f01023d1:	e8 12 18 00 00       	call   f0103be8 <_panic>
-		assert(pp < pages + npages);
+  {
 f01023d6:	8b 15 c4 76 11 f0    	mov    0xf01176c4,%edx
 f01023dc:	8d 14 d0             	lea    (%eax,%edx,8),%edx
 f01023df:	39 d3                	cmp    %edx,%ebx
@@ -5804,7 +5804,7 @@ f01023e3:	68 3f 5b 10 f0       	push   $0xf0105b3f
 f01023e8:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01023ed:	68 90 02 00 00       	push   $0x290
 f01023f2:	eb d8                	jmp    f01023cc <check_page_free_list+0xe2>
-		assert(((char *) pp - (char *) pages) % sizeof(*pp) == 0);
+    if ( (pgdir[i] & PTE_P) ) {
 f01023f4:	89 da                	mov    %ebx,%edx
 f01023f6:	29 c2                	sub    %eax,%edx
 f01023f8:	89 d0                	mov    %edx,%eax
@@ -5814,9 +5814,9 @@ f01023fe:	68 53 5b 10 f0       	push   $0xf0105b53
 f0102403:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102408:	68 91 02 00 00       	push   $0x291
 f010240d:	eb bd                	jmp    f01023cc <check_page_free_list+0xe2>
-
-		// check a few pages that shouldn't be on the free list
-		assert(page2pa(pp) != 0);
+	//cprintf("dd %d\n" , pa2page(PTE_ADDR(pgdir[i]))->num);
+      	page_decref(pa2page(PTE_ADDR(pgdir[i])));
+	}
 f010240f:	89 d8                	mov    %ebx,%eax
 f0102411:	e8 d2 fd ff ff       	call   f01021e8 <page2pa>
 f0102416:	85 c0                	test   %eax,%eax
@@ -5825,28 +5825,28 @@ f010241a:	68 85 5b 10 f0       	push   $0xf0105b85
 f010241f:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102424:	68 94 02 00 00       	push   $0x294
 f0102429:	eb a1                	jmp    f01023cc <check_page_free_list+0xe2>
-		assert(page2pa(pp) != IOPHYSMEM);
+  }
 f010242b:	3d 00 00 0a 00       	cmp    $0xa0000,%eax
 f0102430:	75 11                	jne    f0102443 <check_page_free_list+0x159>
 f0102432:	68 96 5b 10 f0       	push   $0xf0105b96
 f0102437:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010243c:	68 95 02 00 00       	push   $0x295
 f0102441:	eb 89                	jmp    f01023cc <check_page_free_list+0xe2>
-		assert(page2pa(pp) != EXTPHYSMEM - PGSIZE);
+}
 f0102443:	3d 00 f0 0f 00       	cmp    $0xff000,%eax
 f0102448:	75 14                	jne    f010245e <check_page_free_list+0x174>
 f010244a:	68 af 5b 10 f0       	push   $0xf0105baf
 f010244f:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102454:	68 96 02 00 00       	push   $0x296
 f0102459:	e9 6e ff ff ff       	jmp    f01023cc <check_page_free_list+0xe2>
-		assert(page2pa(pp) != EXTPHYSMEM);
+
 f010245e:	3d 00 00 10 00       	cmp    $0x100000,%eax
 f0102463:	75 14                	jne    f0102479 <check_page_free_list+0x18f>
 f0102465:	68 d2 5b 10 f0       	push   $0xf0105bd2
 f010246a:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010246f:	68 97 02 00 00       	push   $0x297
 f0102474:	e9 53 ff ff ff       	jmp    f01023cc <check_page_free_list+0xe2>
-		assert(page2pa(pp) < EXTPHYSMEM || (char *) page2kva(pp) >= first_free_page);
+
 f0102479:	3d ff ff 0f 00       	cmp    $0xfffff,%eax
 f010247e:	76 1f                	jbe    f010249f <check_page_free_list+0x1b5>
 f0102480:	89 d8                	mov    %ebx,%eax
@@ -5857,51 +5857,51 @@ f010248b:	68 ec 5b 10 f0       	push   $0xf0105bec
 f0102490:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102495:	68 98 02 00 00       	push   $0x298
 f010249a:	e9 2d ff ff ff       	jmp    f01023cc <check_page_free_list+0xe2>
-
-		if (page2pa(pp) < EXTPHYSMEM)
+void
+pgdir_remove(pde_t *pgdir)
 f010249f:	89 d8                	mov    %ebx,%eax
 f01024a1:	e8 42 fd ff ff       	call   f01021e8 <page2pa>
 f01024a6:	3d ff ff 0f 00       	cmp    $0xfffff,%eax
 f01024ab:	77 03                	ja     f01024b0 <check_page_free_list+0x1c6>
-			++nfree_basemem;
+{
 f01024ad:	47                   	inc    %edi
 f01024ae:	eb 01                	jmp    f01024b1 <check_page_free_list+0x1c7>
-		else
-			++nfree_extmem;
+	pa2page(PADDR(pgdir))->pp_ref -= 1;
+	//cprintf("DD %d PP\n" , pa2page(PADDR(pgdir))->num);
 f01024b0:	46                   	inc    %esi
-	for (pp = page_free_list; pp; pp = pp->pp_link)
-		if (PDX(page2pa(pp)) < pdx_limit)
-			memset(page2kva(pp), 0x97, 128);
+}
 
-	first_free_page = (char *) boot_alloc(0);
-	for (pp = page_free_list; pp; pp = pp->pp_link) {
+void
+ptable_remove(pde_t *pgdir)
+{
+  int i;
 f01024b1:	8b 1b                	mov    (%ebx),%ebx
 f01024b3:	85 db                	test   %ebx,%ebx
 f01024b5:	0f 85 f9 fe ff ff    	jne    f01023b4 <check_page_free_list+0xca>
-			++nfree_basemem;
-		else
-			++nfree_extmem;
-	}
+{
+	pa2page(PADDR(pgdir))->pp_ref -= 1;
+	//cprintf("DD %d PP\n" , pa2page(PADDR(pgdir))->num);
+  	page_free(pa2page(PADDR(pgdir)));
+}
 
-	assert(nfree_basemem > 0);
 f01024bb:	85 ff                	test   %edi,%edi
 f01024bd:	75 14                	jne    f01024d3 <check_page_free_list+0x1e9>
 f01024bf:	68 31 5c 10 f0       	push   $0xf0105c31
 f01024c4:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01024c9:	68 a0 02 00 00       	push   $0x2a0
 f01024ce:	e9 f9 fe ff ff       	jmp    f01023cc <check_page_free_list+0xe2>
-	assert(nfree_extmem > 0);
+//
 f01024d3:	85 f6                	test   %esi,%esi
 f01024d5:	75 14                	jne    f01024eb <check_page_free_list+0x201>
 f01024d7:	68 43 5c 10 f0       	push   $0xf0105c43
 f01024dc:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01024e1:	68 a1 02 00 00       	push   $0x2a1
 f01024e6:	e9 e1 fe ff ff       	jmp    f01023cc <check_page_free_list+0xe2>
-	printk("check_page_free_list() succeeded!\n");
+// Invalidate a TLB entry, but only if the page tables being
 f01024eb:	83 ec 0c             	sub    $0xc,%esp
 f01024ee:	68 54 5c 10 f0       	push   $0xf0105c54
 f01024f3:	e8 d8 fc ff ff       	call   f01021d0 <printk>
-}
+// edited are the ones currently in use by the processor.
 f01024f8:	83 c4 2c             	add    $0x2c,%esp
 f01024fb:	5b                   	pop    %ebx
 f01024fc:	5e                   	pop    %esi
@@ -5910,35 +5910,35 @@ f01024fe:	5d                   	pop    %ebp
 f01024ff:	c3                   	ret    
 
 f0102500 <nvram_read>:
+// --------------------------------------------------------------
 // Detect machine's physical memory setup.
 // --------------------------------------------------------------
-
-static int
-nvram_read(int r)
-{
+// fonger
+//void trace( PageInfo *a );
+static int mytrace( struct PageInfo *a )
 f0102500:	56                   	push   %esi
 f0102501:	53                   	push   %ebx
 f0102502:	89 c3                	mov    %eax,%ebx
 f0102504:	83 ec 10             	sub    $0x10,%esp
-  return mc146818_read(r) | (mc146818_read(r + 1) << 8);
+{
 f0102507:	43                   	inc    %ebx
 f0102508:	50                   	push   %eax
 f0102509:	e8 5e 17 00 00       	call   f0103c6c <mc146818_read>
 f010250e:	89 1c 24             	mov    %ebx,(%esp)
 f0102511:	89 c6                	mov    %eax,%esi
 f0102513:	e8 54 17 00 00       	call   f0103c6c <mc146818_read>
-}
+        int c = 0;
 f0102518:	83 c4 14             	add    $0x14,%esp
 f010251b:	5b                   	pop    %ebx
+// Detect machine's physical memory setup.
 // --------------------------------------------------------------
-
-static int
-nvram_read(int r)
+// fonger
+//void trace( PageInfo *a );
+static int mytrace( struct PageInfo *a )
 {
-  return mc146818_read(r) | (mc146818_read(r + 1) << 8);
 f010251c:	c1 e0 08             	shl    $0x8,%eax
 f010251f:	09 f0                	or     %esi,%eax
-}
+        int c = 0;
 f0102521:	5e                   	pop    %esi
 f0102522:	c3                   	ret    
 
@@ -5967,68 +5967,68 @@ f0102545:	83 c4 0c             	add    $0xc,%esp
 f0102548:	c3                   	ret    
 
 f0102549 <page_init>:
-// allocator functions below to allocate and deallocate physical
-// memory via the page_free_list.
-//
-void
-page_init(void)
-{
+	lcr3(PADDR(kern_pgdir));
+	check_page_free_list(0);
+
+	// entry.S set the really important flags in cr0 (including enabling
+	// paging).  Here we configure the rest of the flags that we care about.
+	cr0 = rcr0();
 f0102549:	56                   	push   %esi
-	// NB: DO NOT actually touch the physical memory corresponding to
-	// free pages!
-	
-    /* TODO */
-    size_t i;
-	for (i = 0; i < npages; i++) {
+	//
+	// For CPU i, use the physical memory that 'percpu_kstacks[i]' refers
+	// to as its kernel stack. CPU i's kernel stack grows down from virtual
+	// address kstacktop_i = KSTACKTOP - i * (KSTKSIZE + KSTKGAP), and is
+	// divided into two pieces, just like the single stack you set up in
+	// mem_init:
 f010254a:	31 f6                	xor    %esi,%esi
-// allocator functions below to allocate and deallocate physical
-// memory via the page_free_list.
-//
-void
-page_init(void)
-{
+	lcr3(PADDR(kern_pgdir));
+	check_page_free_list(0);
+
+	// entry.S set the really important flags in cr0 (including enabling
+	// paging).  Here we configure the rest of the flags that we care about.
+	cr0 = rcr0();
 f010254c:	53                   	push   %ebx
-	// NB: DO NOT actually touch the physical memory corresponding to
-	// free pages!
-	
-    /* TODO */
-    size_t i;
-	for (i = 0; i < npages; i++) {
+	//
+	// For CPU i, use the physical memory that 'percpu_kstacks[i]' refers
+	// to as its kernel stack. CPU i's kernel stack grows down from virtual
+	// address kstacktop_i = KSTACKTOP - i * (KSTKSIZE + KSTKGAP), and is
+	// divided into two pieces, just like the single stack you set up in
+	// mem_init:
 f010254d:	31 db                	xor    %ebx,%ebx
 f010254f:	e9 82 00 00 00       	jmp    f01025d6 <page_init+0x8d>
-        if(i ==0)
+	//     * [kstacktop_i - KSTKSIZE, kstacktop_i)
 f0102554:	85 db                	test   %ebx,%ebx
 f0102556:	75 11                	jne    f0102569 <page_init+0x20>
-        {
-            pages[i].pp_ref = 1; //from the hint tell us the 0 page is taken
+	//          -- backed by physical memory
+	//     * [kstacktop_i - (KSTKSIZE + KSTKGAP), kstacktop_i - KSTKSIZE)
 f0102558:	a1 d0 76 11 f0       	mov    0xf01176d0,%eax
 f010255d:	66 c7 40 04 01 00    	movw   $0x1,0x4(%eax)
-            pages[i].pp_link=NULL;
+	//          -- not backed; so if the kernel overflows its stack,
 f0102563:	c7 00 00 00 00 00    	movl   $0x0,(%eax)
-        }
-        if(i<npages_basemem)
+	//             it will fault rather than overwrite another CPU's stack.
+	//             Known as a "guard page".
 f0102569:	3b 1d 20 4e 11 f0    	cmp    0xf0114e20,%ebx
 f010256f:	73 1a                	jae    f010258b <page_init+0x42>
-        {
-            pages[i].pp_ref = 0;//free
+	//     Permissions: kernel RW, user NONE
+	// TODO:
 f0102571:	a1 d0 76 11 f0       	mov    0xf01176d0,%eax
-            pages[i].pp_link = page_free_list;
+	// Lab6: Your code here:
 f0102576:	8b 15 1c 4e 11 f0    	mov    0xf0114e1c,%edx
-            pages[i].pp_ref = 1; //from the hint tell us the 0 page is taken
-            pages[i].pp_link=NULL;
-        }
-        if(i<npages_basemem)
-        {
-            pages[i].pp_ref = 0;//free
+	//     * [kstacktop_i - (KSTKSIZE + KSTKGAP), kstacktop_i - KSTKSIZE)
+	//          -- not backed; so if the kernel overflows its stack,
+	//             it will fault rather than overwrite another CPU's stack.
+	//             Known as a "guard page".
+	//     Permissions: kernel RW, user NONE
+	// TODO:
 f010257c:	01 f0                	add    %esi,%eax
 f010257e:	66 c7 40 04 00 00    	movw   $0x0,0x4(%eax)
-            pages[i].pp_link = page_free_list;
+	// Lab6: Your code here:
 f0102584:	89 10                	mov    %edx,(%eax)
-            page_free_list = &pages[i];
+	int i;
 f0102586:	a3 1c 4e 11 f0       	mov    %eax,0xf0114e1c
-        }
-        //(ext-io)/pg is number of io , the other is number of part of ext(kernel)
-        if(i < ((EXTPHYSMEM-IOPHYSMEM)/PGSIZE) || i < ((uint32_t)boot_alloc(0)- KERNBASE)/PGSIZE)
+	//uintptr_t kstacktop_i;
+
+	for(i=0;i<NCPU;i++)
 f010258b:	83 fb 5f             	cmp    $0x5f,%ebx
 f010258e:	76 13                	jbe    f01025a3 <page_init+0x5a>
 f0102590:	31 c0                	xor    %eax,%eax
@@ -6037,99 +6037,99 @@ f0102597:	05 00 00 00 10       	add    $0x10000000,%eax
 f010259c:	c1 e8 0c             	shr    $0xc,%eax
 f010259f:	39 c3                	cmp    %eax,%ebx
 f01025a1:	73 15                	jae    f01025b8 <page_init+0x6f>
-        {
-            pages[i].pp_ref = 1; //from the hint tell us the 0 page is taken
+	{
+		boot_map_region(kern_pgdir, KSTACKTOP-i*(KSTKSIZE+KSTKGAP)-KSTKSIZE, ROUNDUP(KSTKSIZE,PGSIZE), PADDR(percpu_kstacks[i]), PTE_W | PTE_P);
 f01025a3:	a1 d0 76 11 f0       	mov    0xf01176d0,%eax
 f01025a8:	01 f0                	add    %esi,%eax
 f01025aa:	66 c7 40 04 01 00    	movw   $0x1,0x4(%eax)
-            pages[i].pp_link=NULL;
+	}
 f01025b0:	c7 00 00 00 00 00    	movl   $0x0,(%eax)
 f01025b6:	eb 1a                	jmp    f01025d2 <page_init+0x89>
-        }
-        else
-        {
-            pages[i].pp_ref = 0;
+}
+
+// --------------------------------------------------------------
+// Tracking of physical pages.
 f01025b8:	a1 d0 76 11 f0       	mov    0xf01176d0,%eax
-            pages[i].pp_link = page_free_list;
+// The 'pages' array has one 'struct PageInfo' entry per physical page.
 f01025bd:	8b 15 1c 4e 11 f0    	mov    0xf0114e1c,%edx
-            pages[i].pp_ref = 1; //from the hint tell us the 0 page is taken
-            pages[i].pp_link=NULL;
-        }
-        else
-        {
-            pages[i].pp_ref = 0;
+		boot_map_region(kern_pgdir, KSTACKTOP-i*(KSTKSIZE+KSTKGAP)-KSTKSIZE, ROUNDUP(KSTKSIZE,PGSIZE), PADDR(percpu_kstacks[i]), PTE_W | PTE_P);
+	}
+}
+
+// --------------------------------------------------------------
+// Tracking of physical pages.
 f01025c3:	01 f0                	add    %esi,%eax
 f01025c5:	66 c7 40 04 00 00    	movw   $0x0,0x4(%eax)
-            pages[i].pp_link = page_free_list;
+// The 'pages' array has one 'struct PageInfo' entry per physical page.
 f01025cb:	89 10                	mov    %edx,(%eax)
-            page_free_list = &pages[i];
+// Pages are reference counted, and free pages are kept on a linked list.
 f01025cd:	a3 1c 4e 11 f0       	mov    %eax,0xf0114e1c
-	// NB: DO NOT actually touch the physical memory corresponding to
-	// free pages!
-	
-    /* TODO */
-    size_t i;
-	for (i = 0; i < npages; i++) {
+	//
+	// For CPU i, use the physical memory that 'percpu_kstacks[i]' refers
+	// to as its kernel stack. CPU i's kernel stack grows down from virtual
+	// address kstacktop_i = KSTACKTOP - i * (KSTKSIZE + KSTKGAP), and is
+	// divided into two pieces, just like the single stack you set up in
+	// mem_init:
 f01025d2:	43                   	inc    %ebx
 f01025d3:	83 c6 08             	add    $0x8,%esi
 f01025d6:	3b 1d c4 76 11 f0    	cmp    0xf01176c4,%ebx
 f01025dc:	0f 82 72 ff ff ff    	jb     f0102554 <page_init+0xb>
-            pages[i].pp_ref = 0;
-            pages[i].pp_link = page_free_list;
-            page_free_list = &pages[i];
-        }
-    }
-}
+// Tracking of physical pages.
+// The 'pages' array has one 'struct PageInfo' entry per physical page.
+// Pages are reference counted, and free pages are kept on a linked list.
+// --------------------------------------------------------------
+
+//
 f01025e2:	5b                   	pop    %ebx
 f01025e3:	5e                   	pop    %esi
 f01025e4:	c3                   	ret    
 
 f01025e5 <page_alloc>:
-// Returns NULL if out of free memory.
-//
-// Hint: use page2kva and memset
-struct PageInfo *
-page_alloc(int alloc_flags)
-{
+	//  1) Mark physical page 0 as in use.
+	//     This way we preserve the real-mode IDT and BIOS structures
+	//     in case we ever need them.  (Currently we don't, but...)
+	//  2) The rest of base memory, [PGSIZE, npages_basemem * PGSIZE)
+	//     is free.
+	//  3) Then comes the IO hole [IOPHYSMEM, EXTPHYSMEM), which must
 f01025e5:	53                   	push   %ebx
 f01025e6:	83 ec 08             	sub    $0x8,%esp
-    /* TODO */
-    if(!page_free_list)
+	//     never be allocated.
+	//  4) Then extended memory [EXTPHYSMEM, ...).
 f01025e9:	8b 1d 1c 4e 11 f0    	mov    0xf0114e1c,%ebx
 f01025ef:	85 db                	test   %ebx,%ebx
 f01025f1:	74 2c                	je     f010261f <page_alloc+0x3a>
-        return NULL;
-    struct PageInfo *newpage;
-    newpage = page_free_list;
-    page_free_list = newpage->pp_link;
+	//     Some of it is in use, some is free. Where is the kernel
+	//     in physical memory?  Which pages are already in use for
+	//     page tables and other data structures?
+	//
 f01025f3:	8b 03                	mov    (%ebx),%eax
-    newpage->pp_link = NULL;
-    //get the page and let the link to next page
-
-
-    if(alloc_flags & ALLOC_ZERO)
+	// Change the code to reflect this.
+	// NB: DO NOT actually touch the physical memory corresponding to
+	// free pages!
+	
+	/* Lab6  TODO:
 f01025f5:	f6 44 24 10 01       	testb  $0x1,0x10(%esp)
-    if(!page_free_list)
-        return NULL;
-    struct PageInfo *newpage;
-    newpage = page_free_list;
-    page_free_list = newpage->pp_link;
-    newpage->pp_link = NULL;
+	//  4) Then extended memory [EXTPHYSMEM, ...).
+	//     Some of it is in use, some is free. Where is the kernel
+	//     in physical memory?  Which pages are already in use for
+	//     page tables and other data structures?
+	//
+	// Change the code to reflect this.
 f01025fa:	c7 03 00 00 00 00    	movl   $0x0,(%ebx)
-    /* TODO */
-    if(!page_free_list)
-        return NULL;
-    struct PageInfo *newpage;
-    newpage = page_free_list;
-    page_free_list = newpage->pp_link;
+	//     never be allocated.
+	//  4) Then extended memory [EXTPHYSMEM, ...).
+	//     Some of it is in use, some is free. Where is the kernel
+	//     in physical memory?  Which pages are already in use for
+	//     page tables and other data structures?
+	//
 f0102600:	a3 1c 4e 11 f0       	mov    %eax,0xf0114e1c
-    newpage->pp_link = NULL;
-    //get the page and let the link to next page
-
-
-    if(alloc_flags & ALLOC_ZERO)
+	// Change the code to reflect this.
+	// NB: DO NOT actually touch the physical memory corresponding to
+	// free pages!
+	
+	/* Lab6  TODO:
 f0102605:	74 18                	je     f010261f <page_alloc+0x3a>
-         memset(page2kva(newpage),'\0',PGSIZE);
+	 * 
 f0102607:	89 d8                	mov    %ebx,%eax
 f0102609:	e8 4b fc ff ff       	call   f0102259 <page2kva>
 f010260e:	52                   	push   %edx
@@ -6138,180 +6138,180 @@ f0102614:	6a 00                	push   $0x0
 f0102616:	50                   	push   %eax
 f0102617:	e8 b3 db ff ff       	call   f01001cf <memset>
 f010261c:	83 c4 10             	add    $0x10,%esp
-         return newpage;
-}
+	 * modify your implementation to avoid adding the page at
+	 * MPENTRY_PADDR to the free list, so that we can safely
 f010261f:	89 d8                	mov    %ebx,%eax
 f0102621:	83 c4 08             	add    $0x8,%esp
 f0102624:	5b                   	pop    %ebx
 f0102625:	c3                   	ret    
 
 f0102626 <page_free>:
-// Return a page to the free list.
-// (This function should only be called when pp->pp_ref reaches 0.)
-//
-void
-page_free(struct PageInfo *pp)
-{
+	 */
+    	size_t i;
+	for (i = 0; i < npages; i++) {
+		if(i==0 || i==PGNUM(MPENTRY_PADDR))
+		{
+			pages[i].pp_ref=1;
 f0102626:	83 ec 0c             	sub    $0xc,%esp
 f0102629:	8b 44 24 10          	mov    0x10(%esp),%eax
-	// Fill this function in
-	// Hint: You may want to panic if pp->pp_ref is nonzero or
-	// pp->pp_link is not NULL.
-    /* TODO */
-    if(pp->pp_link != NULL || pp->pp_ref != 0)
+			pages[i].pp_link = NULL;	
+		}
+		else if( ( i < npages_basemem ) )
+		{
+       	 		pages[i].pp_ref = 0;
 f010262d:	83 38 00             	cmpl   $0x0,(%eax)
 f0102630:	75 07                	jne    f0102639 <page_free+0x13>
 f0102632:	66 83 78 04 00       	cmpw   $0x0,0x4(%eax)
 f0102637:	74 15                	je     f010264e <page_free+0x28>
-    {
-        panic("the page can't return free");
+        		pages[i].pp_link = page_free_list;
+        		page_free_list = &pages[i];
 f0102639:	51                   	push   %ecx
 f010263a:	68 77 5c 10 f0       	push   $0xf0105c77
 f010263f:	68 51 01 00 00       	push   $0x151
 f0102644:	68 ce 5a 10 f0       	push   $0xf0105ace
 f0102649:	e8 9a 15 00 00       	call   f0103be8 <_panic>
-        return;
-    }   
-    pp->pp_link = page_free_list;
+		}
+		else if( ( i >= PGNUM(IOPHYSMEM) ) && ( i < PGNUM(EXTPHYSMEM) ) )
+		{
 f010264e:	8b 15 1c 4e 11 f0    	mov    0xf0114e1c,%edx
-    page_free_list = pp;
+			pages[i].pp_ref = 1;
 f0102654:	a3 1c 4e 11 f0       	mov    %eax,0xf0114e1c
-    if(pp->pp_link != NULL || pp->pp_ref != 0)
-    {
-        panic("the page can't return free");
-        return;
-    }   
-    pp->pp_link = page_free_list;
+       	 		pages[i].pp_ref = 0;
+        		pages[i].pp_link = page_free_list;
+        		page_free_list = &pages[i];
+		}
+		else if( ( i >= PGNUM(IOPHYSMEM) ) && ( i < PGNUM(EXTPHYSMEM) ) )
+		{
 f0102659:	89 10                	mov    %edx,(%eax)
-    page_free_list = pp;
-}
+			pages[i].pp_ref = 1;
+			pages[i].pp_link = NULL;
 f010265b:	83 c4 0c             	add    $0xc,%esp
 f010265e:	c3                   	ret    
 
 f010265f <page_decref>:
-// Decrement the reference count on a page,
-// freeing it if there are no more refs.
-//
-void
-page_decref(struct PageInfo* pp)
-{
+		{
+			pages[i].pp_ref = 1;
+			pages[i].pp_link = NULL;
+		}
+		else
+		{
 f010265f:	83 ec 0c             	sub    $0xc,%esp
 f0102662:	8b 44 24 10          	mov    0x10(%esp),%eax
-	if (--pp->pp_ref == 0)
+			pages[i].pp_ref = 0;
 f0102666:	8b 50 04             	mov    0x4(%eax),%edx
 f0102669:	4a                   	dec    %edx
 f010266a:	66 85 d2             	test   %dx,%dx
 f010266d:	66 89 50 04          	mov    %dx,0x4(%eax)
 f0102671:	75 08                	jne    f010267b <page_decref+0x1c>
-		page_free(pp);
-}
+			pages[i].pp_link = page_free_list;
+			page_free_list = &pages[i];
 f0102673:	83 c4 0c             	add    $0xc,%esp
-//
-void
-page_decref(struct PageInfo* pp)
-{
-	if (--pp->pp_ref == 0)
-		page_free(pp);
+			pages[i].pp_link = NULL;
+		}
+		else
+		{
+			pages[i].pp_ref = 0;
+			pages[i].pp_link = page_free_list;
 f0102676:	e9 ab ff ff ff       	jmp    f0102626 <page_free>
-}
+			page_free_list = &pages[i];
 f010267b:	83 c4 0c             	add    $0xc,%esp
 f010267e:	c3                   	ret    
 
 f010267f <pgdir_walk>:
-//
-//check a va which have pte?if has ,return it
-//if no we create
-pte_t *
-pgdir_walk(pde_t *pgdir, const void *va, int create)
-{
+ 
+         pp = page_free_list;
+ 
+         page_free_list = page_free_list->pp_link;
+	 pp->pp_link = NULL;
+ 
 f010267f:	57                   	push   %edi
 f0102680:	56                   	push   %esi
 f0102681:	53                   	push   %ebx
 f0102682:	8b 5c 24 14          	mov    0x14(%esp),%ebx
-	// Fill this function in
-    /* TODO */
-    int pagedir_index = PDX(va);
+         if (alloc_flags & ALLOC_ZERO)
+                 memset(page2kva(pp), '\0', PGSIZE);
+         return pp;
 f0102686:	89 de                	mov    %ebx,%esi
 f0102688:	c1 ee 16             	shr    $0x16,%esi
-    int pagetable_index = PTX(va);
-    //chech the page table entry which is in memory?
+}
 
-    if(!(pgdir[pagedir_index] & PTE_P)){//check the page table(the offset if padir) that can present(inc/mmu.h)
+//
+// Return a page to the free list.
 f010268b:	c1 e6 02             	shl    $0x2,%esi
 f010268e:	03 74 24 10          	add    0x10(%esp),%esi
 f0102692:	8b 3e                	mov    (%esi),%edi
 f0102694:	83 e7 01             	and    $0x1,%edi
 f0102697:	75 2a                	jne    f01026c3 <pgdir_walk+0x44>
-                return NULL;//return false
-            page->pp_ref++;
-            pgdir[pagedir_index] =( page2pa(page) | PTE_P | PTE_U | PTE_W); //present read/write user/kernel can use , all OR with page2pa
-        }
-        else 
-            return NULL;
+page_free(struct PageInfo *pp)
+{
+	// Fill this function in
+	// Hint: You may want to panic if pp->pp_ref is nonzero or
+	// pp->pp_link is not NULL.
+    /* TODO */
 f0102699:	31 d2                	xor    %edx,%edx
-    int pagedir_index = PDX(va);
-    int pagetable_index = PTX(va);
-    //chech the page table entry which is in memory?
+         return pp;
+}
 
-    if(!(pgdir[pagedir_index] & PTE_P)){//check the page table(the offset if padir) that can present(inc/mmu.h)
-        if(create){
+//
+// Return a page to the free list.
+// (This function should only be called when pp->pp_ref reaches 0.)
 f010269b:	83 7c 24 18 00       	cmpl   $0x0,0x18(%esp)
 f01026a0:	74 44                	je     f01026e6 <pgdir_walk+0x67>
-            struct PageInfo *page = page_alloc(ALLOC_ZERO);//a zero page
+//
 f01026a2:	83 ec 0c             	sub    $0xc,%esp
 f01026a5:	6a 01                	push   $0x1
 f01026a7:	e8 39 ff ff ff       	call   f01025e5 <page_alloc>
-            if(!page)
+void
 f01026ac:	83 c4 10             	add    $0x10,%esp
-                return NULL;//return false
+page_free(struct PageInfo *pp)
 f01026af:	89 fa                	mov    %edi,%edx
-    //chech the page table entry which is in memory?
 
-    if(!(pgdir[pagedir_index] & PTE_P)){//check the page table(the offset if padir) that can present(inc/mmu.h)
-        if(create){
-            struct PageInfo *page = page_alloc(ALLOC_ZERO);//a zero page
-            if(!page)
+//
+// Return a page to the free list.
+// (This function should only be called when pp->pp_ref reaches 0.)
+//
+void
 f01026b1:	85 c0                	test   %eax,%eax
 f01026b3:	74 31                	je     f01026e6 <pgdir_walk+0x67>
-                return NULL;//return false
-            page->pp_ref++;
+page_free(struct PageInfo *pp)
+{
 f01026b5:	66 ff 40 04          	incw   0x4(%eax)
-            pgdir[pagedir_index] =( page2pa(page) | PTE_P | PTE_U | PTE_W); //present read/write user/kernel can use , all OR with page2pa
+	// Fill this function in
 f01026b9:	e8 2a fb ff ff       	call   f01021e8 <page2pa>
 f01026be:	83 c8 07             	or     $0x7,%eax
 f01026c1:	89 06                	mov    %eax,(%esi)
-        }
-        else 
-            return NULL;
-    }
-    pte_t *result;
-    result = KADDR(PTE_ADDR(pgdir[pagedir_index]));//PTE_ADDR , the address of page table or dir,inc/mmu.h,KADDR is phy addr to kernel viruial addr , kernel/mem.h
+	// Hint: You may want to panic if pp->pp_ref is nonzero or
+	// pp->pp_link is not NULL.
+    /* TODO */
+	assert(pp->pp_ref==0);
+        pp->pp_link = page_free_list;
+        page_free_list = pp;
 f01026c3:	8b 0e                	mov    (%esi),%ecx
 f01026c5:	ba 92 01 00 00       	mov    $0x192,%edx
 f01026ca:	b8 ce 5a 10 f0       	mov    $0xf0105ace,%eax
-pgdir_walk(pde_t *pgdir, const void *va, int create)
-{
-	// Fill this function in
-    /* TODO */
-    int pagedir_index = PDX(va);
-    int pagetable_index = PTX(va);
+	 pp->pp_link = NULL;
+ 
+         if (alloc_flags & ALLOC_ZERO)
+                 memset(page2kva(pp), '\0', PGSIZE);
+         return pp;
+}
 f01026cf:	c1 eb 0a             	shr    $0xa,%ebx
-        else 
-            return NULL;
-    }
-    pte_t *result;
-    result = KADDR(PTE_ADDR(pgdir[pagedir_index]));//PTE_ADDR , the address of page table or dir,inc/mmu.h,KADDR is phy addr to kernel viruial addr , kernel/mem.h
-    return &result[pagetable_index];
+	// pp->pp_link is not NULL.
+    /* TODO */
+	assert(pp->pp_ref==0);
+        pp->pp_link = page_free_list;
+        page_free_list = pp;
+//	num_free_pages++;
 f01026d2:	81 e3 fc 0f 00 00    	and    $0xffc,%ebx
-        }
-        else 
-            return NULL;
-    }
-    pte_t *result;
-    result = KADDR(PTE_ADDR(pgdir[pagedir_index]));//PTE_ADDR , the address of page table or dir,inc/mmu.h,KADDR is phy addr to kernel viruial addr , kernel/mem.h
+	// Hint: You may want to panic if pp->pp_ref is nonzero or
+	// pp->pp_link is not NULL.
+    /* TODO */
+	assert(pp->pp_ref==0);
+        pp->pp_link = page_free_list;
+        page_free_list = pp;
 f01026d8:	81 e1 00 f0 ff ff    	and    $0xfffff000,%ecx
 f01026de:	e8 4d fb ff ff       	call   f0102230 <_kaddr>
-    return &result[pagetable_index];
+//	num_free_pages++;
 f01026e3:	8d 14 18             	lea    (%eax,%ebx,1),%edx
 }
 f01026e6:	89 d0                	mov    %edx,%eax
@@ -6321,95 +6321,95 @@ f01026ea:	5f                   	pop    %edi
 f01026eb:	c3                   	ret    
 
 f01026ec <boot_map_region>:
-// mapped pages.
-//
-// Hint: the TA solution uses pgdir_walk
-static void
-boot_map_region(pde_t *pgdir, uintptr_t va, size_t size, physaddr_t pa, int perm)//perm means permission
-{
+		page_free(pp);
+}
+
+// Given 'pgdir', a pointer to a page directory, pgdir_walk returns
+// a pointer to the page table entry (PTE) for linear address 'va'.
+// This requires walking the two-level page table structure.
 f01026ec:	55                   	push   %ebp
 f01026ed:	89 cd                	mov    %ecx,%ebp
 f01026ef:	57                   	push   %edi
-    /* TODO */
-    pte_t *pte;
-    int i;
-    for (i = 0; i < size/PGSIZE; i++)
-f01026f0:	31 ff                	xor    %edi,%edi
-// mapped pages.
 //
-// Hint: the TA solution uses pgdir_walk
-static void
-boot_map_region(pde_t *pgdir, uintptr_t va, size_t size, physaddr_t pa, int perm)//perm means permission
-{
+// The relevant page table page might not exist yet.
+// If this is true, and create == false, then pgdir_walk returns NULL.
+// Otherwise, pgdir_walk allocates a new page table page with page_alloc.
+f01026f0:	31 ff                	xor    %edi,%edi
+		page_free(pp);
+}
+
+// Given 'pgdir', a pointer to a page directory, pgdir_walk returns
+// a pointer to the page table entry (PTE) for linear address 'va'.
+// This requires walking the two-level page table structure.
 f01026f2:	56                   	push   %esi
 f01026f3:	89 d6                	mov    %edx,%esi
 f01026f5:	53                   	push   %ebx
 f01026f6:	89 c3                	mov    %eax,%ebx
 f01026f8:	83 ec 0c             	sub    $0xc,%esp
-    /* TODO */
-    pte_t *pte;
-    int i;
-    for (i = 0; i < size/PGSIZE; i++)
+//
+// The relevant page table page might not exist yet.
+// If this is true, and create == false, then pgdir_walk returns NULL.
+// Otherwise, pgdir_walk allocates a new page table page with page_alloc.
 f01026fb:	c1 ed 0c             	shr    $0xc,%ebp
-    {
-        pte = pgdir_walk(pgdir,(void*)va,1);//1 mean create 
-        *pte = (pa | perm | PTE_P);
+//    - If the allocation fails, pgdir_walk returns NULL.
+//    - Otherwise, the new page's reference count is incremented,
+//	the page is cleared,
 f01026fe:	83 4c 24 24 01       	orl    $0x1,0x24(%esp)
-boot_map_region(pde_t *pgdir, uintptr_t va, size_t size, physaddr_t pa, int perm)//perm means permission
-{
-    /* TODO */
-    pte_t *pte;
-    int i;
-    for (i = 0; i < size/PGSIZE; i++)
+// a pointer to the page table entry (PTE) for linear address 'va'.
+// This requires walking the two-level page table structure.
+//
+// The relevant page table page might not exist yet.
+// If this is true, and create == false, then pgdir_walk returns NULL.
+// Otherwise, pgdir_walk allocates a new page table page with page_alloc.
 f0102703:	eb 26                	jmp    f010272b <boot_map_region+0x3f>
-    {
-        pte = pgdir_walk(pgdir,(void*)va,1);//1 mean create 
+//    - If the allocation fails, pgdir_walk returns NULL.
+//    - Otherwise, the new page's reference count is incremented,
 f0102705:	50                   	push   %eax
-boot_map_region(pde_t *pgdir, uintptr_t va, size_t size, physaddr_t pa, int perm)//perm means permission
-{
-    /* TODO */
-    pte_t *pte;
-    int i;
-    for (i = 0; i < size/PGSIZE; i++)
+// a pointer to the page table entry (PTE) for linear address 'va'.
+// This requires walking the two-level page table structure.
+//
+// The relevant page table page might not exist yet.
+// If this is true, and create == false, then pgdir_walk returns NULL.
+// Otherwise, pgdir_walk allocates a new page table page with page_alloc.
 f0102706:	47                   	inc    %edi
-    {
-        pte = pgdir_walk(pgdir,(void*)va,1);//1 mean create 
+//    - If the allocation fails, pgdir_walk returns NULL.
+//    - Otherwise, the new page's reference count is incremented,
 f0102707:	6a 01                	push   $0x1
 f0102709:	56                   	push   %esi
-        *pte = (pa | perm | PTE_P);
-        pa += PGSIZE;
-        va += PGSIZE;
+//	the page is cleared,
+//	and pgdir_walk returns a pointer into the new page table page.
+//
 f010270a:	81 c6 00 10 00 00    	add    $0x1000,%esi
-    /* TODO */
-    pte_t *pte;
-    int i;
-    for (i = 0; i < size/PGSIZE; i++)
-    {
-        pte = pgdir_walk(pgdir,(void*)va,1);//1 mean create 
+//
+// The relevant page table page might not exist yet.
+// If this is true, and create == false, then pgdir_walk returns NULL.
+// Otherwise, pgdir_walk allocates a new page table page with page_alloc.
+//    - If the allocation fails, pgdir_walk returns NULL.
+//    - Otherwise, the new page's reference count is incremented,
 f0102710:	53                   	push   %ebx
 f0102711:	e8 69 ff ff ff       	call   f010267f <pgdir_walk>
-        *pte = (pa | perm | PTE_P);
+//	the page is cleared,
 f0102716:	8b 54 24 34          	mov    0x34(%esp),%edx
 f010271a:	0b 54 24 30          	or     0x30(%esp),%edx
 f010271e:	89 10                	mov    %edx,(%eax)
-        pa += PGSIZE;
+//	and pgdir_walk returns a pointer into the new page table page.
 f0102720:	81 44 24 30 00 10 00 	addl   $0x1000,0x30(%esp)
 f0102727:	00 
-boot_map_region(pde_t *pgdir, uintptr_t va, size_t size, physaddr_t pa, int perm)//perm means permission
-{
-    /* TODO */
-    pte_t *pte;
-    int i;
-    for (i = 0; i < size/PGSIZE; i++)
+// a pointer to the page table entry (PTE) for linear address 'va'.
+// This requires walking the two-level page table structure.
+//
+// The relevant page table page might not exist yet.
+// If this is true, and create == false, then pgdir_walk returns NULL.
+// Otherwise, pgdir_walk allocates a new page table page with page_alloc.
 f0102728:	83 c4 10             	add    $0x10,%esp
 f010272b:	39 ef                	cmp    %ebp,%edi
 f010272d:	72 d6                	jb     f0102705 <boot_map_region+0x19>
-        *pte = (pa | perm | PTE_P);
-        pa += PGSIZE;
-        va += PGSIZE;
-    }
-    
-}
+//	the page is cleared,
+//	and pgdir_walk returns a pointer into the new page table page.
+//
+// Hint 1: you can turn a Page * into the physical address of the
+// page it refers to with page2pa() from kern/pmap.h.
+//
 f010272f:	83 c4 0c             	add    $0xc,%esp
 f0102732:	5b                   	pop    %ebx
 f0102733:	5e                   	pop    %esi
@@ -6418,90 +6418,90 @@ f0102735:	5d                   	pop    %ebp
 f0102736:	c3                   	ret    
 
 f0102737 <page_lookup>:
+// Use permission bits perm|PTE_P for the entries.
 //
-// Hint: the TA solution uses pgdir_walk and pa2page.
+// This function is only intended to set up the ``static'' mappings
+// above UTOP. As such, it should *not* change the pp_ref field on the
+// mapped pages.
 //
-struct PageInfo *
-page_lookup(pde_t *pgdir, void *va, pte_t **pte_store)
-{
 f0102737:	53                   	push   %ebx
 f0102738:	83 ec 0c             	sub    $0xc,%esp
 f010273b:	8b 5c 24 1c          	mov    0x1c(%esp),%ebx
-    /* TODO */
-    pte_t *pte=pgdir_walk(pgdir,(void *)va,0);
+// Hint: the TA solution uses pgdir_walk
+static void
 f010273f:	6a 00                	push   $0x0
 f0102741:	ff 74 24 1c          	pushl  0x1c(%esp)
 f0102745:	ff 74 24 1c          	pushl  0x1c(%esp)
 f0102749:	e8 31 ff ff ff       	call   f010267f <pgdir_walk>
-    if(pte==NULL)
+boot_map_region(pde_t *pgdir, uintptr_t va, size_t size, physaddr_t pa, int perm)
 f010274e:	83 c4 10             	add    $0x10,%esp
 f0102751:	85 c0                	test   %eax,%eax
 f0102753:	74 1d                	je     f0102772 <page_lookup+0x3b>
-        return NULL;
-    if(!(*pte & PTE_P))
+{
+    /* TODO */
 f0102755:	8b 10                	mov    (%eax),%edx
 f0102757:	f6 c2 01             	test   $0x1,%dl
 f010275a:	74 16                	je     f0102772 <page_lookup+0x3b>
-        return NULL;
-    if(pte_store)
+/*	uintptr_t now_va = va;
+        physaddr_t now_pa = pa;
 f010275c:	85 db                	test   %ebx,%ebx
 f010275e:	74 02                	je     f0102762 <page_lookup+0x2b>
-        *pte_store = pte;//if pte_store is not zero ,then put the pde to the pte_store
+        pte_t * pt_entry;
 f0102760:	89 03                	mov    %eax,(%ebx)
-    return pa2page(PTE_ADDR(*pte));
-}
+ 
+        uint32_t iteration = size/PGSIZE;
 f0102762:	83 c4 08             	add    $0x8,%esp
-        return NULL;
-    if(!(*pte & PTE_P))
-        return NULL;
-    if(pte_store)
-        *pte_store = pte;//if pte_store is not zero ,then put the pde to the pte_store
-    return pa2page(PTE_ADDR(*pte));
+{
+    /* TODO */
+/*	uintptr_t now_va = va;
+        physaddr_t now_pa = pa;
+        pte_t * pt_entry;
+ 
 f0102765:	89 d0                	mov    %edx,%eax
-}
+        uint32_t iteration = size/PGSIZE;
 f0102767:	5b                   	pop    %ebx
-        return NULL;
-    if(!(*pte & PTE_P))
-        return NULL;
-    if(pte_store)
-        *pte_store = pte;//if pte_store is not zero ,then put the pde to the pte_store
-    return pa2page(PTE_ADDR(*pte));
+{
+    /* TODO */
+/*	uintptr_t now_va = va;
+        physaddr_t now_pa = pa;
+        pte_t * pt_entry;
+ 
 f0102768:	25 00 f0 ff ff       	and    $0xfffff000,%eax
 f010276d:	e9 4b fb ff ff       	jmp    f01022bd <pa2page>
-}
+        uint32_t iteration = size/PGSIZE;
 f0102772:	31 c0                	xor    %eax,%eax
 f0102774:	83 c4 08             	add    $0x8,%esp
 f0102777:	5b                   	pop    %ebx
 f0102778:	c3                   	ret    
 
 f0102779 <page_remove>:
-// Hint: The TA solution is implemented using page_lookup,
-// 	tlb_invalidate, and page_decref.
-//
-void
-page_remove(pde_t *pgdir, void *va)
-{
+	{
+		pte_t* pte;
+		currVA = va + currSize;
+		currPA = pa + currSize;
+		pte = pgdir_walk(pgdir,(void*)(currVA),1);
+		if(pte!=NULL)
 f0102779:	53                   	push   %ebx
 f010277a:	83 ec 1c             	sub    $0x1c,%esp
 f010277d:	8b 5c 24 28          	mov    0x28(%esp),%ebx
-    /* TODO */
-    pte_t *pte;
-    struct PageInfo *page = page_lookup(pgdir,(void *)va,&pte);
+		{
+			*pte = PTE_ADDR(currPA) | perm | PTE_P;
+		}
 f0102781:	8d 44 24 10          	lea    0x10(%esp),%eax
 f0102785:	50                   	push   %eax
 f0102786:	53                   	push   %ebx
 f0102787:	ff 74 24 2c          	pushl  0x2c(%esp)
 f010278b:	e8 a7 ff ff ff       	call   f0102737 <page_lookup>
-    if(page == NULL)
+		else{
 f0102790:	83 c4 10             	add    $0x10,%esp
 f0102793:	85 c0                	test   %eax,%eax
 f0102795:	74 19                	je     f01027b0 <page_remove+0x37>
-        return NULL;
-    page_decref(page);
+			panic("pgdir_walk return NULL\n");
+		}
 f0102797:	83 ec 0c             	sub    $0xc,%esp
 f010279a:	50                   	push   %eax
 f010279b:	e8 bf fe ff ff       	call   f010265f <page_decref>
-    *pte = 0;//the page table entry set to 0
+	}
 f01027a0:	8b 44 24 1c          	mov    0x1c(%esp),%eax
 f01027a4:	c7 00 00 00 00 00    	movl   $0x0,(%eax)
 }
@@ -6512,19 +6512,19 @@ invlpg(void *addr)
 	__asm __volatile("invlpg (%0)" : : "r" (addr) : "memory");
 f01027aa:	0f 01 3b             	invlpg (%ebx)
 f01027ad:	83 c4 10             	add    $0x10,%esp
-    tlb_invalidate(pgdir, va);
-}
+/*	int i;
+	for(i=0;i < size/PGSIZE;++i,va+=PGSIZE,pa+=PGSIZE)
 f01027b0:	83 c4 18             	add    $0x18,%esp
 f01027b3:	5b                   	pop    %ebx
 f01027b4:	c3                   	ret    
 
 f01027b5 <page_insert>:
-// Hint: The TA solution is implemented using pgdir_walk, page_remove,
-// and page2pa.
-//
-int
-page_insert(pde_t *pgdir, struct PageInfo *pp, void *va, int perm)
-{
+                //get a page to store page table
+                
+                if( create ) {
+			pp = page_alloc(ALLOC_ZERO);
+			if( pp == NULL)
+				return NULL;
 f01027b5:	55                   	push   %ebp
 f01027b6:	57                   	push   %edi
 f01027b7:	56                   	push   %esi
@@ -6533,65 +6533,65 @@ f01027b9:	83 ec 10             	sub    $0x10,%esp
 f01027bc:	8b 6c 24 2c          	mov    0x2c(%esp),%ebp
 f01027c0:	8b 7c 24 24          	mov    0x24(%esp),%edi
 f01027c4:	8b 74 24 28          	mov    0x28(%esp),%esi
-    
-    /* TODO */
-    
-    pte_t *pte = pgdir_walk(pgdir,(void *)va,1);
+			pgtable = (pte_t*)page2kva(pp);
+			*pd_entry = PADDR(pgtable) | PTE_P | PTE_W | PTE_U;
+			pp->pp_ref++;	
+		}
 f01027c8:	6a 01                	push   $0x1
 f01027ca:	55                   	push   %ebp
 f01027cb:	57                   	push   %edi
 f01027cc:	e8 ae fe ff ff       	call   f010267f <pgdir_walk>
-    if(pte==NULL)
+		else
 f01027d1:	83 c4 10             	add    $0x10,%esp
-page_insert(pde_t *pgdir, struct PageInfo *pp, void *va, int perm)
-{
-    
-    /* TODO */
-    
-    pte_t *pte = pgdir_walk(pgdir,(void *)va,1);
+			if( pp == NULL)
+				return NULL;
+			pgtable = (pte_t*)page2kva(pp);
+			*pd_entry = PADDR(pgtable) | PTE_P | PTE_W | PTE_U;
+			pp->pp_ref++;	
+		}
 f01027d4:	89 c3                	mov    %eax,%ebx
-    if(pte==NULL)
-        return -E_NO_MEM;
+		else
+			return NULL;
 f01027d6:	b8 fc ff ff ff       	mov    $0xfffffffc,%eax
-{
-    
-    /* TODO */
-    
-    pte_t *pte = pgdir_walk(pgdir,(void *)va,1);
-    if(pte==NULL)
+				return NULL;
+			pgtable = (pte_t*)page2kva(pp);
+			*pd_entry = PADDR(pgtable) | PTE_P | PTE_W | PTE_U;
+			pp->pp_ref++;	
+		}
+		else
 f01027db:	85 db                	test   %ebx,%ebx
 f01027dd:	74 29                	je     f0102808 <page_insert+0x53>
-        return -E_NO_MEM;
-    pp->pp_ref++;
+			return NULL;
+		
 f01027df:	66 ff 46 04          	incw   0x4(%esi)
-    if(*pte &PTE_P)
+		/*	
 f01027e3:	f6 03 01             	testb  $0x1,(%ebx)
 f01027e6:	74 0c                	je     f01027f4 <page_insert+0x3f>
-        page_remove(pgdir,va);
+                 if(!create || !(pp = page_alloc(ALLOC_ZERO)) || !(pgtable = (pte_t*)page2kva(pp))) 
 f01027e8:	52                   	push   %edx
 f01027e9:	52                   	push   %edx
 f01027ea:	55                   	push   %ebp
 f01027eb:	57                   	push   %edi
 f01027ec:	e8 88 ff ff ff       	call   f0102779 <page_remove>
 f01027f1:	83 c4 10             	add    $0x10,%esp
-    *pte = page2pa(pp) | perm | PTE_P;
+                         return NULL;
 f01027f4:	89 f0                	mov    %esi,%eax
 f01027f6:	e8 ed f9 ff ff       	call   f01021e8 <page2pa>
 f01027fb:	8b 54 24 2c          	mov    0x2c(%esp),%edx
 f01027ff:	83 ca 01             	or     $0x1,%edx
 f0102802:	09 c2                	or     %eax,%edx
-    return 0;
+                 pp->pp_ref++;
 f0102804:	31 c0                	xor    %eax,%eax
-    if(pte==NULL)
-        return -E_NO_MEM;
-    pp->pp_ref++;
-    if(*pte &PTE_P)
-        page_remove(pgdir,va);
-    *pte = page2pa(pp) | perm | PTE_P;
+		else
+			return NULL;
+		
+		/*	
+                 if(!create || !(pp = page_alloc(ALLOC_ZERO)) || !(pgtable = (pte_t*)page2kva(pp))) 
+                         return NULL;
 f0102806:	89 13                	mov    %edx,(%ebx)
-    return 0;
-    
-}
+                 pp->pp_ref++;
+                 *pd_entry = PADDR(pgtable) | PTE_P | PTE_W | PTE_U;
+		*/
 f0102808:	83 c4 0c             	add    $0xc,%esp
 f010280b:	5b                   	pop    %ebx
 f010280c:	5e                   	pop    %esi
@@ -6600,239 +6600,239 @@ f010280e:	5d                   	pop    %ebp
 f010280f:	c3                   	ret    
 
 f0102810 <mem_init>:
-//
-// From UTOP to ULIM, the user is allowed to read but not write.
-// Above ULIM the user cannot read or write.
-void
-mem_init(void)
-{
-f0102810:	55                   	push   %ebp
-{
-  size_t npages_extmem;
+        nextfree += ROUNDUP(n, PGSIZE);
+    }
 
-  // Use CMOS calls to measure available base & extended memory.
-  // (CMOS calls return results in kilobytes.)
-  npages_basemem = (nvram_read(NVRAM_BASELO) * 1024) / PGSIZE;
+	return result;
+}
+
+f0102810:	55                   	push   %ebp
+	}
+	return c;
+}
+
+static int
+nvram_read(int r)
 f0102811:	b8 15 00 00 00       	mov    $0x15,%eax
-//
-// From UTOP to ULIM, the user is allowed to read but not write.
-// Above ULIM the user cannot read or write.
-void
-mem_init(void)
-{
+        nextfree += ROUNDUP(n, PGSIZE);
+    }
+
+	return result;
+}
+
 f0102816:	57                   	push   %edi
 f0102817:	56                   	push   %esi
 f0102818:	53                   	push   %ebx
-{
-  size_t npages_extmem;
+	}
+	return c;
+}
 
-  // Use CMOS calls to measure available base & extended memory.
-  // (CMOS calls return results in kilobytes.)
-  npages_basemem = (nvram_read(NVRAM_BASELO) * 1024) / PGSIZE;
+static int
+nvram_read(int r)
 f0102819:	bb 04 00 00 00       	mov    $0x4,%ebx
-//
-// From UTOP to ULIM, the user is allowed to read but not write.
-// Above ULIM the user cannot read or write.
-void
-mem_init(void)
-{
+        nextfree += ROUNDUP(n, PGSIZE);
+    }
+
+	return result;
+}
+
 f010281e:	83 ec 2c             	sub    $0x2c,%esp
-	uint32_t cr0;
-    nextfree = 0;
+// Set up a two-level page table:
+//    kern_pgdir is its linear (virtual) address of the root
 f0102821:	c7 05 24 4e 11 f0 00 	movl   $0x0,0xf0114e24
 f0102828:	00 00 00 
-    page_free_list = 0;
+//
 f010282b:	c7 05 1c 4e 11 f0 00 	movl   $0x0,0xf0114e1c
 f0102832:	00 00 00 
-{
-  size_t npages_extmem;
+	}
+	return c;
+}
 
-  // Use CMOS calls to measure available base & extended memory.
-  // (CMOS calls return results in kilobytes.)
-  npages_basemem = (nvram_read(NVRAM_BASELO) * 1024) / PGSIZE;
+static int
+nvram_read(int r)
 f0102835:	e8 c6 fc ff ff       	call   f0102500 <nvram_read>
 f010283a:	99                   	cltd   
 f010283b:	f7 fb                	idiv   %ebx
 f010283d:	a3 20 4e 11 f0       	mov    %eax,0xf0114e20
-  npages_extmem = (nvram_read(NVRAM_EXTLO) * 1024) / PGSIZE;
+{
 f0102842:	b8 17 00 00 00       	mov    $0x17,%eax
 f0102847:	e8 b4 fc ff ff       	call   f0102500 <nvram_read>
 f010284c:	99                   	cltd   
 f010284d:	f7 fb                	idiv   %ebx
+  return mc146818_read(r) | (mc146818_read(r + 1) << 8);
+}
 
-  // Calculate the number of physical pages available in both base
-  // and extended memory.
-  if (npages_extmem)
+static void
 f010284f:	85 c0                	test   %eax,%eax
-    npages = (EXTPHYSMEM / PGSIZE) + npages_extmem;
+i386_detect_memory(void)
 f0102851:	8d 90 00 01 00 00    	lea    0x100(%eax),%edx
-  npages_basemem = (nvram_read(NVRAM_BASELO) * 1024) / PGSIZE;
-  npages_extmem = (nvram_read(NVRAM_EXTLO) * 1024) / PGSIZE;
+nvram_read(int r)
+{
+  return mc146818_read(r) | (mc146818_read(r + 1) << 8);
+}
 
-  // Calculate the number of physical pages available in both base
-  // and extended memory.
-  if (npages_extmem)
+static void
 f0102857:	75 06                	jne    f010285f <mem_init+0x4f>
-    npages = (EXTPHYSMEM / PGSIZE) + npages_extmem;
-  else
-    npages = npages_basemem;
+i386_detect_memory(void)
+{
+
 f0102859:	8b 15 20 4e 11 f0    	mov    0xf0114e20,%edx
+  size_t npages_extmem;
 
-  printk("Physical memory: %uK available, base = %uK, extended = %uK\n",
-      npages * PGSIZE / 1024,
-      npages_basemem * PGSIZE / 1024,
-      npages_extmem * PGSIZE / 1024);
+  // Use CMOS calls to measure available base & extended memory.
+  // (CMOS calls return results in kilobytes.)
+  npages_basemem = (nvram_read(NVRAM_BASELO) * 1024) / PGSIZE;
 f010285f:	c1 e0 0c             	shl    $0xc,%eax
-  if (npages_extmem)
-    npages = (EXTPHYSMEM / PGSIZE) + npages_extmem;
-  else
-    npages = npages_basemem;
+static void
+i386_detect_memory(void)
+{
 
-  printk("Physical memory: %uK available, base = %uK, extended = %uK\n",
+  size_t npages_extmem;
+
 f0102862:	c1 e8 0a             	shr    $0xa,%eax
 f0102865:	50                   	push   %eax
-      npages * PGSIZE / 1024,
-      npages_basemem * PGSIZE / 1024,
+  // Use CMOS calls to measure available base & extended memory.
+  // (CMOS calls return results in kilobytes.)
 f0102866:	a1 20 4e 11 f0       	mov    0xf0114e20,%eax
-  // Calculate the number of physical pages available in both base
-  // and extended memory.
-  if (npages_extmem)
-    npages = (EXTPHYSMEM / PGSIZE) + npages_extmem;
-  else
-    npages = npages_basemem;
+}
+
+static void
+i386_detect_memory(void)
+{
+
 f010286b:	89 15 c4 76 11 f0    	mov    %edx,0xf01176c4
+  size_t npages_extmem;
 
-  printk("Physical memory: %uK available, base = %uK, extended = %uK\n",
-      npages * PGSIZE / 1024,
-      npages_basemem * PGSIZE / 1024,
+  // Use CMOS calls to measure available base & extended memory.
+  // (CMOS calls return results in kilobytes.)
 f0102871:	c1 e0 0c             	shl    $0xc,%eax
-  if (npages_extmem)
-    npages = (EXTPHYSMEM / PGSIZE) + npages_extmem;
-  else
-    npages = npages_basemem;
+static void
+i386_detect_memory(void)
+{
 
-  printk("Physical memory: %uK available, base = %uK, extended = %uK\n",
+  size_t npages_extmem;
+
 f0102874:	c1 e8 0a             	shr    $0xa,%eax
 f0102877:	50                   	push   %eax
-      npages * PGSIZE / 1024,
+  // Use CMOS calls to measure available base & extended memory.
 f0102878:	a1 c4 76 11 f0       	mov    0xf01176c4,%eax
 f010287d:	c1 e0 0c             	shl    $0xc,%eax
-  if (npages_extmem)
-    npages = (EXTPHYSMEM / PGSIZE) + npages_extmem;
-  else
-    npages = npages_basemem;
+static void
+i386_detect_memory(void)
+{
 
-  printk("Physical memory: %uK available, base = %uK, extended = %uK\n",
+  size_t npages_extmem;
+
 f0102880:	c1 e8 0a             	shr    $0xa,%eax
 f0102883:	50                   	push   %eax
 f0102884:	68 92 5c 10 f0       	push   $0xf0105c92
 f0102889:	e8 42 f9 ff ff       	call   f01021d0 <printk>
-	// Find out how much memory the machine has (npages & npages_basemem).
-	i386_detect_memory();//get the number of membase page(can be used) ,io hole page(not) ,extmem page(ok)
-
-	//////////////////////////////////////////////////////////////////////
-	//!!! create initial page directory.
-	kern_pgdir = (pde_t *) boot_alloc(PGSIZE);//in inc/mmu.h PGSIZE is 4096b = 4KB
+// (ie. addresses >= UTOP).  The user part of the address space
+// will be setup later.
+//
+// From UTOP to ULIM, the user is allowed to read but not write.
+// Above ULIM the user cannot read or write.
+void
 f010288e:	b8 00 10 00 00       	mov    $0x1000,%eax
 f0102893:	e8 5d f9 ff ff       	call   f01021f5 <boot_alloc>
-	memset(kern_pgdir, 0, PGSIZE);//memset(start addr , content, size)
+mem_init(void)
 f0102898:	83 c4 0c             	add    $0xc,%esp
 f010289b:	68 00 10 00 00       	push   $0x1000
 f01028a0:	6a 00                	push   $0x0
 f01028a2:	50                   	push   %eax
+// (ie. addresses >= UTOP).  The user part of the address space
+// will be setup later.
+//
+// From UTOP to ULIM, the user is allowed to read but not write.
+// Above ULIM the user cannot read or write.
+void
+f01028a3:	a3 c8 76 11 f0       	mov    %eax,0xf01176c8
+mem_init(void)
+f01028a8:	e8 22 d9 ff ff       	call   f01001cf <memset>
+
 	// Find out how much memory the machine has (npages & npages_basemem).
-	i386_detect_memory();//get the number of membase page(can be used) ,io hole page(not) ,extmem page(ok)
+	i386_detect_memory();
 
 	//////////////////////////////////////////////////////////////////////
-	//!!! create initial page directory.
-	kern_pgdir = (pde_t *) boot_alloc(PGSIZE);//in inc/mmu.h PGSIZE is 4096b = 4KB
-f01028a3:	a3 c8 76 11 f0       	mov    %eax,0xf01176c8
-	memset(kern_pgdir, 0, PGSIZE);//memset(start addr , content, size)
-f01028a8:	e8 22 d9 ff ff       	call   f01001cf <memset>
-	// (For now, you don't have understand the greater purpose of the
-	// following line.)
-
-	// Permissions: kernel R, user R
-    // UVPT is a virtual address in memlayout.h , the address is map to the kern_pgdir(physcial addr)
-	kern_pgdir[PDX(UVPT)] = PADDR(kern_pgdir) | PTE_U | PTE_P;
+	// create initial page directory.
 f01028ad:	8b 1d c8 76 11 f0    	mov    0xf01176c8,%ebx
 f01028b3:	b8 90 00 00 00       	mov    $0x90,%eax
 f01028b8:	89 da                	mov    %ebx,%edx
 f01028ba:	e8 64 fc ff ff       	call   f0102523 <_paddr.clone.0>
 f01028bf:	83 c8 05             	or     $0x5,%eax
 f01028c2:	89 83 f4 0e 00 00    	mov    %eax,0xef4(%ebx)
-	// each physical page, there is a corresponding struct PageInfo in this
-	// array.  'npages' is the number of physical pages in memory.  Use memset
-	// to initialize all fields of each struct PageInfo to 0.
-	// Your code goes here:
-    /* TODO */
-    pages = (struct PageInfo *)boot_alloc(sizeof(struct PageInfo)*npages);
+	// Recursively insert PD in itself as a page table, to form
+	// a virtual page table at virtual address UVPT.
+	// (For now, you don't have understand the greater purpose of the
+	// following line.)
+
+	// Permissions: kernel R, user R
 f01028c8:	a1 c4 76 11 f0       	mov    0xf01176c4,%eax
 f01028cd:	c1 e0 03             	shl    $0x3,%eax
 f01028d0:	e8 20 f9 ff ff       	call   f01021f5 <boot_alloc>
-    memset(pages,0,npages*(sizeof(struct PageInfo)));
+	kern_pgdir[PDX(UVPT)] = PADDR(kern_pgdir) | PTE_U | PTE_P;
 f01028d5:	8b 15 c4 76 11 f0    	mov    0xf01176c4,%edx
 f01028db:	83 c4 0c             	add    $0xc,%esp
 f01028de:	c1 e2 03             	shl    $0x3,%edx
 f01028e1:	52                   	push   %edx
 f01028e2:	6a 00                	push   $0x0
 f01028e4:	50                   	push   %eax
+	// Recursively insert PD in itself as a page table, to form
+	// a virtual page table at virtual address UVPT.
+	// (For now, you don't have understand the greater purpose of the
+	// following line.)
+
+	// Permissions: kernel R, user R
+f01028e5:	a3 d0 76 11 f0       	mov    %eax,0xf01176d0
+	kern_pgdir[PDX(UVPT)] = PADDR(kern_pgdir) | PTE_U | PTE_P;
+f01028ea:	e8 e0 d8 ff ff       	call   f01001cf <memset>
+	//////////////////////////////////////////////////////////////////////
+	// Allocate an array of npages 'struct PageInfo's and store it in 'pages'.
+	// The kernel uses this array to keep track of physical pages: for
 	// each physical page, there is a corresponding struct PageInfo in this
 	// array.  'npages' is the number of physical pages in memory.  Use memset
 	// to initialize all fields of each struct PageInfo to 0.
+f01028ef:	e8 55 fc ff ff       	call   f0102549 <page_init>
 	// Your code goes here:
     /* TODO */
-    pages = (struct PageInfo *)boot_alloc(sizeof(struct PageInfo)*npages);
-f01028e5:	a3 d0 76 11 f0       	mov    %eax,0xf01176d0
-    memset(pages,0,npages*(sizeof(struct PageInfo)));
-f01028ea:	e8 e0 d8 ff ff       	call   f01001cf <memset>
-	// Now that we've allocated the initial kernel data structures, we set
-	// up the list of free physical pages. Once we've done so, all further
-	// memory management will go through the page_* functions. In
-	// particular, we can now map memory using boot_map_region
-	// or page_insert
-	page_init();
-f01028ef:	e8 55 fc ff ff       	call   f0102549 <page_init>
-
-	check_page_free_list(1);
 f01028f4:	b8 01 00 00 00       	mov    $0x1,%eax
 f01028f9:	e8 ec f9 ff ff       	call   f01022ea <check_page_free_list>
-	int nfree;
-	struct PageInfo *fl;
-	char *c;
-	int i;
-
-	if (!pages)
+//
+// Reserve size bytes in the MMIO region and map [pa,pa+size) at this
+// location.  Return the base of the reserved region.  size does *not*
+// have to be multiple of PGSIZE.
+//
+void *
 f01028fe:	83 c4 10             	add    $0x10,%esp
 f0102901:	83 3d d0 76 11 f0 00 	cmpl   $0x0,0xf01176d0
 f0102908:	75 0d                	jne    f0102917 <mem_init+0x107>
-		panic("'pages' is a null pointer!");
+mmio_map_region(physaddr_t pa, size_t size)
 f010290a:	51                   	push   %ecx
 f010290b:	68 ce 5c 10 f0       	push   $0xf0105cce
 f0102910:	68 b3 02 00 00       	push   $0x2b3
 f0102915:	eb 34                	jmp    f010294b <mem_init+0x13b>
-
-	// check number of free pages
-	for (pp = page_free_list, nfree = 0; pp; pp = pp->pp_link)
+{
+	// Where to start the next region.  Initially, this is the
+	// beginning of the MMIO region.  Because this is static, its
 f0102917:	a1 1c 4e 11 f0       	mov    0xf0114e1c,%eax
 f010291c:	31 f6                	xor    %esi,%esi
 f010291e:	eb 03                	jmp    f0102923 <mem_init+0x113>
 f0102920:	8b 00                	mov    (%eax),%eax
-		++nfree;
+	// value will be preserved between calls to mmio_map_region
 f0102922:	46                   	inc    %esi
-
-	if (!pages)
-		panic("'pages' is a null pointer!");
-
-	// check number of free pages
-	for (pp = page_free_list, nfree = 0; pp; pp = pp->pp_link)
+//
+void *
+mmio_map_region(physaddr_t pa, size_t size)
+{
+	// Where to start the next region.  Initially, this is the
+	// beginning of the MMIO region.  Because this is static, its
 f0102923:	85 c0                	test   %eax,%eax
 f0102925:	75 f9                	jne    f0102920 <mem_init+0x110>
-		++nfree;
+	// value will be preserved between calls to mmio_map_region
+	// (just like nextfree in boot_alloc).
+	static uintptr_t base = MMIOBASE;
 
-	// should be able to allocate three pages
-	pp0 = pp1 = pp2 = 0;
-	assert((pp0 = page_alloc(0)));
+	// Reserve size bytes of virtual memory starting at base and
 f0102927:	83 ec 0c             	sub    $0xc,%esp
 f010292a:	6a 00                	push   $0x0
 f010292c:	e8 b4 fc ff ff       	call   f01025e5 <page_alloc>
@@ -6845,7 +6845,7 @@ f0102941:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102946:	68 bb 02 00 00       	push   $0x2bb
 f010294b:	68 ce 5a 10 f0       	push   $0xf0105ace
 f0102950:	e8 93 12 00 00       	call   f0103be8 <_panic>
-	assert((pp1 = page_alloc(0)));
+	// map physical pages [pa,pa+size) to virtual addresses
 f0102955:	83 ec 0c             	sub    $0xc,%esp
 f0102958:	6a 00                	push   $0x0
 f010295a:	e8 86 fc ff ff       	call   f01025e5 <page_alloc>
@@ -6857,7 +6857,7 @@ f0102968:	68 ff 5c 10 f0       	push   $0xf0105cff
 f010296d:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102972:	68 bc 02 00 00       	push   $0x2bc
 f0102977:	eb d2                	jmp    f010294b <mem_init+0x13b>
-	assert((pp2 = page_alloc(0)));
+	// [base,base+size).  Since this is device memory and not
 f0102979:	83 ec 0c             	sub    $0xc,%esp
 f010297c:	6a 00                	push   $0x0
 f010297e:	e8 62 fc ff ff       	call   f01025e5 <page_alloc>
@@ -6869,16 +6869,16 @@ f010298c:	68 15 5d 10 f0       	push   $0xf0105d15
 f0102991:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102996:	68 bd 02 00 00       	push   $0x2bd
 f010299b:	eb ae                	jmp    f010294b <mem_init+0x13b>
-
-	assert(pp0);
-	assert(pp1 && pp1 != pp0);
+	// regular DRAM, you'll have to tell the CPU that it isn't
+	// safe to cache access to this memory.  Luckily, the page
+	// tables provide bits for this purpose; simply create the
 f010299d:	3b 7c 24 08          	cmp    0x8(%esp),%edi
 f01029a1:	75 11                	jne    f01029b4 <mem_init+0x1a4>
 f01029a3:	68 2b 5d 10 f0       	push   $0xf0105d2b
 f01029a8:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01029ad:	68 c0 02 00 00       	push   $0x2c0
 f01029b2:	eb 97                	jmp    f010294b <mem_init+0x13b>
-	assert(pp2 && pp2 != pp1 && pp2 != pp0);
+	// mapping with PTE_PCD|PTE_PWT (cache-disable and
 f01029b4:	39 f8                	cmp    %edi,%eax
 f01029b6:	74 06                	je     f01029be <mem_init+0x1ae>
 f01029b8:	3b 44 24 08          	cmp    0x8(%esp),%eax
@@ -6887,7 +6887,7 @@ f01029be:	68 3d 5d 10 f0       	push   $0xf0105d3d
 f01029c3:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01029c8:	68 c1 02 00 00       	push   $0x2c1
 f01029cd:	e9 79 ff ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(page2pa(pp0) < npages*PGSIZE);
+	// write-through) in addition to PTE_W.  (If you're interested
 f01029d2:	8b 44 24 08          	mov    0x8(%esp),%eax
 f01029d6:	e8 0d f8 ff ff       	call   f01021e8 <page2pa>
 f01029db:	8b 2d c4 76 11 f0    	mov    0xf01176c4,%ebp
@@ -6898,7 +6898,7 @@ f01029e8:	68 5d 5d 10 f0       	push   $0xf0105d5d
 f01029ed:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01029f2:	68 c2 02 00 00       	push   $0x2c2
 f01029f7:	e9 4f ff ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(page2pa(pp1) < npages*PGSIZE);
+	// in more details on this, see section 10.5 of IA32 volume
 f01029fc:	89 f8                	mov    %edi,%eax
 f01029fe:	e8 e5 f7 ff ff       	call   f01021e8 <page2pa>
 f0102a03:	39 e8                	cmp    %ebp,%eax
@@ -6907,7 +6907,7 @@ f0102a07:	68 7a 5d 10 f0       	push   $0xf0105d7a
 f0102a0c:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102a11:	68 c3 02 00 00       	push   $0x2c3
 f0102a16:	e9 30 ff ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(page2pa(pp2) < npages*PGSIZE);
+	// 3A.)
 f0102a1b:	89 d8                	mov    %ebx,%eax
 f0102a1d:	e8 c6 f7 ff ff       	call   f01021e8 <page2pa>
 f0102a22:	39 e8                	cmp    %ebp,%eax
@@ -6916,36 +6916,36 @@ f0102a26:	68 97 5d 10 f0       	push   $0xf0105d97
 f0102a2b:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102a30:	68 c4 02 00 00       	push   $0x2c4
 f0102a35:	e9 11 ff ff ff       	jmp    f010294b <mem_init+0x13b>
-	// temporarily steal the rest of the free pages
-	fl = page_free_list;
-	page_free_list = 0;
-
-	// should be no free memory
-	assert(!page_alloc(0));
+	// Be sure to round size up to a multiple of PGSIZE and to
+	// handle if this reservation would overflow MMIOLIM (it's
+	// okay to simply panic if this happens).
+	//
+	// Hint: The TA solution uses boot_map_region.
+	//
 f0102a3a:	83 ec 0c             	sub    $0xc,%esp
-	assert(page2pa(pp0) < npages*PGSIZE);
-	assert(page2pa(pp1) < npages*PGSIZE);
-	assert(page2pa(pp2) < npages*PGSIZE);
-
-	// temporarily steal the rest of the free pages
-	fl = page_free_list;
+	// write-through) in addition to PTE_W.  (If you're interested
+	// in more details on this, see section 10.5 of IA32 volume
+	// 3A.)
+	//
+	// Be sure to round size up to a multiple of PGSIZE and to
+	// handle if this reservation would overflow MMIOLIM (it's
 f0102a3d:	8b 2d 1c 4e 11 f0    	mov    0xf0114e1c,%ebp
-	page_free_list = 0;
-
-	// should be no free memory
-	assert(!page_alloc(0));
+	// okay to simply panic if this happens).
+	//
+	// Hint: The TA solution uses boot_map_region.
+	//
 f0102a43:	6a 00                	push   $0x0
-	assert(page2pa(pp1) < npages*PGSIZE);
-	assert(page2pa(pp2) < npages*PGSIZE);
-
-	// temporarily steal the rest of the free pages
-	fl = page_free_list;
-	page_free_list = 0;
+	// in more details on this, see section 10.5 of IA32 volume
+	// 3A.)
+	//
+	// Be sure to round size up to a multiple of PGSIZE and to
+	// handle if this reservation would overflow MMIOLIM (it's
+	// okay to simply panic if this happens).
 f0102a45:	c7 05 1c 4e 11 f0 00 	movl   $0x0,0xf0114e1c
 f0102a4c:	00 00 00 
-
-	// should be no free memory
-	assert(!page_alloc(0));
+	//
+	// Hint: The TA solution uses boot_map_region.
+	//
 f0102a4f:	e8 91 fb ff ff       	call   f01025e5 <page_alloc>
 f0102a54:	83 c4 10             	add    $0x10,%esp
 f0102a57:	85 c0                	test   %eax,%eax
@@ -6954,20 +6954,20 @@ f0102a5b:	68 b4 5d 10 f0       	push   $0xf0105db4
 f0102a60:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102a65:	68 cb 02 00 00       	push   $0x2cb
 f0102a6a:	e9 dc fe ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// free and re-allocate?
-	page_free(pp0);
+	// Lab6 TODO
+	// Your code here:
+//>>>>>>> 3fe20efc26a5a63f2a8eb423231bc2cb1a987070i
 f0102a6f:	83 ec 0c             	sub    $0xc,%esp
 f0102a72:	ff 74 24 14          	pushl  0x14(%esp)
 f0102a76:	e8 ab fb ff ff       	call   f0102626 <page_free>
-	page_free(pp1);
+	size = ROUNDUP(size,PGSIZE);
 f0102a7b:	89 3c 24             	mov    %edi,(%esp)
 f0102a7e:	e8 a3 fb ff ff       	call   f0102626 <page_free>
-	page_free(pp2);
+	if((base+size) < (MMIOLIM))
 f0102a83:	89 1c 24             	mov    %ebx,(%esp)
 f0102a86:	e8 9b fb ff ff       	call   f0102626 <page_free>
-	pp0 = pp1 = pp2 = 0;
-	assert((pp0 = page_alloc(0)));
+	{
+		void *tmp;
 f0102a8b:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
 f0102a92:	e8 4e fb ff ff       	call   f01025e5 <page_alloc>
 f0102a97:	83 c4 10             	add    $0x10,%esp
@@ -6978,7 +6978,7 @@ f0102aa0:	68 e9 5c 10 f0       	push   $0xf0105ce9
 f0102aa5:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102aaa:	68 d2 02 00 00       	push   $0x2d2
 f0102aaf:	e9 97 fe ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert((pp1 = page_alloc(0)));
+		tmp = base;
 f0102ab4:	83 ec 0c             	sub    $0xc,%esp
 f0102ab7:	6a 00                	push   $0x0
 f0102ab9:	e8 27 fb ff ff       	call   f01025e5 <page_alloc>
@@ -6990,7 +6990,7 @@ f0102ac9:	68 ff 5c 10 f0       	push   $0xf0105cff
 f0102ace:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102ad3:	68 d3 02 00 00       	push   $0x2d3
 f0102ad8:	e9 6e fe ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert((pp2 = page_alloc(0)));
+		boot_map_region(kern_pgdir,base,size,pa,PTE_PCD | PTE_PWT | PTE_W);	
 f0102add:	83 ec 0c             	sub    $0xc,%esp
 f0102ae0:	6a 00                	push   $0x0
 f0102ae2:	e8 fe fa ff ff       	call   f01025e5 <page_alloc>
@@ -7002,15 +7002,15 @@ f0102af0:	68 15 5d 10 f0       	push   $0xf0105d15
 f0102af5:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102afa:	68 d4 02 00 00       	push   $0x2d4
 f0102aff:	e9 47 fe ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp0);
-	assert(pp1 && pp1 != pp0);
+		base = base + size;
+		return tmp;
 f0102b04:	39 5c 24 08          	cmp    %ebx,0x8(%esp)
 f0102b08:	75 14                	jne    f0102b1e <mem_init+0x30e>
 f0102b0a:	68 2b 5d 10 f0       	push   $0xf0105d2b
 f0102b0f:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102b14:	68 d6 02 00 00       	push   $0x2d6
 f0102b19:	e9 2d fe ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp2 && pp2 != pp1 && pp2 != pp0);
+	}
 f0102b1e:	3b 44 24 08          	cmp    0x8(%esp),%eax
 f0102b22:	74 04                	je     f0102b28 <mem_init+0x318>
 f0102b24:	39 d8                	cmp    %ebx,%eax
@@ -7019,7 +7019,7 @@ f0102b28:	68 3d 5d 10 f0       	push   $0xf0105d3d
 f0102b2d:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102b32:	68 d7 02 00 00       	push   $0x2d7
 f0102b37:	e9 0f fe ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(!page_alloc(0));
+	else
 f0102b3c:	83 ec 0c             	sub    $0xc,%esp
 f0102b3f:	6a 00                	push   $0x0
 f0102b41:	e8 9f fa ff ff       	call   f01025e5 <page_alloc>
@@ -7030,9 +7030,9 @@ f0102b4d:	68 b4 5d 10 f0       	push   $0xf0105db4
 f0102b52:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102b57:	68 d8 02 00 00       	push   $0x2d8
 f0102b5c:	e9 ea fd ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// test flags
-	memset(page2kva(pp0), 1, PGSIZE);
+	{
+		panic("mmio_map_region not implemented");
+	}	
 f0102b61:	89 d8                	mov    %ebx,%eax
 f0102b63:	e8 f1 f6 ff ff       	call   f0102259 <page2kva>
 f0102b68:	52                   	push   %edx
@@ -7040,10 +7040,10 @@ f0102b69:	68 00 10 00 00       	push   $0x1000
 f0102b6e:	6a 01                	push   $0x1
 f0102b70:	50                   	push   %eax
 f0102b71:	e8 59 d6 ff ff       	call   f01001cf <memset>
-	page_free(pp0);
+}
 f0102b76:	89 1c 24             	mov    %ebx,(%esp)
 f0102b79:	e8 a8 fa ff ff       	call   f0102626 <page_free>
-	assert((pp = page_alloc(ALLOC_ZERO)));
+/* This is a simple wrapper function for mapping user program */
 f0102b7e:	c7 04 24 01 00 00 00 	movl   $0x1,(%esp)
 f0102b85:	e8 5b fa ff ff       	call   f01025e5 <page_alloc>
 f0102b8a:	83 c4 10             	add    $0x10,%esp
@@ -7053,96 +7053,96 @@ f0102b91:	68 c3 5d 10 f0       	push   $0xf0105dc3
 f0102b96:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102b9b:	68 dd 02 00 00       	push   $0x2dd
 f0102ba0:	e9 a6 fd ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp && pp0 == pp);
+void
 f0102ba5:	39 c3                	cmp    %eax,%ebx
 f0102ba7:	74 14                	je     f0102bbd <mem_init+0x3ad>
 f0102ba9:	68 e1 5d 10 f0       	push   $0xf0105de1
 f0102bae:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102bb3:	68 de 02 00 00       	push   $0x2de
 f0102bb8:	e9 8e fd ff ff       	jmp    f010294b <mem_init+0x13b>
-	c = page2kva(pp);
+setupvm(pde_t *pgdir, uint32_t start, uint32_t size)
 f0102bbd:	89 d8                	mov    %ebx,%eax
 f0102bbf:	e8 95 f6 ff ff       	call   f0102259 <page2kva>
-	for (i = 0; i < PGSIZE; i++)
+{
 f0102bc4:	31 d2                	xor    %edx,%edx
-		assert(c[i] == 0);
+  boot_map_region(pgdir, start, ROUNDUP(size, PGSIZE), PADDR((void*)start), PTE_W | PTE_U);
 f0102bc6:	80 3c 10 00          	cmpb   $0x0,(%eax,%edx,1)
 f0102bca:	74 14                	je     f0102be0 <mem_init+0x3d0>
 f0102bcc:	68 f1 5d 10 f0       	push   $0xf0105df1
 f0102bd1:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102bd6:	68 e1 02 00 00       	push   $0x2e1
 f0102bdb:	e9 6b fd ff ff       	jmp    f010294b <mem_init+0x13b>
-	memset(page2kva(pp0), 1, PGSIZE);
-	page_free(pp0);
-	assert((pp = page_alloc(ALLOC_ZERO)));
-	assert(pp && pp0 == pp);
-	c = page2kva(pp);
-	for (i = 0; i < PGSIZE; i++)
+	}	
+}
+/* This is a simple wrapper function for mapping user program */
+void
+setupvm(pde_t *pgdir, uint32_t start, uint32_t size)
+{
 f0102be0:	42                   	inc    %edx
 f0102be1:	81 fa 00 10 00 00    	cmp    $0x1000,%edx
 f0102be7:	75 dd                	jne    f0102bc6 <mem_init+0x3b6>
+  assert(check_va2pa(pgdir, start) == PADDR((void*)start));
+}
 
-	// give free list back
-	page_free_list = fl;
 
-	// free the pages we took
-	page_free(pp0);
+/* TODO: Lab 5 
+ * Set up kernel part of a page table.
 f0102be9:	83 ec 0c             	sub    $0xc,%esp
 f0102bec:	53                   	push   %ebx
-	c = page2kva(pp);
-	for (i = 0; i < PGSIZE; i++)
-		assert(c[i] == 0);
+setupvm(pde_t *pgdir, uint32_t start, uint32_t size)
+{
+  boot_map_region(pgdir, start, ROUNDUP(size, PGSIZE), PADDR((void*)start), PTE_W | PTE_U);
+  assert(check_va2pa(pgdir, start) == PADDR((void*)start));
+}
 
-	// give free list back
-	page_free_list = fl;
 f0102bed:	89 2d 1c 4e 11 f0    	mov    %ebp,0xf0114e1c
 
-	// free the pages we took
-	page_free(pp0);
+/* TODO: Lab 5 
+ * Set up kernel part of a page table.
 f0102bf3:	e8 2e fa ff ff       	call   f0102626 <page_free>
-	page_free(pp1);
+ * You should map the kernel part memory with appropriate permission
 f0102bf8:	5b                   	pop    %ebx
 f0102bf9:	ff 74 24 14          	pushl  0x14(%esp)
 f0102bfd:	e8 24 fa ff ff       	call   f0102626 <page_free>
-	page_free(pp2);
+ * Return a pointer to newly created page directory
 f0102c02:	89 3c 24             	mov    %edi,(%esp)
 f0102c05:	e8 1c fa ff ff       	call   f0102626 <page_free>
-
-	// number of free pages should be the same
-	for (pp = page_free_list; pp; pp = pp->pp_link)
+ *
+ * TODO: Lab6
+ * You should also map:
 f0102c0a:	a1 1c 4e 11 f0       	mov    0xf0114e1c,%eax
 f0102c0f:	83 c4 10             	add    $0x10,%esp
 f0102c12:	eb 03                	jmp    f0102c17 <mem_init+0x407>
 f0102c14:	8b 00                	mov    (%eax),%eax
-		--nfree;
+ * 1. per-CPU kernel stack
 f0102c16:	4e                   	dec    %esi
-	page_free(pp0);
-	page_free(pp1);
-	page_free(pp2);
-
-	// number of free pages should be the same
-	for (pp = page_free_list; pp; pp = pp->pp_link)
+ * Set up kernel part of a page table.
+ * You should map the kernel part memory with appropriate permission
+ * Return a pointer to newly created page directory
+ *
+ * TODO: Lab6
+ * You should also map:
 f0102c17:	85 c0                	test   %eax,%eax
 f0102c19:	75 f9                	jne    f0102c14 <mem_init+0x404>
-		--nfree;
-	assert(nfree == 0);
+ * 1. per-CPU kernel stack
+ * 2. MMIO region for local apic
 f0102c1b:	85 f6                	test   %esi,%esi
 f0102c1d:	74 14                	je     f0102c33 <mem_init+0x423>
 f0102c1f:	68 fb 5d 10 f0       	push   $0xf0105dfb
 f0102c24:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102c29:	68 ee 02 00 00       	push   $0x2ee
 f0102c2e:	e9 18 fd ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	printk("check_page_alloc() succeeded!\n");
+ *
+ */
 f0102c33:	83 ec 0c             	sub    $0xc,%esp
 f0102c36:	68 06 5e 10 f0       	push   $0xf0105e06
 f0102c3b:	e8 90 f5 ff ff       	call   f01021d0 <printk>
-	void *va;
-	int i;
+		// check that we didn't corrupt the free list itself
+		assert(pp >= pages);
+		assert(pp < pages + npages);
+		assert(((char *) pp - (char *) pages) % sizeof(*pp) == 0);
 
-	// should be able to allocate three pages
-	pp0 = pp1 = pp2 = 0;
-	assert((pp0 = page_alloc(0)));
+		// check a few pages that shouldn't be on the free list
 f0102c40:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
 f0102c47:	e8 99 f9 ff ff       	call   f01025e5 <page_alloc>
 f0102c4c:	83 c4 10             	add    $0x10,%esp
@@ -7153,7 +7153,7 @@ f0102c55:	68 e9 5c 10 f0       	push   $0xf0105ce9
 f0102c5a:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102c5f:	68 4a 03 00 00       	push   $0x34a
 f0102c64:	e9 e2 fc ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert((pp1 = page_alloc(0)));
+		assert(page2pa(pp) != 0);
 f0102c69:	83 ec 0c             	sub    $0xc,%esp
 f0102c6c:	6a 00                	push   $0x0
 f0102c6e:	e8 72 f9 ff ff       	call   f01025e5 <page_alloc>
@@ -7165,7 +7165,7 @@ f0102c7c:	68 ff 5c 10 f0       	push   $0xf0105cff
 f0102c81:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102c86:	68 4b 03 00 00       	push   $0x34b
 f0102c8b:	e9 bb fc ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert((pp2 = page_alloc(0)));
+		assert(page2pa(pp) != IOPHYSMEM);
 f0102c90:	83 ec 0c             	sub    $0xc,%esp
 f0102c93:	6a 00                	push   $0x0
 f0102c95:	e8 4b f9 ff ff       	call   f01025e5 <page_alloc>
@@ -7177,16 +7177,16 @@ f0102ca3:	68 15 5d 10 f0       	push   $0xf0105d15
 f0102ca8:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102cad:	68 4c 03 00 00       	push   $0x34c
 f0102cb2:	e9 94 fc ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	assert(pp0);
-	assert(pp1 && pp1 != pp0);
+		assert(page2pa(pp) != EXTPHYSMEM - PGSIZE);
+		assert(page2pa(pp) != EXTPHYSMEM);
+		assert(page2pa(pp) < EXTPHYSMEM || (char *) page2kva(pp) >= first_free_page);
 f0102cb7:	39 f3                	cmp    %esi,%ebx
 f0102cb9:	75 14                	jne    f0102ccf <mem_init+0x4bf>
 f0102cbb:	68 2b 5d 10 f0       	push   $0xf0105d2b
 f0102cc0:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102cc5:	68 4f 03 00 00       	push   $0x34f
 f0102cca:	e9 7c fc ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp2 && pp2 != pp1 && pp2 != pp0);
+    		// (new test for Lab6)
 f0102ccf:	39 d8                	cmp    %ebx,%eax
 f0102cd1:	74 04                	je     f0102cd7 <mem_init+0x4c7>
 f0102cd3:	39 f0                	cmp    %esi,%eax
@@ -7195,24 +7195,24 @@ f0102cd7:	68 3d 5d 10 f0       	push   $0xf0105d3d
 f0102cdc:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102ce1:	68 50 03 00 00       	push   $0x350
 f0102ce6:	e9 60 fc ff ff       	jmp    f010294b <mem_init+0x13b>
+    		assert(page2pa(pp) != MPENTRY_PADDR);
 
-	// temporarily steal the rest of the free pages
-	fl = page_free_list;
+		if (page2pa(pp) < EXTPHYSMEM)
 f0102ceb:	a1 1c 4e 11 f0       	mov    0xf0114e1c,%eax
-	page_free_list = 0;
+			++nfree_basemem;
 f0102cf0:	c7 05 1c 4e 11 f0 00 	movl   $0x0,0xf0114e1c
 f0102cf7:	00 00 00 
-	assert(pp0);
-	assert(pp1 && pp1 != pp0);
-	assert(pp2 && pp2 != pp1 && pp2 != pp0);
+		assert(page2pa(pp) != EXTPHYSMEM);
+		assert(page2pa(pp) < EXTPHYSMEM || (char *) page2kva(pp) >= first_free_page);
+    		// (new test for Lab6)
+    		assert(page2pa(pp) != MPENTRY_PADDR);
 
-	// temporarily steal the rest of the free pages
-	fl = page_free_list;
+		if (page2pa(pp) < EXTPHYSMEM)
 f0102cfa:	89 44 24 08          	mov    %eax,0x8(%esp)
-	page_free_list = 0;
-
-	// should be no free memory
-	assert(!page_alloc(0));
+			++nfree_basemem;
+		else
+			++nfree_extmem;
+	}
 f0102cfe:	83 ec 0c             	sub    $0xc,%esp
 f0102d01:	6a 00                	push   $0x0
 f0102d03:	e8 dd f8 ff ff       	call   f01025e5 <page_alloc>
@@ -7224,8 +7224,8 @@ f0102d14:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102d19:	68 57 03 00 00       	push   $0x357
 f0102d1e:	e9 28 fc ff ff       	jmp    f010294b <mem_init+0x13b>
 
-	// there is no page allocated at address 0
-	assert(page_lookup(kern_pgdir, (void *) 0x0, &ptep) == NULL);
+	assert(nfree_basemem > 0);
+	assert(nfree_extmem > 0);
 f0102d23:	51                   	push   %ecx
 f0102d24:	8d 44 24 20          	lea    0x20(%esp),%eax
 f0102d28:	50                   	push   %eax
@@ -7239,9 +7239,9 @@ f0102d3d:	68 25 5e 10 f0       	push   $0xf0105e25
 f0102d42:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102d47:	68 5a 03 00 00       	push   $0x35a
 f0102d4c:	e9 fa fb ff ff       	jmp    f010294b <mem_init+0x13b>
+	printk("check_page_free_list() succeeded!\n");
+}
 
-	// there is no free memory, so we can't allocate a page table
-	assert(page_insert(kern_pgdir, pp1, 0x0, PTE_W) < 0);
 f0102d51:	6a 02                	push   $0x2
 f0102d53:	6a 00                	push   $0x0
 f0102d55:	53                   	push   %ebx
@@ -7254,13 +7254,13 @@ f0102d68:	68 5a 5e 10 f0       	push   $0xf0105e5a
 f0102d6d:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102d72:	68 5d 03 00 00       	push   $0x35d
 f0102d77:	e9 cf fb ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// free pp0 and try again: pp0 should be used for page table
-	page_free(pp0);
+//
+// Check the physical page allocator (page_alloc(), page_free(),
+// and page_init()).
 f0102d7c:	83 ec 0c             	sub    $0xc,%esp
 f0102d7f:	56                   	push   %esi
 f0102d80:	e8 a1 f8 ff ff       	call   f0102626 <page_free>
-	assert(page_insert(kern_pgdir, pp1, 0x0, PTE_W) == 0);
+//
 f0102d85:	6a 02                	push   $0x2
 f0102d87:	6a 00                	push   $0x0
 f0102d89:	53                   	push   %ebx
@@ -7273,7 +7273,7 @@ f0102d9c:	68 87 5e 10 f0       	push   $0xf0105e87
 f0102da1:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102da6:	68 61 03 00 00       	push   $0x361
 f0102dab:	e9 9b fb ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(PTE_ADDR(kern_pgdir[0]) == page2pa(pp0));
+static void
 f0102db0:	8b 2d c8 76 11 f0    	mov    0xf01176c8,%ebp
 f0102db6:	89 f0                	mov    %esi,%eax
 f0102db8:	e8 2b f4 ff ff       	call   f01021e8 <page2pa>
@@ -7285,7 +7285,7 @@ f0102dca:	68 b5 5e 10 f0       	push   $0xf0105eb5
 f0102dcf:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102dd4:	68 62 03 00 00       	push   $0x362
 f0102dd9:	e9 6d fb ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(check_va2pa(kern_pgdir, 0x0) == page2pa(pp1));
+check_page_alloc(void)
 f0102dde:	31 d2                	xor    %edx,%edx
 f0102de0:	89 e8                	mov    %ebp,%eax
 f0102de2:	e8 8b f4 ff ff       	call   f0102272 <check_va2pa>
@@ -7298,23 +7298,23 @@ f0102df4:	68 dd 5e 10 f0       	push   $0xf0105edd
 f0102df9:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102dfe:	68 63 03 00 00       	push   $0x363
 f0102e03:	e9 43 fb ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp1->pp_ref == 1);
+{
 f0102e08:	66 83 7b 04 01       	cmpw   $0x1,0x4(%ebx)
 f0102e0d:	74 14                	je     f0102e23 <mem_init+0x613>
 f0102e0f:	68 0a 5f 10 f0       	push   $0xf0105f0a
 f0102e14:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102e19:	68 64 03 00 00       	push   $0x364
 f0102e1e:	e9 28 fb ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp0->pp_ref == 1);
+	struct PageInfo *pp, *pp0, *pp1, *pp2;
 f0102e23:	66 83 7e 04 01       	cmpw   $0x1,0x4(%esi)
 f0102e28:	74 14                	je     f0102e3e <mem_init+0x62e>
 f0102e2a:	68 1b 5f 10 f0       	push   $0xf0105f1b
 f0102e2f:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102e34:	68 65 03 00 00       	push   $0x365
 f0102e39:	e9 0d fb ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// should be able to map pp2 at PGSIZE because pp0 is already allocated for page table
-	assert(page_insert(kern_pgdir, pp2, (void*) PGSIZE, PTE_W) == 0);
+	int nfree;
+	struct PageInfo *fl;
+	char *c;
 f0102e3e:	6a 02                	push   $0x2
 f0102e40:	68 00 10 00 00       	push   $0x1000
 f0102e45:	57                   	push   %edi
@@ -7327,7 +7327,7 @@ f0102e58:	68 2c 5f 10 f0       	push   $0xf0105f2c
 f0102e5d:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102e62:	68 68 03 00 00       	push   $0x368
 f0102e67:	e9 df fa ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(check_va2pa(kern_pgdir, PGSIZE) == page2pa(pp2));
+	int i;
 f0102e6c:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f0102e71:	ba 00 10 00 00       	mov    $0x1000,%edx
 f0102e76:	e8 f7 f3 ff ff       	call   f0102272 <check_va2pa>
@@ -7340,16 +7340,16 @@ f0102e88:	68 65 5f 10 f0       	push   $0xf0105f65
 f0102e8d:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102e92:	68 69 03 00 00       	push   $0x369
 f0102e97:	e9 af fa ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp2->pp_ref == 1);
+
 f0102e9c:	66 83 7f 04 01       	cmpw   $0x1,0x4(%edi)
 f0102ea1:	74 14                	je     f0102eb7 <mem_init+0x6a7>
 f0102ea3:	68 95 5f 10 f0       	push   $0xf0105f95
 f0102ea8:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102ead:	68 6a 03 00 00       	push   $0x36a
 f0102eb2:	e9 94 fa ff ff       	jmp    f010294b <mem_init+0x13b>
+	if (!pages)
+		panic("'pages' is a null pointer!");
 
-	// should be no free memory
-	assert(!page_alloc(0));
 f0102eb7:	83 ec 0c             	sub    $0xc,%esp
 f0102eba:	6a 00                	push   $0x0
 f0102ebc:	e8 24 f7 ff ff       	call   f01025e5 <page_alloc>
@@ -7360,9 +7360,9 @@ f0102ec8:	68 b4 5d 10 f0       	push   $0xf0105db4
 f0102ecd:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102ed2:	68 6d 03 00 00       	push   $0x36d
 f0102ed7:	e9 6f fa ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// should be able to map pp2 at PGSIZE because it's already there
-	assert(page_insert(kern_pgdir, pp2, (void*) PGSIZE, PTE_W) == 0);
+	// check number of free pages
+	for (pp = page_free_list, nfree = 0; pp; pp = pp->pp_link)
+		++nfree;
 f0102edc:	6a 02                	push   $0x2
 f0102ede:	68 00 10 00 00       	push   $0x1000
 f0102ee3:	57                   	push   %edi
@@ -7375,7 +7375,7 @@ f0102ef6:	68 2c 5f 10 f0       	push   $0xf0105f2c
 f0102efb:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102f00:	68 70 03 00 00       	push   $0x370
 f0102f05:	e9 41 fa ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(check_va2pa(kern_pgdir, PGSIZE) == page2pa(pp2));
+
 f0102f0a:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f0102f0f:	ba 00 10 00 00       	mov    $0x1000,%edx
 f0102f14:	e8 59 f3 ff ff       	call   f0102272 <check_va2pa>
@@ -7388,17 +7388,17 @@ f0102f26:	68 65 5f 10 f0       	push   $0xf0105f65
 f0102f2b:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102f30:	68 71 03 00 00       	push   $0x371
 f0102f35:	e9 11 fa ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp2->pp_ref == 1);
+	// should be able to allocate three pages
 f0102f3a:	66 83 7f 04 01       	cmpw   $0x1,0x4(%edi)
 f0102f3f:	74 14                	je     f0102f55 <mem_init+0x745>
 f0102f41:	68 95 5f 10 f0       	push   $0xf0105f95
 f0102f46:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102f4b:	68 72 03 00 00       	push   $0x372
 f0102f50:	e9 f6 f9 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// pp2 should NOT be on the free list
-	// could happen in ref counts are handled sloppily in page_insert
-	assert(!page_alloc(0));
+	pp0 = pp1 = pp2 = 0;
+	assert((pp0 = page_alloc(0)));
+	assert((pp1 = page_alloc(0)));
+	assert((pp2 = page_alloc(0)));
 f0102f55:	83 ec 0c             	sub    $0xc,%esp
 f0102f58:	6a 00                	push   $0x0
 f0102f5a:	e8 86 f6 ff ff       	call   f01025e5 <page_alloc>
@@ -7410,8 +7410,8 @@ f0102f6b:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102f70:	68 76 03 00 00       	push   $0x376
 f0102f75:	e9 d1 f9 ff ff       	jmp    f010294b <mem_init+0x13b>
 
-	// check that pgdir_walk returns a pointer to the pte
-	ptep = (pte_t *) KADDR(PTE_ADDR(kern_pgdir[PDX(PGSIZE)]));
+	assert(pp0);
+	assert(pp1 && pp1 != pp0);
 f0102f7a:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f0102f7f:	ba 79 03 00 00       	mov    $0x379,%edx
 f0102f84:	8b 08                	mov    (%eax),%ecx
@@ -7419,7 +7419,7 @@ f0102f86:	b8 ce 5a 10 f0       	mov    $0xf0105ace,%eax
 f0102f8b:	81 e1 00 f0 ff ff    	and    $0xfffff000,%ecx
 f0102f91:	e8 9a f2 ff ff       	call   f0102230 <_kaddr>
 f0102f96:	89 44 24 1c          	mov    %eax,0x1c(%esp)
-	assert(pgdir_walk(kern_pgdir, (void*)PGSIZE, 0) == ptep+PTX(PGSIZE));
+	assert(pp2 && pp2 != pp1 && pp2 != pp0);
 f0102f9a:	52                   	push   %edx
 f0102f9b:	6a 00                	push   $0x0
 f0102f9d:	68 00 10 00 00       	push   $0x1000
@@ -7434,9 +7434,9 @@ f0102fbb:	68 a6 5f 10 f0       	push   $0xf0105fa6
 f0102fc0:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102fc5:	68 7a 03 00 00       	push   $0x37a
 f0102fca:	e9 7c f9 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// should be able to change permissions too.
-	assert(page_insert(kern_pgdir, pp2, (void*) PGSIZE, PTE_W|PTE_U) == 0);
+	assert(page2pa(pp0) < npages*PGSIZE);
+	assert(page2pa(pp1) < npages*PGSIZE);
+	assert(page2pa(pp2) < npages*PGSIZE);
 f0102fcf:	6a 06                	push   $0x6
 f0102fd1:	68 00 10 00 00       	push   $0x1000
 f0102fd6:	57                   	push   %edi
@@ -7449,7 +7449,7 @@ f0102fe9:	68 e3 5f 10 f0       	push   $0xf0105fe3
 f0102fee:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0102ff3:	68 7d 03 00 00       	push   $0x37d
 f0102ff8:	e9 4e f9 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(check_va2pa(kern_pgdir, PGSIZE) == page2pa(pp2));
+
 f0102ffd:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f0103002:	ba 00 10 00 00       	mov    $0x1000,%edx
 f0103007:	e8 66 f2 ff ff       	call   f0102272 <check_va2pa>
@@ -7462,14 +7462,14 @@ f0103019:	68 65 5f 10 f0       	push   $0xf0105f65
 f010301e:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103023:	68 7e 03 00 00       	push   $0x37e
 f0103028:	e9 1e f9 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp2->pp_ref == 1);
+	// temporarily steal the rest of the free pages
 f010302d:	66 83 7f 04 01       	cmpw   $0x1,0x4(%edi)
 f0103032:	74 14                	je     f0103048 <mem_init+0x838>
 f0103034:	68 95 5f 10 f0       	push   $0xf0105f95
 f0103039:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010303e:	68 7f 03 00 00       	push   $0x37f
 f0103043:	e9 03 f9 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(*pgdir_walk(kern_pgdir, (void*) PGSIZE, 0) & PTE_U);
+	fl = page_free_list;
 f0103048:	50                   	push   %eax
 f0103049:	6a 00                	push   $0x0
 f010304b:	68 00 10 00 00       	push   $0x1000
@@ -7482,7 +7482,7 @@ f0103063:	68 22 60 10 f0       	push   $0xf0106022
 f0103068:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010306d:	68 80 03 00 00       	push   $0x380
 f0103072:	e9 d4 f8 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(kern_pgdir[0] & PTE_U);
+	page_free_list = 0;
 f0103077:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f010307c:	f6 00 04             	testb  $0x4,(%eax)
 f010307f:	75 14                	jne    f0103095 <mem_init+0x885>
@@ -7491,8 +7491,8 @@ f0103086:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010308b:	68 81 03 00 00       	push   $0x381
 f0103090:	e9 b6 f8 ff ff       	jmp    f010294b <mem_init+0x13b>
 
-	// should be able to remap with fewer permissions
-	assert(page_insert(kern_pgdir, pp2, (void*) PGSIZE, PTE_W) == 0);
+	// should be no free memory
+	assert(!page_alloc(0));
 f0103095:	6a 02                	push   $0x2
 f0103097:	68 00 10 00 00       	push   $0x1000
 f010309c:	57                   	push   %edi
@@ -7505,7 +7505,7 @@ f01030aa:	68 2c 5f 10 f0       	push   $0xf0105f2c
 f01030af:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01030b4:	68 84 03 00 00       	push   $0x384
 f01030b9:	e9 8d f8 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(*pgdir_walk(kern_pgdir, (void*) PGSIZE, 0) & PTE_W);
+
 f01030be:	55                   	push   %ebp
 f01030bf:	6a 00                	push   $0x0
 f01030c1:	68 00 10 00 00       	push   $0x1000
@@ -7518,7 +7518,7 @@ f01030d9:	68 6b 60 10 f0       	push   $0xf010606b
 f01030de:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01030e3:	68 85 03 00 00       	push   $0x385
 f01030e8:	e9 5e f8 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(!(*pgdir_walk(kern_pgdir, (void*) PGSIZE, 0) & PTE_U));
+	// free and re-allocate?
 f01030ed:	51                   	push   %ecx
 f01030ee:	6a 00                	push   $0x0
 f01030f0:	68 00 10 00 00       	push   $0x1000
@@ -7531,9 +7531,9 @@ f0103108:	68 9e 60 10 f0       	push   $0xf010609e
 f010310d:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103112:	68 86 03 00 00       	push   $0x386
 f0103117:	e9 2f f8 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// should not be able to map at PTSIZE because need free page for page table
-	assert(page_insert(kern_pgdir, pp0, (void*) PTSIZE, PTE_W) < 0);
+	page_free(pp0);
+	page_free(pp1);
+	page_free(pp2);
 f010311c:	6a 02                	push   $0x2
 f010311e:	68 00 00 40 00       	push   $0x400000
 f0103123:	56                   	push   %esi
@@ -7546,9 +7546,9 @@ f0103136:	68 d4 60 10 f0       	push   $0xf01060d4
 f010313b:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103140:	68 89 03 00 00       	push   $0x389
 f0103145:	e9 01 f8 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// insert pp1 at PGSIZE (replacing pp2)
-	assert(page_insert(kern_pgdir, pp1, (void*) PGSIZE, PTE_W) == 0);
+	pp0 = pp1 = pp2 = 0;
+	assert((pp0 = page_alloc(0)));
+	assert((pp1 = page_alloc(0)));
 f010314a:	6a 02                	push   $0x2
 f010314c:	68 00 10 00 00       	push   $0x1000
 f0103151:	53                   	push   %ebx
@@ -7561,7 +7561,7 @@ f0103164:	68 0c 61 10 f0       	push   $0xf010610c
 f0103169:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010316e:	68 8c 03 00 00       	push   $0x38c
 f0103173:	e9 d3 f7 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(!(*pgdir_walk(kern_pgdir, (void*) PGSIZE, 0) & PTE_U));
+	assert((pp2 = page_alloc(0)));
 f0103178:	52                   	push   %edx
 f0103179:	6a 00                	push   $0x0
 f010317b:	68 00 10 00 00       	push   $0x1000
@@ -7574,9 +7574,9 @@ f0103193:	68 9e 60 10 f0       	push   $0xf010609e
 f0103198:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010319d:	68 8d 03 00 00       	push   $0x38d
 f01031a2:	e9 a4 f7 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// should have pp1 at both 0 and PGSIZE, pp2 nowhere, ...
-	assert(check_va2pa(kern_pgdir, 0) == page2pa(pp1));
+	assert(pp0);
+	assert(pp1 && pp1 != pp0);
+	assert(pp2 && pp2 != pp1 && pp2 != pp0);
 f01031a7:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f01031ac:	31 d2                	xor    %edx,%edx
 f01031ae:	e8 bf f0 ff ff       	call   f0102272 <check_va2pa>
@@ -7589,7 +7589,7 @@ f01031c0:	68 45 61 10 f0       	push   $0xf0106145
 f01031c5:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01031ca:	68 90 03 00 00       	push   $0x390
 f01031cf:	e9 77 f7 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(check_va2pa(kern_pgdir, PGSIZE) == page2pa(pp1));
+	assert(!page_alloc(0));
 f01031d4:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f01031d9:	ba 00 10 00 00       	mov    $0x1000,%edx
 f01031de:	e8 8f f0 ff ff       	call   f0102272 <check_va2pa>
@@ -7602,24 +7602,24 @@ f01031f0:	68 70 61 10 f0       	push   $0xf0106170
 f01031f5:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01031fa:	68 91 03 00 00       	push   $0x391
 f01031ff:	e9 47 f7 ff ff       	jmp    f010294b <mem_init+0x13b>
-	// ... and ref counts should reflect this
-	assert(pp1->pp_ref == 2);
+
+	// test flags
 f0103204:	66 83 7b 04 02       	cmpw   $0x2,0x4(%ebx)
 f0103209:	74 14                	je     f010321f <mem_init+0xa0f>
 f010320b:	68 a0 61 10 f0       	push   $0xf01061a0
 f0103210:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103215:	68 93 03 00 00       	push   $0x393
 f010321a:	e9 2c f7 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp2->pp_ref == 0);
+	memset(page2kva(pp0), 1, PGSIZE);
 f010321f:	66 83 7f 04 00       	cmpw   $0x0,0x4(%edi)
 f0103224:	74 14                	je     f010323a <mem_init+0xa2a>
 f0103226:	68 b1 61 10 f0       	push   $0xf01061b1
 f010322b:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103230:	68 94 03 00 00       	push   $0x394
 f0103235:	e9 11 f7 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// pp2 should be returned by page_alloc
-	assert((pp = page_alloc(0)) && pp == pp2);
+	page_free(pp0);
+	assert((pp = page_alloc(ALLOC_ZERO)));
+	assert(pp && pp0 == pp);
 f010323a:	83 ec 0c             	sub    $0xc,%esp
 f010323d:	6a 00                	push   $0x0
 f010323f:	e8 a1 f3 ff ff       	call   f01025e5 <page_alloc>
@@ -7633,15 +7633,15 @@ f0103251:	68 c2 61 10 f0       	push   $0xf01061c2
 f0103256:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010325b:	68 97 03 00 00       	push   $0x397
 f0103260:	e9 e6 f6 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// unmapping pp1 at 0 should keep pp1 at PGSIZE
-	page_remove(kern_pgdir, 0x0);
+	c = page2kva(pp);
+	for (i = 0; i < PGSIZE; i++)
+		assert(c[i] == 0);
 f0103265:	50                   	push   %eax
 f0103266:	50                   	push   %eax
 f0103267:	6a 00                	push   $0x0
 f0103269:	ff 35 c8 76 11 f0    	pushl  0xf01176c8
 f010326f:	e8 05 f5 ff ff       	call   f0102779 <page_remove>
-	assert(check_va2pa(kern_pgdir, 0x0) == ~0);
+
 f0103274:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f0103279:	31 d2                	xor    %edx,%edx
 f010327b:	e8 f2 ef ff ff       	call   f0102272 <check_va2pa>
@@ -7652,7 +7652,7 @@ f0103286:	68 e4 61 10 f0       	push   $0xf01061e4
 f010328b:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103290:	68 9b 03 00 00       	push   $0x39b
 f0103295:	e9 b1 f6 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(check_va2pa(kern_pgdir, PGSIZE) == page2pa(pp1));
+	// give free list back
 f010329a:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f010329f:	ba 00 10 00 00       	mov    $0x1000,%edx
 f01032a4:	e8 c9 ef ff ff       	call   f0102272 <check_va2pa>
@@ -7665,23 +7665,23 @@ f01032ba:	68 70 61 10 f0       	push   $0xf0106170
 f01032bf:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01032c4:	68 9c 03 00 00       	push   $0x39c
 f01032c9:	e9 7d f6 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp1->pp_ref == 1);
+	page_free_list = fl;
 f01032ce:	66 83 7b 04 01       	cmpw   $0x1,0x4(%ebx)
 f01032d3:	74 14                	je     f01032e9 <mem_init+0xad9>
 f01032d5:	68 0a 5f 10 f0       	push   $0xf0105f0a
 f01032da:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01032df:	68 9d 03 00 00       	push   $0x39d
 f01032e4:	e9 62 f6 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp2->pp_ref == 0);
+
 f01032e9:	66 83 7f 04 00       	cmpw   $0x0,0x4(%edi)
 f01032ee:	74 14                	je     f0103304 <mem_init+0xaf4>
 f01032f0:	68 b1 61 10 f0       	push   $0xf01061b1
 f01032f5:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01032fa:	68 9e 03 00 00       	push   $0x39e
 f01032ff:	e9 47 f6 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// test re-inserting pp1 at PGSIZE
-	assert(page_insert(kern_pgdir, pp1, (void*) PGSIZE, 0) == 0);
+	// free the pages we took
+	page_free(pp0);
+	page_free(pp1);
 f0103304:	6a 00                	push   $0x0
 f0103306:	68 00 10 00 00       	push   $0x1000
 f010330b:	53                   	push   %ebx
@@ -7694,29 +7694,29 @@ f010331e:	68 07 62 10 f0       	push   $0xf0106207
 f0103323:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103328:	68 a1 03 00 00       	push   $0x3a1
 f010332d:	e9 19 f6 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp1->pp_ref);
+	page_free(pp2);
 f0103332:	66 83 7b 04 00       	cmpw   $0x0,0x4(%ebx)
 f0103337:	75 14                	jne    f010334d <mem_init+0xb3d>
 f0103339:	68 3c 62 10 f0       	push   $0xf010623c
 f010333e:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103343:	68 a2 03 00 00       	push   $0x3a2
 f0103348:	e9 fe f5 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp1->pp_link == NULL);
+
 f010334d:	83 3b 00             	cmpl   $0x0,(%ebx)
 f0103350:	74 14                	je     f0103366 <mem_init+0xb56>
 f0103352:	68 48 62 10 f0       	push   $0xf0106248
 f0103357:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010335c:	68 a3 03 00 00       	push   $0x3a3
 f0103361:	e9 e5 f5 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// unmapping pp1 at PGSIZE should free it
-	page_remove(kern_pgdir, (void*) PGSIZE);
+	// number of free pages should be the same
+	for (pp = page_free_list; pp; pp = pp->pp_link)
+		--nfree;
 f0103366:	51                   	push   %ecx
 f0103367:	51                   	push   %ecx
 f0103368:	68 00 10 00 00       	push   $0x1000
 f010336d:	ff 35 c8 76 11 f0    	pushl  0xf01176c8
 f0103373:	e8 01 f4 ff ff       	call   f0102779 <page_remove>
-	assert(check_va2pa(kern_pgdir, 0x0) == ~0);
+	assert(nfree == 0);
 f0103378:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f010337d:	31 d2                	xor    %edx,%edx
 f010337f:	e8 ee ee ff ff       	call   f0102272 <check_va2pa>
@@ -7727,7 +7727,7 @@ f010338a:	68 e4 61 10 f0       	push   $0xf01061e4
 f010338f:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103394:	68 a7 03 00 00       	push   $0x3a7
 f0103399:	e9 ad f5 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(check_va2pa(kern_pgdir, PGSIZE) == ~0);
+
 f010339e:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f01033a3:	ba 00 10 00 00       	mov    $0x1000,%edx
 f01033a8:	e8 c5 ee ff ff       	call   f0102272 <check_va2pa>
@@ -7737,14 +7737,14 @@ f01033b0:	68 5d 62 10 f0       	push   $0xf010625d
 f01033b5:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01033ba:	68 a8 03 00 00       	push   $0x3a8
 f01033bf:	e9 87 f5 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp1->pp_ref == 0);
+	printk("check_page_alloc() succeeded!\n");
 f01033c4:	66 83 7b 04 00       	cmpw   $0x0,0x4(%ebx)
 f01033c9:	74 14                	je     f01033df <mem_init+0xbcf>
 f01033cb:	68 83 62 10 f0       	push   $0xf0106283
 f01033d0:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01033d5:	68 a9 03 00 00       	push   $0x3a9
 f01033da:	e9 6c f5 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp2->pp_ref == 0);
+}
 f01033df:	66 83 7d 04 00       	cmpw   $0x0,0x4(%ebp)
 f01033e4:	74 14                	je     f01033fa <mem_init+0xbea>
 f01033e6:	68 b1 61 10 f0       	push   $0xf01061b1
@@ -7752,8 +7752,8 @@ f01033eb:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01033f0:	68 aa 03 00 00       	push   $0x3aa
 f01033f5:	e9 51 f5 ff ff       	jmp    f010294b <mem_init+0x13b>
 
-	// so it should be returned by page_alloc
-	assert((pp = page_alloc(0)) && pp == pp1);
+//
+// Checks that the kernel part of virtual address space
 f01033fa:	83 ec 0c             	sub    $0xc,%esp
 f01033fd:	6a 00                	push   $0x0
 f01033ff:	e8 e1 f1 ff ff       	call   f01025e5 <page_alloc>
@@ -7767,9 +7767,9 @@ f0103411:	68 94 62 10 f0       	push   $0xf0106294
 f0103416:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010341b:	68 ad 03 00 00       	push   $0x3ad
 f0103420:	e9 26 f5 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// should be no free memory
-	assert(!page_alloc(0));
+// has been setup roughly correctly (by mem_init()).
+//
+// This function doesn't test every corner case,
 f0103425:	83 ec 0c             	sub    $0xc,%esp
 f0103428:	6a 00                	push   $0x0
 f010342a:	e8 b6 f1 ff ff       	call   f01025e5 <page_alloc>
@@ -7780,9 +7780,9 @@ f0103436:	68 b4 5d 10 f0       	push   $0xf0105db4
 f010343b:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103440:	68 b0 03 00 00       	push   $0x3b0
 f0103445:	e9 01 f5 ff ff       	jmp    f010294b <mem_init+0x13b>
+// but it is a pretty good sanity check.
+//
 
-	// forcibly take pp0 back
-	assert(PTE_ADDR(kern_pgdir[0]) == page2pa(pp0));
 f010344a:	8b 1d c8 76 11 f0    	mov    0xf01176c8,%ebx
 f0103450:	89 f0                	mov    %esi,%eax
 f0103452:	e8 91 ed ff ff       	call   f01021e8 <page2pa>
@@ -7794,62 +7794,62 @@ f0103463:	68 b5 5e 10 f0       	push   $0xf0105eb5
 f0103468:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010346d:	68 b3 03 00 00       	push   $0x3b3
 f0103472:	e9 d4 f4 ff ff       	jmp    f010294b <mem_init+0x13b>
-	kern_pgdir[0] = 0;
-	assert(pp0->pp_ref == 1);
+static void
+check_kern_pgdir(void)
 f0103477:	66 83 7e 04 01       	cmpw   $0x1,0x4(%esi)
-	// should be no free memory
-	assert(!page_alloc(0));
+//
+// This function doesn't test every corner case,
+// but it is a pretty good sanity check.
+//
 
-	// forcibly take pp0 back
-	assert(PTE_ADDR(kern_pgdir[0]) == page2pa(pp0));
-	kern_pgdir[0] = 0;
+static void
 f010347c:	c7 03 00 00 00 00    	movl   $0x0,(%ebx)
-	assert(pp0->pp_ref == 1);
+check_kern_pgdir(void)
 f0103482:	74 14                	je     f0103498 <mem_init+0xc88>
 f0103484:	68 1b 5f 10 f0       	push   $0xf0105f1b
 f0103489:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010348e:	68 b5 03 00 00       	push   $0x3b5
 f0103493:	e9 b3 f4 ff ff       	jmp    f010294b <mem_init+0x13b>
-	pp0->pp_ref = 0;
+{
+	uint32_t i, n;
+	pde_t *pgdir;
 
-	// check pointer arithmetic in pgdir_walk
-	page_free(pp0);
 f0103498:	83 ec 0c             	sub    $0xc,%esp
+// but it is a pretty good sanity check.
+//
 
-	// forcibly take pp0 back
-	assert(PTE_ADDR(kern_pgdir[0]) == page2pa(pp0));
-	kern_pgdir[0] = 0;
-	assert(pp0->pp_ref == 1);
-	pp0->pp_ref = 0;
+static void
+check_kern_pgdir(void)
+{
 f010349b:	66 c7 46 04 00 00    	movw   $0x0,0x4(%esi)
+	uint32_t i, n;
+	pde_t *pgdir;
 
-	// check pointer arithmetic in pgdir_walk
-	page_free(pp0);
 f01034a1:	56                   	push   %esi
 f01034a2:	e8 7f f1 ff ff       	call   f0102626 <page_free>
-	va = (void*)(PGSIZE * NPDENTRIES + PGSIZE);
-	ptep = pgdir_walk(kern_pgdir, va, 1);
+	pgdir = kern_pgdir;
+
 f01034a7:	83 c4 0c             	add    $0xc,%esp
 f01034aa:	6a 01                	push   $0x1
 f01034ac:	68 00 10 40 00       	push   $0x401000
 f01034b1:	ff 35 c8 76 11 f0    	pushl  0xf01176c8
 f01034b7:	e8 c3 f1 ff ff       	call   f010267f <pgdir_walk>
-	ptep1 = (pte_t *) KADDR(PTE_ADDR(kern_pgdir[PDX(va)]));
+    // check IO mem
 f01034bc:	ba bc 03 00 00       	mov    $0x3bc,%edx
-	pp0->pp_ref = 0;
+{
+	uint32_t i, n;
+	pde_t *pgdir;
 
-	// check pointer arithmetic in pgdir_walk
-	page_free(pp0);
-	va = (void*)(PGSIZE * NPDENTRIES + PGSIZE);
-	ptep = pgdir_walk(kern_pgdir, va, 1);
+	pgdir = kern_pgdir;
+
 f01034c1:	89 44 24 2c          	mov    %eax,0x2c(%esp)
-	ptep1 = (pte_t *) KADDR(PTE_ADDR(kern_pgdir[PDX(va)]));
+    // check IO mem
 f01034c5:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f01034ca:	8b 48 04             	mov    0x4(%eax),%ecx
 f01034cd:	b8 ce 5a 10 f0       	mov    $0xf0105ace,%eax
 f01034d2:	81 e1 00 f0 ff ff    	and    $0xfffff000,%ecx
 f01034d8:	e8 53 ed ff ff       	call   f0102230 <_kaddr>
-	assert(ptep == ptep1 + PTX(va));
+    for (i = IOPHYSMEM; i < ROUNDUP(EXTPHYSMEM, PGSIZE); i += PGSIZE)
 f01034dd:	83 c4 10             	add    $0x10,%esp
 f01034e0:	83 c0 04             	add    $0x4,%eax
 f01034e3:	39 44 24 1c          	cmp    %eax,0x1c(%esp)
@@ -7858,123 +7858,123 @@ f01034e9:	68 b6 62 10 f0       	push   $0xf01062b6
 f01034ee:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01034f3:	68 bd 03 00 00       	push   $0x3bd
 f01034f8:	e9 4e f4 ff ff       	jmp    f010294b <mem_init+0x13b>
-	kern_pgdir[PDX(va)] = 0;
+		assert(check_va2pa(pgdir, i) == i);
 f01034fd:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f0103502:	c7 40 04 00 00 00 00 	movl   $0x0,0x4(%eax)
-	pp0->pp_ref = 0;
 
-	// check that new page tables get cleared
-	memset(page2kva(pp0), 0xFF, PGSIZE);
+	// check pages array
+	n = ROUNDUP(npages*sizeof(struct PageInfo), PGSIZE);
+	for (i = 0; i < n; i += PGSIZE)
 f0103509:	89 f0                	mov    %esi,%eax
-	va = (void*)(PGSIZE * NPDENTRIES + PGSIZE);
-	ptep = pgdir_walk(kern_pgdir, va, 1);
-	ptep1 = (pte_t *) KADDR(PTE_ADDR(kern_pgdir[PDX(va)]));
-	assert(ptep == ptep1 + PTX(va));
-	kern_pgdir[PDX(va)] = 0;
-	pp0->pp_ref = 0;
-f010350b:	66 c7 46 04 00 00    	movw   $0x0,0x4(%esi)
+	pgdir = kern_pgdir;
 
-	// check that new page tables get cleared
-	memset(page2kva(pp0), 0xFF, PGSIZE);
+    // check IO mem
+    for (i = IOPHYSMEM; i < ROUNDUP(EXTPHYSMEM, PGSIZE); i += PGSIZE)
+		assert(check_va2pa(pgdir, i) == i);
+
+f010350b:	66 c7 46 04 00 00    	movw   $0x0,0x4(%esi)
+	// check pages array
+	n = ROUNDUP(npages*sizeof(struct PageInfo), PGSIZE);
+	for (i = 0; i < n; i += PGSIZE)
 f0103511:	e8 43 ed ff ff       	call   f0102259 <page2kva>
 f0103516:	52                   	push   %edx
 f0103517:	68 00 10 00 00       	push   $0x1000
 f010351c:	68 ff 00 00 00       	push   $0xff
 f0103521:	50                   	push   %eax
 f0103522:	e8 a8 cc ff ff       	call   f01001cf <memset>
-	page_free(pp0);
+		assert(check_va2pa(pgdir, UPAGES + i) == PADDR(pages) + i);
 f0103527:	89 34 24             	mov    %esi,(%esp)
 f010352a:	e8 f7 f0 ff ff       	call   f0102626 <page_free>
-	pgdir_walk(kern_pgdir, 0x0, 1);
+    
 f010352f:	83 c4 0c             	add    $0xc,%esp
 f0103532:	6a 01                	push   $0x1
 f0103534:	6a 00                	push   $0x0
 f0103536:	ff 35 c8 76 11 f0    	pushl  0xf01176c8
 f010353c:	e8 3e f1 ff ff       	call   f010267f <pgdir_walk>
-	ptep = (pte_t *) page2kva(pp0);
+	// check phys mem
 f0103541:	89 f0                	mov    %esi,%eax
 f0103543:	e8 11 ed ff ff       	call   f0102259 <page2kva>
-	for(i=0; i<NPTENTRIES; i++)
+	for (i = 0; i < npages * PGSIZE; i += PGSIZE)
 f0103548:	31 d2                	xor    %edx,%edx
-
-	// check that new page tables get cleared
-	memset(page2kva(pp0), 0xFF, PGSIZE);
-	page_free(pp0);
-	pgdir_walk(kern_pgdir, 0x0, 1);
-	ptep = (pte_t *) page2kva(pp0);
+	// check pages array
+	n = ROUNDUP(npages*sizeof(struct PageInfo), PGSIZE);
+	for (i = 0; i < n; i += PGSIZE)
+		assert(check_va2pa(pgdir, UPAGES + i) == PADDR(pages) + i);
+    
+	// check phys mem
 f010354a:	89 44 24 2c          	mov    %eax,0x2c(%esp)
 f010354e:	83 c4 10             	add    $0x10,%esp
-	for(i=0; i<NPTENTRIES; i++)
-		assert((ptep[i] & PTE_P) == 0);
+	for (i = 0; i < npages * PGSIZE; i += PGSIZE)
+		assert(check_va2pa(pgdir, KERNBASE + i) == i);
 f0103551:	f6 04 90 01          	testb  $0x1,(%eax,%edx,4)
 f0103555:	74 14                	je     f010356b <mem_init+0xd5b>
 f0103557:	68 ce 62 10 f0       	push   $0xf01062ce
 f010355c:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103561:	68 c7 03 00 00       	push   $0x3c7
 f0103566:	e9 e0 f3 ff ff       	jmp    f010294b <mem_init+0x13b>
-	// check that new page tables get cleared
-	memset(page2kva(pp0), 0xFF, PGSIZE);
-	page_free(pp0);
-	pgdir_walk(kern_pgdir, 0x0, 1);
-	ptep = (pte_t *) page2kva(pp0);
-	for(i=0; i<NPTENTRIES; i++)
+	n = ROUNDUP(npages*sizeof(struct PageInfo), PGSIZE);
+	for (i = 0; i < n; i += PGSIZE)
+		assert(check_va2pa(pgdir, UPAGES + i) == PADDR(pages) + i);
+    
+	// check phys mem
+	for (i = 0; i < npages * PGSIZE; i += PGSIZE)
 f010356b:	42                   	inc    %edx
 f010356c:	81 fa 00 04 00 00    	cmp    $0x400,%edx
 f0103572:	75 dd                	jne    f0103551 <mem_init+0xd41>
-		assert((ptep[i] & PTE_P) == 0);
-	kern_pgdir[0] = 0;
+		assert(check_va2pa(pgdir, KERNBASE + i) == i);
+
 f0103574:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f0103579:	c7 00 00 00 00 00    	movl   $0x0,(%eax)
-	pp0->pp_ref = 0;
-
-	// give free list back
-	page_free_list = fl;
+	// check kernel stack
+	// (updated in Lab6 to check per-CPU kernel stacks)
+	for (n = 0; n < NCPU; n++) {
+		uint32_t base = KSTACKTOP - (KSTKSIZE + KSTKGAP) * (n + 1);
 f010357f:	8b 44 24 08          	mov    0x8(%esp),%eax
-
-	// free the pages we took
-	page_free(pp0);
+		for (i = 0; i < KSTKSIZE; i += PGSIZE)
+			assert(check_va2pa(pgdir, base + KSTKGAP + i)
+					== PADDR(percpu_kstacks[n]) + i);
 f0103583:	83 ec 0c             	sub    $0xc,%esp
-	pgdir_walk(kern_pgdir, 0x0, 1);
-	ptep = (pte_t *) page2kva(pp0);
-	for(i=0; i<NPTENTRIES; i++)
-		assert((ptep[i] & PTE_P) == 0);
-	kern_pgdir[0] = 0;
-	pp0->pp_ref = 0;
+    
+	// check phys mem
+	for (i = 0; i < npages * PGSIZE; i += PGSIZE)
+		assert(check_va2pa(pgdir, KERNBASE + i) == i);
+
+	// check kernel stack
 f0103586:	66 c7 46 04 00 00    	movw   $0x0,0x4(%esi)
-
-	// give free list back
-	page_free_list = fl;
-
-	// free the pages we took
-	page_free(pp0);
+	// (updated in Lab6 to check per-CPU kernel stacks)
+	for (n = 0; n < NCPU; n++) {
+		uint32_t base = KSTACKTOP - (KSTKSIZE + KSTKGAP) * (n + 1);
+		for (i = 0; i < KSTKSIZE; i += PGSIZE)
+			assert(check_va2pa(pgdir, base + KSTKGAP + i)
+					== PADDR(percpu_kstacks[n]) + i);
 f010358c:	56                   	push   %esi
-		assert((ptep[i] & PTE_P) == 0);
-	kern_pgdir[0] = 0;
-	pp0->pp_ref = 0;
+		assert(check_va2pa(pgdir, KERNBASE + i) == i);
 
-	// give free list back
-	page_free_list = fl;
+	// check kernel stack
+	// (updated in Lab6 to check per-CPU kernel stacks)
+	for (n = 0; n < NCPU; n++) {
+		uint32_t base = KSTACKTOP - (KSTKSIZE + KSTKGAP) * (n + 1);
 f010358d:	a3 1c 4e 11 f0       	mov    %eax,0xf0114e1c
-
-	// free the pages we took
-	page_free(pp0);
+		for (i = 0; i < KSTKSIZE; i += PGSIZE)
+			assert(check_va2pa(pgdir, base + KSTKGAP + i)
+					== PADDR(percpu_kstacks[n]) + i);
 f0103592:	e8 8f f0 ff ff       	call   f0102626 <page_free>
-	page_free(pp1);
+		for (i = 0; i < KSTKGAP; i += PGSIZE)
 f0103597:	89 3c 24             	mov    %edi,(%esp)
 f010359a:	e8 87 f0 ff ff       	call   f0102626 <page_free>
-	page_free(pp2);
+			assert(check_va2pa(pgdir, base + i) == ~0);
 f010359f:	89 2c 24             	mov    %ebp,(%esp)
 f01035a2:	e8 7f f0 ff ff       	call   f0102626 <page_free>
-
-	printk("check_page() succeeded!\n");
+	}
+	
 f01035a7:	c7 04 24 e5 62 10 f0 	movl   $0xf01062e5,(%esp)
 f01035ae:	e8 1d ec ff ff       	call   f01021d0 <printk>
-	// Permissions:
-	//    - the new image at UPAGES -- kernel R, user R
-	//      (ie. perm = PTE_U | PTE_P)
-	//    - pages itself -- kernel RW, user NONE
-	// Your code goes here:
-    boot_map_region(kern_pgdir, UPAGES, ROUNDUP((sizeof(struct PageInfo) * npages), PGSIZE), PADDR(pages), (PTE_U | PTE_P));
+	// or page_insert
+	
+	page_init();
+	check_page_free_list(1);
+	check_page_alloc();
+	check_page();
 f01035b3:	8b 15 d0 76 11 f0    	mov    0xf01176d0,%edx
 f01035b9:	b8 b1 00 00 00       	mov    $0xb1,%eax
 f01035be:	e8 60 ef ff ff       	call   f0102523 <_paddr.clone.0>
@@ -7988,12 +7988,12 @@ f01035d9:	81 e1 00 f0 ff ff    	and    $0xfffff000,%ecx
 f01035df:	50                   	push   %eax
 f01035e0:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f01035e5:	e8 02 f1 ff ff       	call   f01026ec <boot_map_region>
-	//       the kernel overflows its stack, it will fault rather than
-	//       overwrite memory.  Known as a "guard page".
-	//     Permissions: kernel RW, user NONE
+	//    - pages itself -- kernel RW, user NONE
 	// Your code goes here:
-    /* TODO */
-    boot_map_region(kern_pgdir,KSTACKTOP - KSTKSIZE,KSTKSIZE,PADDR(bootstack),PTE_W);
+	boot_map_region(kern_pgdir, UPAGES, ROUNDUP((sizeof(struct PageInfo) * npages), PGSIZE), PADDR(pages), (PTE_W|PTE_U | PTE_P));
+
+	//////////////////////////////////////////////////////////////////////
+	// Use the physical memory that 'bootstack' refers to as the kernel
 f01035ea:	ba 00 c0 10 f0       	mov    $0xf010c000,%edx
 f01035ef:	b8 c0 00 00 00       	mov    $0xc0,%eax
 f01035f4:	e8 2a ef ff ff       	call   f0102523 <_paddr.clone.0>
@@ -8005,12 +8005,12 @@ f0103605:	6a 02                	push   $0x2
 f0103607:	50                   	push   %eax
 f0103608:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f010360d:	e8 da f0 ff ff       	call   f01026ec <boot_map_region>
-	// We might not have 2^32 - KERNBASE bytes of physical memory, but
-	// we just set up the mapping anyway.
-	// Permissions: kernel RW, user NONE
+	//     * [KSTACKTOP-PTSIZE, KSTACKTOP-KSTKSIZE) -- not backed; so if
+	//       the kernel overflows its stack, it will fault rather than
+	//       overwrite memory.  Known as a "guard page".
+	//     Permissions: kernel RW, user NONE
 	// Your code goes here:
-    /* TODO */
-    boot_map_region(kern_pgdir,KERNBASE,0xffffffff-KERNBASE,0,PTE_W);
+//<<<<<<< HEAD
 f0103612:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f0103617:	b9 ff ff ff 0f       	mov    $0xfffffff,%ecx
 f010361c:	5f                   	pop    %edi
@@ -8019,42 +8019,42 @@ f0103622:	5d                   	pop    %ebp
 f0103623:	6a 02                	push   $0x2
 f0103625:	6a 00                	push   $0x0
 f0103627:	e8 c0 f0 ff ff       	call   f01026ec <boot_map_region>
-	//////////////////////////////////////////////////////////////////////
-	// Map VA range [IOPHYSMEM, EXTPHYSMEM) to PA range [IOPHYSMEM, EXTPHYSMEM)
-    boot_map_region(kern_pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W) | (PTE_P));
+    /* TODO */
+//	boot_map_region(kern_pgdir, (KSTACKTOP-KSTKSIZE), ROUNDUP(KSTKSIZE,PGSIZE), PADDR(bootstack), (PTE_W | PTE_P));
+//=======
 f010362c:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 f0103631:	b9 00 00 06 00       	mov    $0x60000,%ecx
 f0103636:	5b                   	pop    %ebx
 f0103637:	ba 00 00 0a 00       	mov    $0xa0000,%edx
 f010363c:	5e                   	pop    %esi
-	pde_t *pgdir;
+			(*pa2page( PTE_ADDR(kern_pgdir[i])  )).pp_ref++;
+	}
+		
+	return this;
+}
 
-	pgdir = kern_pgdir;
-
-    // check IO mem
-    for (i = IOPHYSMEM; i < ROUNDUP(EXTPHYSMEM, PGSIZE); i += PGSIZE)
 f010363d:	be 00 00 0a 00       	mov    $0xa0000,%esi
+	//     Permissions: kernel RW, user NONE
 	// Your code goes here:
+//<<<<<<< HEAD
     /* TODO */
-    boot_map_region(kern_pgdir,KERNBASE,0xffffffff-KERNBASE,0,PTE_W);
-	//////////////////////////////////////////////////////////////////////
-	// Map VA range [IOPHYSMEM, EXTPHYSMEM) to PA range [IOPHYSMEM, EXTPHYSMEM)
-    boot_map_region(kern_pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W) | (PTE_P));
+//	boot_map_region(kern_pgdir, (KSTACKTOP-KSTKSIZE), ROUNDUP(KSTKSIZE,PGSIZE), PADDR(bootstack), (PTE_W | PTE_P));
+//=======
 f0103642:	6a 03                	push   $0x3
 f0103644:	68 00 00 0a 00       	push   $0xa0000
 f0103649:	e8 9e f0 ff ff       	call   f01026ec <boot_map_region>
-check_kern_pgdir(void)
-{
-	uint32_t i, n;
-	pde_t *pgdir;
-
-	pgdir = kern_pgdir;
+	for( i =0; i < 1024;i++ )
+	{
+		if( kern_pgdir[i]&PTE_P )
+			(*pa2page( PTE_ADDR(kern_pgdir[i])  )).pp_ref++;
+	}
+		
 f010364e:	8b 1d c8 76 11 f0    	mov    0xf01176c8,%ebx
 f0103654:	83 c4 10             	add    $0x10,%esp
+	return this;
+}
 
-    // check IO mem
-    for (i = IOPHYSMEM; i < ROUNDUP(EXTPHYSMEM, PGSIZE); i += PGSIZE)
-		assert(check_va2pa(pgdir, i) == i);
+
 f0103657:	89 f2                	mov    %esi,%edx
 f0103659:	89 d8                	mov    %ebx,%eax
 f010365b:	e8 12 ec ff ff       	call   f0102272 <check_va2pa>
@@ -8064,33 +8064,33 @@ f0103664:	68 fe 62 10 f0       	push   $0xf01062fe
 f0103669:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010366e:	68 05 03 00 00       	push   $0x305
 f0103673:	e9 d3 f2 ff ff       	jmp    f010294b <mem_init+0x13b>
-	pde_t *pgdir;
+			(*pa2page( PTE_ADDR(kern_pgdir[i])  )).pp_ref++;
+	}
+		
+	return this;
+}
 
-	pgdir = kern_pgdir;
-
-    // check IO mem
-    for (i = IOPHYSMEM; i < ROUNDUP(EXTPHYSMEM, PGSIZE); i += PGSIZE)
 f0103678:	81 c6 00 10 00 00    	add    $0x1000,%esi
 f010367e:	81 fe 00 00 10 00    	cmp    $0x100000,%esi
 f0103684:	75 d1                	jne    f0103657 <mem_init+0xe47>
-		assert(check_va2pa(pgdir, i) == i);
 
-	// check pages array
-	n = ROUNDUP(npages*sizeof(struct PageInfo), PGSIZE);
+/* TODO: Lab 5
+ * Please maintain num_free_pages yourself
+ */
 f0103686:	a1 c4 76 11 f0       	mov    0xf01176c4,%eax
-	for (i = 0; i < n; i += PGSIZE)
+/* This is the system call implementation of get_num_free_page */
 f010368b:	31 f6                	xor    %esi,%esi
-    // check IO mem
-    for (i = IOPHYSMEM; i < ROUNDUP(EXTPHYSMEM, PGSIZE); i += PGSIZE)
-		assert(check_va2pa(pgdir, i) == i);
+}
 
-	// check pages array
-	n = ROUNDUP(npages*sizeof(struct PageInfo), PGSIZE);
+
+/* TODO: Lab 5
+ * Please maintain num_free_pages yourself
+ */
 f010368d:	8d 3c c5 ff 0f 00 00 	lea    0xfff(,%eax,8),%edi
 f0103694:	81 e7 00 f0 ff ff    	and    $0xfffff000,%edi
 f010369a:	eb 3f                	jmp    f01036db <mem_init+0xecb>
-	for (i = 0; i < n; i += PGSIZE)
-		assert(check_va2pa(pgdir, UPAGES + i) == PADDR(pages) + i);
+/* This is the system call implementation of get_num_free_page */
+int32_t
 f010369c:	8d 96 00 00 00 ef    	lea    -0x11000000(%esi),%edx
 f01036a2:	89 d8                	mov    %ebx,%eax
 f01036a4:	e8 c9 eb ff ff       	call   f0102272 <check_va2pa>
@@ -8105,22 +8105,22 @@ f01036c1:	68 19 63 10 f0       	push   $0xf0106319
 f01036c6:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01036cb:	68 0a 03 00 00       	push   $0x30a
 f01036d0:	e9 76 f2 ff ff       	jmp    f010294b <mem_init+0x13b>
-    for (i = IOPHYSMEM; i < ROUNDUP(EXTPHYSMEM, PGSIZE); i += PGSIZE)
-		assert(check_va2pa(pgdir, i) == i);
 
-	// check pages array
-	n = ROUNDUP(npages*sizeof(struct PageInfo), PGSIZE);
-	for (i = 0; i < n; i += PGSIZE)
+
+/* TODO: Lab 5
+ * Please maintain num_free_pages yourself
+ */
+/* This is the system call implementation of get_num_free_page */
 f01036d5:	81 c6 00 10 00 00    	add    $0x1000,%esi
 f01036db:	39 fe                	cmp    %edi,%esi
 f01036dd:	72 bd                	jb     f010369c <mem_init+0xe8c>
 f01036df:	31 f6                	xor    %esi,%esi
 f01036e1:	eb 2b                	jmp    f010370e <mem_init+0xefe>
-		assert(check_va2pa(pgdir, UPAGES + i) == PADDR(pages) + i);
-    
-	// check phys mem
-	for (i = 0; i < npages * PGSIZE; i += PGSIZE)
-		assert(check_va2pa(pgdir, KERNBASE + i) == i);
+int32_t
+sys_get_num_free_page(void)
+{
+	num_free_pages = mytrace(page_free_list);
+  return num_free_pages;
 f01036e3:	8d 96 00 00 00 f0    	lea    -0x10000000(%esi),%edx
 f01036e9:	89 d8                	mov    %ebx,%eax
 f01036eb:	e8 82 eb ff ff       	call   f0102272 <check_va2pa>
@@ -8130,23 +8130,23 @@ f01036f4:	68 4c 63 10 f0       	push   $0xf010634c
 f01036f9:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01036fe:	68 0e 03 00 00       	push   $0x30e
 f0103703:	e9 43 f2 ff ff       	jmp    f010294b <mem_init+0x13b>
-	n = ROUNDUP(npages*sizeof(struct PageInfo), PGSIZE);
-	for (i = 0; i < n; i += PGSIZE)
-		assert(check_va2pa(pgdir, UPAGES + i) == PADDR(pages) + i);
-    
-	// check phys mem
-	for (i = 0; i < npages * PGSIZE; i += PGSIZE)
+ */
+/* This is the system call implementation of get_num_free_page */
+int32_t
+sys_get_num_free_page(void)
+{
+	num_free_pages = mytrace(page_free_list);
 f0103708:	81 c6 00 10 00 00    	add    $0x1000,%esi
 f010370e:	a1 c4 76 11 f0       	mov    0xf01176c4,%eax
 f0103713:	c1 e0 0c             	shl    $0xc,%eax
 f0103716:	39 c6                	cmp    %eax,%esi
 f0103718:	72 c9                	jb     f01036e3 <mem_init+0xed3>
 f010371a:	31 f6                	xor    %esi,%esi
-		assert(check_va2pa(pgdir, KERNBASE + i) == i);
+  return num_free_pages;
+}
 
-	// check kernel stack
-	for (i = 0; i < KSTKSIZE; i += PGSIZE)
-		assert(check_va2pa(pgdir, KSTACKTOP - KSTKSIZE + i) == PADDR(bootstack) + i);
+/* This is the system call implementation of get_num_used_page */
+int32_t
 f010371c:	8d 96 00 80 ff ef    	lea    -0x10008000(%esi),%edx
 f0103722:	89 d8                	mov    %ebx,%eax
 f0103724:	e8 49 eb ff ff       	call   f0102272 <check_va2pa>
@@ -8161,17 +8161,17 @@ f0103741:	68 72 63 10 f0       	push   $0xf0106372
 f0103746:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010374b:	68 12 03 00 00       	push   $0x312
 f0103750:	e9 f6 f1 ff ff       	jmp    f010294b <mem_init+0x13b>
-	// check phys mem
-	for (i = 0; i < npages * PGSIZE; i += PGSIZE)
-		assert(check_va2pa(pgdir, KERNBASE + i) == i);
+{
+	num_free_pages = mytrace(page_free_list);
+  return num_free_pages;
+}
 
-	// check kernel stack
-	for (i = 0; i < KSTKSIZE; i += PGSIZE)
+/* This is the system call implementation of get_num_used_page */
 f0103755:	81 c6 00 10 00 00    	add    $0x1000,%esi
 f010375b:	81 fe 00 80 00 00    	cmp    $0x8000,%esi
 f0103761:	75 b9                	jne    f010371c <mem_init+0xf0c>
-		assert(check_va2pa(pgdir, KSTACKTOP - KSTKSIZE + i) == PADDR(bootstack) + i);
-	assert(check_va2pa(pgdir, KSTACKTOP - PTSIZE) == ~0);
+int32_t
+sys_get_num_used_page(void)
 f0103763:	ba 00 00 c0 ef       	mov    $0xefc00000,%edx
 f0103768:	89 d8                	mov    %ebx,%eax
 f010376a:	e8 03 eb ff ff       	call   f0102272 <check_va2pa>
@@ -8182,10 +8182,10 @@ f0103774:	68 b7 63 10 f0       	push   $0xf01063b7
 f0103779:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010377e:	68 13 03 00 00       	push   $0x313
 f0103783:	e9 c3 f1 ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	// check PDE permissions
-	for (i = 0; i < NPDENTRIES; i++) {
-		switch (i) {
+{
+	num_free_pages = mytrace(page_free_list);
+	return npages - num_free_pages; 
+}
 f0103788:	81 fa bd 03 00 00    	cmp    $0x3bd,%edx
 f010378e:	77 0c                	ja     f010379c <mem_init+0xf8c>
 f0103790:	81 fa bc 03 00 00    	cmp    $0x3bc,%edx
@@ -8194,23 +8194,23 @@ f0103798:	85 d2                	test   %edx,%edx
 f010379a:	eb 06                	jmp    f01037a2 <mem_init+0xf92>
 f010379c:	81 fa bf 03 00 00    	cmp    $0x3bf,%edx
 f01037a2:	75 1a                	jne    f01037be <mem_init+0xfae>
-        case PDX(IOPHYSMEM):
-		case PDX(UVPT):
-		case PDX(KSTACKTOP-1):
-		case PDX(UPAGES):
-			assert(pgdir[i] & PTE_P);
+
+// --------------------------------------------------------------
+// Checking functions.
+// --------------------------------------------------------------
+
 f01037a4:	f6 04 93 01          	testb  $0x1,(%ebx,%edx,4)
 f01037a8:	75 69                	jne    f0103813 <mem_init+0x1003>
 f01037aa:	68 e4 63 10 f0       	push   $0xf01063e4
 f01037af:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01037b4:	68 1c 03 00 00       	push   $0x31c
 f01037b9:	e9 8d f1 ff ff       	jmp    f010294b <mem_init+0x13b>
-			break;
-		default:
-			if (i >= PDX(KERNBASE)) {
+//
+// Check that the pages on the page_free_list are reasonable.
+//
 f01037be:	81 fa bf 03 00 00    	cmp    $0x3bf,%edx
 f01037c4:	76 33                	jbe    f01037f9 <mem_init+0xfe9>
-				assert(pgdir[i] & PTE_P);
+static void
 f01037c6:	8b 04 93             	mov    (%ebx,%edx,4),%eax
 f01037c9:	a8 01                	test   $0x1,%al
 f01037cb:	75 14                	jne    f01037e1 <mem_init+0xfd1>
@@ -8218,45 +8218,45 @@ f01037cd:	68 e4 63 10 f0       	push   $0xf01063e4
 f01037d2:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01037d7:	68 20 03 00 00       	push   $0x320
 f01037dc:	e9 6a f1 ff ff       	jmp    f010294b <mem_init+0x13b>
-				assert(pgdir[i] & PTE_W);
+check_page_free_list(bool only_low_memory)
 f01037e1:	a8 02                	test   $0x2,%al
 f01037e3:	75 2e                	jne    f0103813 <mem_init+0x1003>
 f01037e5:	68 f5 63 10 f0       	push   $0xf01063f5
 f01037ea:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01037ef:	68 21 03 00 00       	push   $0x321
 f01037f4:	e9 52 f1 ff ff       	jmp    f010294b <mem_init+0x13b>
-			} else
-				assert(pgdir[i] == 0);
+{
+	struct PageInfo *pp;
 f01037f9:	83 3c 93 00          	cmpl   $0x0,(%ebx,%edx,4)
 f01037fd:	74 14                	je     f0103813 <mem_init+0x1003>
 f01037ff:	68 06 64 10 f0       	push   $0xf0106406
 f0103804:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103809:	68 23 03 00 00       	push   $0x323
 f010380e:	e9 38 f1 ff ff       	jmp    f010294b <mem_init+0x13b>
-	for (i = 0; i < KSTKSIZE; i += PGSIZE)
-		assert(check_va2pa(pgdir, KSTACKTOP - KSTKSIZE + i) == PADDR(bootstack) + i);
-	assert(check_va2pa(pgdir, KSTACKTOP - PTSIZE) == ~0);
-
-	// check PDE permissions
-	for (i = 0; i < NPDENTRIES; i++) {
+/* This is the system call implementation of get_num_used_page */
+int32_t
+sys_get_num_used_page(void)
+{
+	num_free_pages = mytrace(page_free_list);
+	return npages - num_free_pages; 
 f0103813:	42                   	inc    %edx
 f0103814:	81 fa 00 04 00 00    	cmp    $0x400,%edx
 f010381a:	0f 85 68 ff ff ff    	jne    f0103788 <mem_init+0xf78>
-			} else
-				assert(pgdir[i] == 0);
-			break;
-		}
-	}
-	printk("check_kern_pgdir() succeeded!\n");
+{
+	struct PageInfo *pp;
+	unsigned pdx_limit = only_low_memory ? 1 : NPDENTRIES;
+	int nfree_basemem = 0, nfree_extmem = 0;
+	char *first_free_page;
+
 f0103820:	83 ec 0c             	sub    $0xc,%esp
 f0103823:	68 14 64 10 f0       	push   $0xf0106414
 f0103828:	e8 a3 e9 ff ff       	call   f01021d0 <printk>
-	// somewhere between KERNBASE and KERNBASE+4MB right now, which is
-	// mapped the same way by both page tables.
-	//
-	// If the machine reboots at this point, you've probably set up your
-	// kern_pgdir wrong.
-	lcr3(PADDR(kern_pgdir));
+	// We might not have 2^32 - KERNBASE bytes of physical memory, but
+	// we just set up the mapping anyway.
+	// Permissions: kernel RW, user NONE
+	// Your code goes here:
+//<<<<<<< HEAD
+    /* TODO */
 f010382d:	8b 15 c8 76 11 f0    	mov    0xf01176c8,%edx
 f0103833:	b8 d9 00 00 00       	mov    $0xd9,%eax
 f0103838:	e8 e6 ec ff ff       	call   f0102523 <_paddr.clone.0>
@@ -8267,8 +8267,8 @@ lcr3(uint32_t val)
 {
 	__asm __volatile("movl %0,%%cr3" : : "r" (val));
 f010383d:	0f 22 d8             	mov    %eax,%cr3
-
-	check_page_free_list(0);
+	boot_map_region(kern_pgdir, KERNBASE,  ROUNDUP((0xFFFFFFFF-KERNBASE), PGSIZE),0, (PTE_W | PTE_P));
+//=======
 f0103840:	31 c0                	xor    %eax,%eax
 f0103842:	e8 a3 ea ff ff       	call   f01022ea <check_page_free_list>
 
@@ -8279,12 +8279,12 @@ rcr0(void)
 	__asm __volatile("movl %%cr0,%0" : "=r" (val));
 f0103847:	0f 20 c0             	mov    %cr0,%eax
 
-	// entry.S set the really important flags in cr0 (including enabling
-	// paging).  Here we configure the rest of the flags that we care about.
-	cr0 = rcr0();
-	cr0 |= CR0_PE|CR0_PG|CR0_AM|CR0_WP|CR0_NE|CR0_MP;
+//>>>>>>> 3fe20efc26a5a63f2a8eb423231bc2cb1a987070
+	//////////////////////////////////////////////////////////////////////
+	// Map VA range [IOPHYSMEM, EXTPHYSMEM) to PA range [IOPHYSMEM, EXTPHYSMEM)
+	boot_map_region(kern_pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W) | (PTE_P));
 f010384a:	0d 23 00 05 80       	or     $0x80050023,%eax
-	cr0 &= ~(CR0_TS|CR0_EM);
+
 f010384f:	83 e0 f3             	and    $0xfffffff3,%eax
 }
 
@@ -8293,12 +8293,12 @@ lcr0(uint32_t val)
 {
 	__asm __volatile("movl %0,%%cr0" : : "r" (val));
 f0103852:	0f 22 c0             	mov    %eax,%cr0
-{
-	struct PageInfo *pp0, *pp1, *pp2;
-
-	// check that we can read and write installed pages
-	pp1 = pp2 = 0;
-	assert((pp0 = page_alloc(0)));
+		case PDX(KSTACKTOP-1):
+		case PDX(UPAGES):
+      		case PDX(MMIOBASE):
+			assert(pgdir[i] & PTE_P);
+			break;
+		default:
 f0103855:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
 f010385c:	e8 84 ed ff ff       	call   f01025e5 <page_alloc>
 f0103861:	83 c4 10             	add    $0x10,%esp
@@ -8309,7 +8309,7 @@ f010386a:	68 e9 5c 10 f0       	push   $0xf0105ce9
 f010386f:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103874:	68 de 03 00 00       	push   $0x3de
 f0103879:	e9 cd f0 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert((pp1 = page_alloc(0)));
+			if (i >= PDX(KERNBASE)) {
 f010387e:	83 ec 0c             	sub    $0xc,%esp
 f0103881:	6a 00                	push   $0x0
 f0103883:	e8 5d ed ff ff       	call   f01025e5 <page_alloc>
@@ -8321,7 +8321,7 @@ f0103891:	68 ff 5c 10 f0       	push   $0xf0105cff
 f0103896:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010389b:	68 df 03 00 00       	push   $0x3df
 f01038a0:	e9 a6 f0 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert((pp2 = page_alloc(0)));
+				assert(pgdir[i] & PTE_P);
 f01038a5:	83 ec 0c             	sub    $0xc,%esp
 f01038a8:	6a 00                	push   $0x0
 f01038aa:	e8 36 ed ff ff       	call   f01025e5 <page_alloc>
@@ -8333,11 +8333,11 @@ f01038b8:	68 15 5d 10 f0       	push   $0xf0105d15
 f01038bd:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01038c2:	68 e0 03 00 00       	push   $0x3e0
 f01038c7:	e9 7f f0 ff ff       	jmp    f010294b <mem_init+0x13b>
-	page_free(pp0);
+				assert(pgdir[i] & PTE_W);
 f01038cc:	83 ec 0c             	sub    $0xc,%esp
 f01038cf:	57                   	push   %edi
 f01038d0:	e8 51 ed ff ff       	call   f0102626 <page_free>
-	memset(page2kva(pp1), 1, PGSIZE);
+			} else
 f01038d5:	89 f0                	mov    %esi,%eax
 f01038d7:	e8 7d e9 ff ff       	call   f0102259 <page2kva>
 f01038dc:	83 c4 0c             	add    $0xc,%esp
@@ -8345,7 +8345,7 @@ f01038df:	68 00 10 00 00       	push   $0x1000
 f01038e4:	6a 01                	push   $0x1
 f01038e6:	50                   	push   %eax
 f01038e7:	e8 e3 c8 ff ff       	call   f01001cf <memset>
-	memset(page2kva(pp2), 2, PGSIZE);
+				assert(pgdir[i] == 0);
 f01038ec:	89 d8                	mov    %ebx,%eax
 f01038ee:	e8 66 e9 ff ff       	call   f0102259 <page2kva>
 f01038f3:	83 c4 0c             	add    $0xc,%esp
@@ -8353,13 +8353,13 @@ f01038f6:	68 00 10 00 00       	push   $0x1000
 f01038fb:	6a 02                	push   $0x2
 f01038fd:	50                   	push   %eax
 f01038fe:	e8 cc c8 ff ff       	call   f01001cf <memset>
-	page_insert(kern_pgdir, pp1, (void*) EXTPHYSMEM, PTE_W);
+			break;
 f0103903:	6a 02                	push   $0x2
 f0103905:	68 00 00 10 00       	push   $0x100000
 f010390a:	56                   	push   %esi
 f010390b:	ff 35 c8 76 11 f0    	pushl  0xf01176c8
 f0103911:	e8 9f ee ff ff       	call   f01027b5 <page_insert>
-	assert(pp1->pp_ref == 1);
+		}
 f0103916:	83 c4 20             	add    $0x20,%esp
 f0103919:	66 83 7e 04 01       	cmpw   $0x1,0x4(%esi)
 f010391e:	74 14                	je     f0103934 <mem_init+0x1124>
@@ -8367,7 +8367,7 @@ f0103920:	68 0a 5f 10 f0       	push   $0xf0105f0a
 f0103925:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010392a:	68 e5 03 00 00       	push   $0x3e5
 f010392f:	e9 17 f0 ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(*(uint32_t *)EXTPHYSMEM == 0x01010101U);
+	}
 f0103934:	81 3d 00 00 10 00 01 	cmpl   $0x1010101,0x100000
 f010393b:	01 01 01 
 f010393e:	74 14                	je     f0103954 <mem_init+0x1144>
@@ -8375,13 +8375,13 @@ f0103940:	68 33 64 10 f0       	push   $0xf0106433
 f0103945:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010394a:	68 e6 03 00 00       	push   $0x3e6
 f010394f:	e9 f7 ef ff ff       	jmp    f010294b <mem_init+0x13b>
-	page_insert(kern_pgdir, pp2, (void*) EXTPHYSMEM, PTE_W);
+	printk("check_kern_pgdir() succeeded!\n");
 f0103954:	6a 02                	push   $0x2
 f0103956:	68 00 00 10 00       	push   $0x100000
 f010395b:	53                   	push   %ebx
 f010395c:	ff 35 c8 76 11 f0    	pushl  0xf01176c8
 f0103962:	e8 4e ee ff ff       	call   f01027b5 <page_insert>
-	assert(*(uint32_t *)EXTPHYSMEM == 0x02020202U);
+}
 f0103967:	83 c4 10             	add    $0x10,%esp
 f010396a:	81 3d 00 00 10 00 02 	cmpl   $0x2020202,0x100000
 f0103971:	02 02 02 
@@ -8390,32 +8390,32 @@ f0103976:	68 5a 64 10 f0       	push   $0xf010645a
 f010397b:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103980:	68 e8 03 00 00       	push   $0x3e8
 f0103985:	e9 c1 ef ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp2->pp_ref == 1);
+
 f010398a:	66 83 7b 04 01       	cmpw   $0x1,0x4(%ebx)
 f010398f:	74 14                	je     f01039a5 <mem_init+0x1195>
 f0103991:	68 95 5f 10 f0       	push   $0xf0105f95
 f0103996:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f010399b:	68 e9 03 00 00       	push   $0x3e9
 f01039a0:	e9 a6 ef ff ff       	jmp    f010294b <mem_init+0x13b>
-	assert(pp1->pp_ref == 0);
+// This function returns the physical address of the page containing 'va',
 f01039a5:	66 83 7e 04 00       	cmpw   $0x0,0x4(%esi)
 f01039aa:	74 14                	je     f01039c0 <mem_init+0x11b0>
 f01039ac:	68 83 62 10 f0       	push   $0xf0106283
 f01039b1:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01039b6:	68 ea 03 00 00       	push   $0x3ea
 f01039bb:	e9 8b ef ff ff       	jmp    f010294b <mem_init+0x13b>
-	*(uint32_t *)EXTPHYSMEM = 0x03030303U;
-	assert(*(uint32_t *)page2kva(pp2) == 0x03030303U);
+// defined by the page directory 'pgdir'.  The hardware normally performs
+// this functionality for us!  We define our own version to help check
 f01039c0:	89 d8                	mov    %ebx,%eax
-	assert(*(uint32_t *)EXTPHYSMEM == 0x01010101U);
-	page_insert(kern_pgdir, pp2, (void*) EXTPHYSMEM, PTE_W);
-	assert(*(uint32_t *)EXTPHYSMEM == 0x02020202U);
-	assert(pp2->pp_ref == 1);
-	assert(pp1->pp_ref == 0);
-	*(uint32_t *)EXTPHYSMEM = 0x03030303U;
+	}
+	printk("check_kern_pgdir() succeeded!\n");
+}
+
+// This function returns the physical address of the page containing 'va',
+// defined by the page directory 'pgdir'.  The hardware normally performs
 f01039c2:	c7 05 00 00 10 00 03 	movl   $0x3030303,0x100000
 f01039c9:	03 03 03 
-	assert(*(uint32_t *)page2kva(pp2) == 0x03030303U);
+// this functionality for us!  We define our own version to help check
 f01039cc:	e8 88 e8 ff ff       	call   f0102259 <page2kva>
 f01039d1:	81 38 03 03 03 03    	cmpl   $0x3030303,(%eax)
 f01039d7:	74 14                	je     f01039ed <mem_init+0x11dd>
@@ -8423,13 +8423,13 @@ f01039d9:	68 81 64 10 f0       	push   $0xf0106481
 f01039de:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f01039e3:	68 ec 03 00 00       	push   $0x3ec
 f01039e8:	e9 5e ef ff ff       	jmp    f010294b <mem_init+0x13b>
-	page_remove(kern_pgdir, (void*) EXTPHYSMEM);
+// the check_kern_pgdir() function; it shouldn't be used elsewhere.
 f01039ed:	51                   	push   %ecx
 f01039ee:	51                   	push   %ecx
 f01039ef:	68 00 00 10 00       	push   $0x100000
 f01039f4:	ff 35 c8 76 11 f0    	pushl  0xf01176c8
 f01039fa:	e8 7a ed ff ff       	call   f0102779 <page_remove>
-	assert(pp2->pp_ref == 0);
+
 f01039ff:	83 c4 10             	add    $0x10,%esp
 f0103a02:	66 83 7b 04 00       	cmpw   $0x0,0x4(%ebx)
 f0103a07:	74 14                	je     f0103a1d <mem_init+0x120d>
@@ -8437,17 +8437,17 @@ f0103a09:	68 b1 61 10 f0       	push   $0xf01061b1
 f0103a0e:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103a13:	68 ee 03 00 00       	push   $0x3ee
 f0103a18:	e9 2e ef ff ff       	jmp    f010294b <mem_init+0x13b>
-
-	printk("check_page_installed_pgdir() succeeded!\n");
+static physaddr_t
+check_va2pa(pde_t *pgdir, uintptr_t va)
 f0103a1d:	83 ec 0c             	sub    $0xc,%esp
 f0103a20:	68 ab 64 10 f0       	push   $0xf01064ab
 f0103a25:	e8 a6 e7 ff ff       	call   f01021d0 <printk>
-	cr0 &= ~(CR0_TS|CR0_EM);
-	lcr0(cr0);
 
-	// Some more checks, only possible after kern_pgdir is installed.
-	check_page_installed_pgdir();
-}
+	//boot_map_region(kern_pgdir, 0x7000, PGSIZE, 0x7000, (PTE_W) | (PTE_P));
+
+  	// Initialize the SMP-related parts of the memory map
+//	mem_init_mp();
+
 f0103a2a:	83 c4 3c             	add    $0x3c,%esp
 f0103a2d:	5b                   	pop    %ebx
 f0103a2e:	5e                   	pop    %esi
@@ -8456,81 +8456,81 @@ f0103a30:	5d                   	pop    %ebp
 f0103a31:	c3                   	ret    
 
 f0103a32 <ptable_remove>:
-    tlb_invalidate(pgdir, va);
-}
-
-void
-ptable_remove(pde_t *pgdir)
-{
+/*	int i;
+	for(i=0;i < size/PGSIZE;++i,va+=PGSIZE,pa+=PGSIZE)
+	{
+		pte_t *pte = pgdir_walk(pgdir,(void*)va,1);
+		if(!pte) panic("bootmap error\n");
+		*pte = PTE_ADDR(pa) | perm | PTE_P;
 f0103a32:	56                   	push   %esi
 f0103a33:	53                   	push   %ebx
-  int i;
-  /* Free Page Tables */
-  for (i = 0; i < 1024; i++)
-f0103a34:	31 db                	xor    %ebx,%ebx
-    tlb_invalidate(pgdir, va);
+	}*/
 }
 
-void
-ptable_remove(pde_t *pgdir)
-{
+f0103a34:	31 db                	xor    %ebx,%ebx
+/*	int i;
+	for(i=0;i < size/PGSIZE;++i,va+=PGSIZE,pa+=PGSIZE)
+	{
+		pte_t *pte = pgdir_walk(pgdir,(void*)va,1);
+		if(!pte) panic("bootmap error\n");
+		*pte = PTE_ADDR(pa) | perm | PTE_P;
 f0103a36:	83 ec 04             	sub    $0x4,%esp
 f0103a39:	8b 74 24 10          	mov    0x10(%esp),%esi
-  int i;
-  /* Free Page Tables */
-  for (i = 0; i < 1024; i++)
-  {
-    if (pgdir[i] & PTE_P)
+	}*/
+}
+
+//
+// Map the physical page 'pp' at virtual address 'va'.
 f0103a3d:	8b 04 9e             	mov    (%esi,%ebx,4),%eax
 f0103a40:	a8 01                	test   $0x1,%al
 f0103a42:	74 16                	je     f0103a5a <ptable_remove+0x28>
-      page_decref(pa2page(PTE_ADDR(pgdir[i])));
+// The permissions (the low 12 bits) of the page table entry
 f0103a44:	25 00 f0 ff ff       	and    $0xfffff000,%eax
 f0103a49:	e8 6f e8 ff ff       	call   f01022bd <pa2page>
 f0103a4e:	83 ec 0c             	sub    $0xc,%esp
 f0103a51:	50                   	push   %eax
 f0103a52:	e8 08 ec ff ff       	call   f010265f <page_decref>
 f0103a57:	83 c4 10             	add    $0x10,%esp
-void
-ptable_remove(pde_t *pgdir)
-{
-  int i;
-  /* Free Page Tables */
-  for (i = 0; i < 1024; i++)
+		pte_t *pte = pgdir_walk(pgdir,(void*)va,1);
+		if(!pte) panic("bootmap error\n");
+		*pte = PTE_ADDR(pa) | perm | PTE_P;
+	}*/
+}
+
 f0103a5a:	43                   	inc    %ebx
 f0103a5b:	81 fb 00 04 00 00    	cmp    $0x400,%ebx
 f0103a61:	75 da                	jne    f0103a3d <ptable_remove+0xb>
-  {
-    if (pgdir[i] & PTE_P)
-      page_decref(pa2page(PTE_ADDR(pgdir[i])));
-  }
-}
+//
+// Map the physical page 'pp' at virtual address 'va'.
+// The permissions (the low 12 bits) of the page table entry
+// should be set to 'perm|PTE_P'.
+//
 f0103a63:	83 c4 04             	add    $0x4,%esp
 f0103a66:	5b                   	pop    %ebx
 f0103a67:	5e                   	pop    %esi
 f0103a68:	c3                   	ret    
 
 f0103a69 <pgdir_remove>:
-
-
-void
-pgdir_remove(pde_t *pgdir)
-{
+// Requirements
+//   - If there is already a page mapped at 'va', it should be page_remove()d.
+//   - If necessary, on demand, a page table should be allocated and inserted
+//     into 'pgdir'.
+//   - pp->pp_ref should be incremented if the insertion succeeds.
 f0103a69:	83 ec 0c             	sub    $0xc,%esp
-  page_free(pa2page(PADDR(pgdir)));
+//   - The TLB must be invalidated if a page was formerly present at 'va'.
 f0103a6c:	b8 20 02 00 00       	mov    $0x220,%eax
 f0103a71:	8b 54 24 10          	mov    0x10(%esp),%edx
 f0103a75:	e8 a9 ea ff ff       	call   f0102523 <_paddr.clone.0>
 f0103a7a:	e8 3e e8 ff ff       	call   f01022bd <pa2page>
 f0103a7f:	89 44 24 10          	mov    %eax,0x10(%esp)
-}
+//
 f0103a83:	83 c4 0c             	add    $0xc,%esp
-
-
-void
-pgdir_remove(pde_t *pgdir)
-{
-  page_free(pa2page(PADDR(pgdir)));
+// Requirements
+//   - If there is already a page mapped at 'va', it should be page_remove()d.
+//   - If necessary, on demand, a page table should be allocated and inserted
+//     into 'pgdir'.
+//   - pp->pp_ref should be incremented if the insertion succeeds.
+//   - The TLB must be invalidated if a page was formerly present at 'va'.
 f0103a86:	e9 9b eb ff ff       	jmp    f0102626 <page_free>
 
 f0103a8b <tlb_invalidate>:
@@ -8542,35 +8542,35 @@ invlpg(void *addr)
 	__asm __volatile("invlpg (%0)" : : "r" (addr) : "memory");
 f0103a8b:	8b 44 24 08          	mov    0x8(%esp),%eax
 f0103a8f:	0f 01 38             	invlpg (%eax)
-tlb_invalidate(pde_t *pgdir, void *va)
-{
-	// Flush the entry only if we're modifying the current address space.
-	// For now, there is only one address space, so always invalidate.
-	invlpg(va);
-}
+// RETURNS:
+//   0 on success
+//   -E_NO_MEM, if page table couldn't be allocated
+//
+// Hint: The TA solution is implemented using pgdir_walk, page_remove,
+// and page2pa.
 f0103a92:	c3                   	ret    
 
 f0103a93 <setupvm>:
-
-
-/* This is a simple wrapper function for mapping user program */
-void
-setupvm(pde_t *pgdir, uint32_t start, uint32_t size)
+//
+int
+page_insert(pde_t *pgdir, struct PageInfo *pp, void *va, int perm)
 {
+    /* TODO */
+	// get the page table specify entry
 f0103a93:	56                   	push   %esi
-  boot_map_region(pgdir, start, ROUNDUP(size, PGSIZE), PADDR((void*)start), PTE_W | PTE_U);
+	pte_t *pte = pgdir_walk(pgdir, va, 1);
 f0103a94:	b8 34 02 00 00       	mov    $0x234,%eax
-
-
-/* This is a simple wrapper function for mapping user program */
-void
-setupvm(pde_t *pgdir, uint32_t start, uint32_t size)
+//
+int
+page_insert(pde_t *pgdir, struct PageInfo *pp, void *va, int perm)
 {
+    /* TODO */
+	// get the page table specify entry
 f0103a99:	53                   	push   %ebx
 f0103a9a:	83 ec 04             	sub    $0x4,%esp
 f0103a9d:	8b 5c 24 14          	mov    0x14(%esp),%ebx
 f0103aa1:	8b 74 24 10          	mov    0x10(%esp),%esi
-  boot_map_region(pgdir, start, ROUNDUP(size, PGSIZE), PADDR((void*)start), PTE_W | PTE_U);
+	pte_t *pte = pgdir_walk(pgdir, va, 1);
 f0103aa5:	89 da                	mov    %ebx,%edx
 f0103aa7:	e8 77 ea ff ff       	call   f0102523 <_paddr.clone.0>
 f0103aac:	8b 4c 24 18          	mov    0x18(%esp),%ecx
@@ -8583,7 +8583,7 @@ f0103ac0:	6a 06                	push   $0x6
 f0103ac2:	50                   	push   %eax
 f0103ac3:	89 f0                	mov    %esi,%eax
 f0103ac5:	e8 22 ec ff ff       	call   f01026ec <boot_map_region>
-  assert(check_va2pa(pgdir, start) == PADDR((void*)start));
+        if (!pte)
 f0103aca:	89 da                	mov    %ebx,%edx
 f0103acc:	89 f0                	mov    %esi,%eax
 f0103ace:	e8 9f e7 ff ff       	call   f0102272 <check_va2pa>
@@ -8599,37 +8599,37 @@ f0103aed:	68 2a 5b 10 f0       	push   $0xf0105b2a
 f0103af2:	68 35 02 00 00       	push   $0x235
 f0103af7:	68 ce 5a 10 f0       	push   $0xf0105ace
 f0103afc:	e8 e7 00 00 00       	call   f0103be8 <_panic>
-}
+		return -E_NO_MEM;
 f0103b01:	83 c4 04             	add    $0x4,%esp
 f0103b04:	5b                   	pop    %ebx
 f0103b05:	5e                   	pop    %esi
 f0103b06:	c3                   	ret    
 
 f0103b07 <setupkvm>:
- * You should map the kernel part memory with appropriate permission
- * Return a pointer to newly created page directory
- */
-pde_t *
-setupkvm()
-{
+			// do not have to increase ref cnt , because my origin ref this
+                        *pte |= perm;
+                        return 0;
+                 }
+		// old pg table entry should check if it have to be remove ( decrease ref cnt )
+                page_remove(pgdir, va);
 f0103b07:	53                   	push   %ebx
 f0103b08:	83 ec 14             	sub    $0x14,%esp
-    struct PageInfo *s;
-    s = page_alloc(ALLOC_ZERO);
+         }
+	// change orig target into new
 f0103b0b:	6a 01                	push   $0x1
 f0103b0d:	e8 d3 ea ff ff       	call   f01025e5 <page_alloc>
-    pde_t u_pgdir = page2kva(s);
+        *pte = page2pa(pp) | perm | PTE_P;
 f0103b12:	e8 42 e7 ff ff       	call   f0102259 <page2kva>
-    boot_map_region(u_pgdir, UPAGES, ROUNDUP((sizeof(struct PageInfo) * npages), PGSIZE), PADDR(pages), (PTE_U | PTE_P));
+        pp->pp_ref++;
 f0103b17:	8b 15 d0 76 11 f0    	mov    0xf01176d0,%edx
-pde_t *
-setupkvm()
-{
-    struct PageInfo *s;
-    s = page_alloc(ALLOC_ZERO);
-    pde_t u_pgdir = page2kva(s);
+                 }
+		// old pg table entry should check if it have to be remove ( decrease ref cnt )
+                page_remove(pgdir, va);
+         }
+	// change orig target into new
+        *pte = page2pa(pp) | perm | PTE_P;
 f0103b1d:	89 c3                	mov    %eax,%ebx
-    boot_map_region(u_pgdir, UPAGES, ROUNDUP((sizeof(struct PageInfo) * npages), PGSIZE), PADDR(pages), (PTE_U | PTE_P));
+        pp->pp_ref++;
 f0103b1f:	b8 44 02 00 00       	mov    $0x244,%eax
 f0103b24:	e8 fa e9 ff ff       	call   f0102523 <_paddr.clone.0>
 f0103b29:	8b 15 c4 76 11 f0    	mov    0xf01176c4,%edx
@@ -8642,7 +8642,7 @@ f0103b43:	6a 05                	push   $0x5
 f0103b45:	50                   	push   %eax
 f0103b46:	89 d8                	mov    %ebx,%eax
 f0103b48:	e8 9f eb ff ff       	call   f01026ec <boot_map_region>
-    boot_map_region(u_pgdir,KSTACKTOP - KSTKSIZE,KSTKSIZE,PADDR(bootstack),PTE_W);
+        return 0;
 f0103b4d:	ba 00 c0 10 f0       	mov    $0xf010c000,%edx
 f0103b52:	b8 45 02 00 00       	mov    $0x245,%eax
 f0103b57:	e8 c7 e9 ff ff       	call   f0102523 <_paddr.clone.0>
@@ -8654,7 +8654,7 @@ f0103b68:	6a 02                	push   $0x2
 f0103b6a:	50                   	push   %eax
 f0103b6b:	89 d8                	mov    %ebx,%eax
 f0103b6d:	e8 7a eb ff ff       	call   f01026ec <boot_map_region>
-    boot_map_region(u_pgdir,KERNBASE,0xffffffff-KERNBASE,0,PTE_W);
+	/* FONGER 
 f0103b72:	89 d8                	mov    %ebx,%eax
 f0103b74:	5a                   	pop    %edx
 f0103b75:	ba 00 00 00 f0       	mov    $0xf0000000,%edx
@@ -8663,7 +8663,7 @@ f0103b7b:	b9 ff ff ff 0f       	mov    $0xfffffff,%ecx
 f0103b80:	6a 02                	push   $0x2
 f0103b82:	6a 00                	push   $0x0
 f0103b84:	e8 63 eb ff ff       	call   f01026ec <boot_map_region>
-    boot_map_region(u_pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W) | (PTE_P));
+	pte_t *pte = pgdir_walk(pgdir, va, 1);
 f0103b89:	ba 00 00 0a 00       	mov    $0xa0000,%edx
 f0103b8e:	59                   	pop    %ecx
 f0103b8f:	b9 00 00 06 00       	mov    $0x60000,%ecx
@@ -8672,82 +8672,82 @@ f0103b95:	89 d8                	mov    %ebx,%eax
 f0103b97:	6a 03                	push   $0x3
 f0103b99:	68 00 00 0a 00       	push   $0xa0000
 f0103b9e:	e8 49 eb ff ff       	call   f01026ec <boot_map_region>
-    return u_pgdir;
-}
+	if(!pte)
+		return -E_NO_MEM;
 f0103ba3:	89 d8                	mov    %ebx,%eax
 f0103ba5:	83 c4 18             	add    $0x18,%esp
 f0103ba8:	5b                   	pop    %ebx
 f0103ba9:	c3                   	ret    
 
 f0103baa <sys_get_num_free_page>:
- * Please maintain num_free_pages yourself
- */
-/* This is the system call implementation of get_num_free_page */
-int32_t
-sys_get_num_free_page(void)
-{
+	*pte = page2pa(pp) | perm | PTE_P;
+	pgdir[PDX(va)] |= *ptep & 0xfff;
+	tlb_invalidate(pgdir, va);
+	*/
+}
+
 f0103baa:	53                   	push   %ebx
-/* TODO: Lab 5
- * Please maintain num_free_pages yourself
- */
-/* This is the system call implementation of get_num_free_page */
-int32_t
-sys_get_num_free_page(void)
+		page_remove(pgdir, va);
+	*pte = page2pa(pp) | perm | PTE_P;
+	pgdir[PDX(va)] |= *ptep & 0xfff;
+	tlb_invalidate(pgdir, va);
+	*/
+}
 f0103bab:	8b 0d c4 76 11 f0    	mov    0xf01176c4,%ecx
-{
-    int i = 0;
-    num_free_pages = 0;
-    for(i=0;i<npages;i++)
+
+//
+// Return the page mapped at virtual address 'va'.
+// If pte_store is not zero, then we store in it the address
 f0103bb1:	31 c0                	xor    %eax,%eax
-    {
-        if(pages[i].pp_ref==0)
+// of the pte for this page.  This is used by page_remove and
+// can be used to verify page permissions for syscall arguments,
 f0103bb3:	8b 1d d0 76 11 f0    	mov    0xf01176d0,%ebx
-int32_t
-sys_get_num_free_page(void)
-{
-    int i = 0;
-    num_free_pages = 0;
-    for(i=0;i<npages;i++)
+	*/
+}
+
+//
+// Return the page mapped at virtual address 'va'.
+// If pte_store is not zero, then we store in it the address
 f0103bb9:	31 d2                	xor    %edx,%edx
 f0103bbb:	eb 0a                	jmp    f0103bc7 <sys_get_num_free_page+0x1d>
-    {
-        if(pages[i].pp_ref==0)
-            num_free_pages++;
+// of the pte for this page.  This is used by page_remove and
+// can be used to verify page permissions for syscall arguments,
+// but should not be used by most callers.
 f0103bbd:	66 83 7c d3 04 01    	cmpw   $0x1,0x4(%ebx,%edx,8)
 f0103bc3:	83 d0 00             	adc    $0x0,%eax
-int32_t
-sys_get_num_free_page(void)
-{
-    int i = 0;
-    num_free_pages = 0;
-    for(i=0;i<npages;i++)
+	*/
+}
+
+//
+// Return the page mapped at virtual address 'va'.
+// If pte_store is not zero, then we store in it the address
 f0103bc6:	42                   	inc    %edx
 f0103bc7:	39 ca                	cmp    %ecx,%edx
 f0103bc9:	75 f2                	jne    f0103bbd <sys_get_num_free_page+0x13>
 f0103bcb:	a3 cc 76 11 f0       	mov    %eax,0xf01176cc
-    {
-        if(pages[i].pp_ref==0)
-            num_free_pages++;
-    }
-    return num_free_pages;
-}
+// of the pte for this page.  This is used by page_remove and
+// can be used to verify page permissions for syscall arguments,
+// but should not be used by most callers.
+//
+// Return NULL if there is no page mapped at va.
+//
 f0103bd0:	5b                   	pop    %ebx
 f0103bd1:	c3                   	ret    
 
 f0103bd2 <sys_get_num_used_page>:
-
-/* This is the system call implementation of get_num_used_page */
-int32_t
-sys_get_num_used_page(void)
+// Hint: the TA solution uses pgdir_walk and pa2page.
+//
+struct PageInfo *
+page_lookup(pde_t *pgdir, void *va, pte_t **pte_store)
 {
-    num_free_pages = sys_get_num_free_page();
+    /* TODO */
 f0103bd2:	e8 d3 ff ff ff       	call   f0103baa <sys_get_num_free_page>
 f0103bd7:	89 c2                	mov    %eax,%edx
 f0103bd9:	a3 cc 76 11 f0       	mov    %eax,0xf01176cc
-    return npages - num_free_pages; 
+	pte_t * pgtable = pgdir_walk(pgdir, va, 0);                                                                                    
 f0103bde:	a1 c4 76 11 f0       	mov    0xf01176c4,%eax
 f0103be3:	29 d0                	sub    %edx,%eax
-}
+        if (!pgtable)
 f0103be5:	c3                   	ret    
 	...
 
@@ -8892,101 +8892,101 @@ f0103c8e:	c3                   	ret
 	...
 
 f0103c90 <timer_handler>:
+  outb(0x40, divisor & 0xFF);   /* Set low byte of divisor */
   outb(0x40, divisor >> 8);     /* Set high byte of divisor */
 }
 
 /* It is timer interrupt handler */
-void timer_handler(struct Trapframe *tf)
-{
+//
 f0103c90:	53                   	push   %ebx
 f0103c91:	83 ec 08             	sub    $0x8,%esp
-  extern void sched_yield();
-  int i;
-
-  jiffies++;
+// TODO: Lab6
+// Modify your timer_handler to support Multi processor
+// Don't forget to acknowledge the interrupt using lapic_eoi()
+//
 f0103c94:	ff 05 28 4e 11 f0    	incl   0xf0114e28
-
-  extern Task tasks[];
-
-  extern Task *cur_task;
-
-  if (cur_task != NULL)
+void timer_handler(struct Trapframe *tf)
+{
+  extern void sched_yield();
+  extern struct CpuInfo cpus[NCPU];
+//  extern int cpunum();
+  int f ;
 f0103c9a:	83 3d 2c 4e 11 f0 00 	cmpl   $0x0,0xf0114e2c
 f0103ca1:	74 4d                	je     f0103cf0 <timer_handler+0x60>
 f0103ca3:	31 db                	xor    %ebx,%ebx
-   *
-   */
-        int i;
-        for(i = 0;i<NR_TASKS;i++)
-        {
-            if(tasks[i].state ==TASK_SLEEP)
+  //extern Task *cur_task;
+
+ /* if (cur_task!= NULL)
+  {
+  * TODO: Lab 5
+   * 1. Maintain the status of slept tasks
 f0103ca5:	83 bb 28 77 11 f0 03 	cmpl   $0x3,-0xfee88d8(%ebx)
 f0103cac:	75 1b                	jne    f0103cc9 <timer_handler+0x39>
-            {
-                tasks[i].remind_ticks--;
+   * 
+   * 2. Change the state of the task if needed
 f0103cae:	8b 83 24 77 11 f0    	mov    -0xfee88dc(%ebx),%eax
 f0103cb4:	48                   	dec    %eax
-                if(tasks[i].remind_ticks==0)
+   *
 f0103cb5:	85 c0                	test   %eax,%eax
-        int i;
-        for(i = 0;i<NR_TASKS;i++)
-        {
-            if(tasks[i].state ==TASK_SLEEP)
-            {
-                tasks[i].remind_ticks--;
+ /* if (cur_task!= NULL)
+  {
+  * TODO: Lab 5
+   * 1. Maintain the status of slept tasks
+   * 
+   * 2. Change the state of the task if needed
 f0103cb7:	89 83 24 77 11 f0    	mov    %eax,-0xfee88dc(%ebx)
-                if(tasks[i].remind_ticks==0)
+   *
 f0103cbd:	75 0a                	jne    f0103cc9 <timer_handler+0x39>
-                    tasks[i].state = TASK_RUNNABLE;
+   * 3. Maintain the time quantum of the current task
 f0103cbf:	c7 83 28 77 11 f0 01 	movl   $0x1,-0xfee88d8(%ebx)
 f0103cc6:	00 00 00 
-            }
-            cur_task->remind_ticks--;
+   *
+   * 4. sched_yield() if the time is up for current task
 f0103cc9:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 f0103cce:	8b 50 4c             	mov    0x4c(%eax),%edx
 f0103cd1:	4a                   	dec    %edx
-            if(cur_task->remind_ticks==0)
+   *
 f0103cd2:	85 d2                	test   %edx,%edx
-            {
-                tasks[i].remind_ticks--;
-                if(tasks[i].remind_ticks==0)
-                    tasks[i].state = TASK_RUNNABLE;
-            }
-            cur_task->remind_ticks--;
-f0103cd4:	89 50 4c             	mov    %edx,0x4c(%eax)
-            if(cur_task->remind_ticks==0)
-f0103cd7:	75 0c                	jne    f0103ce5 <timer_handler+0x55>
-            {
-                cur_task->state = TASK_RUNNABLE;
-f0103cd9:	c7 40 50 01 00 00 00 	movl   $0x1,0x50(%eax)
-                sched_yield();
-f0103ce0:	e8 17 06 00 00       	call   f01042fc <sched_yield>
-f0103ce5:	83 c3 58             	add    $0x58,%ebx
+   * 
+   * 2. Change the state of the task if needed
+   *
+   * 3. Maintain the time quantum of the current task
    *
    * 4. sched_yield() if the time is up for current task
+f0103cd4:	89 50 4c             	mov    %edx,0x4c(%eax)
    *
-   */
-        int i;
-        for(i = 0;i<NR_TASKS;i++)
+f0103cd7:	75 0c                	jne    f0103ce5 <timer_handler+0x55>
+   *
+	for(i = 0 ; i<NR_TASKS ; i++)
+f0103cd9:	c7 40 50 01 00 00 00 	movl   $0x1,0x50(%eax)
+	{
+f0103ce0:	e8 17 06 00 00       	call   f01042fc <sched_yield>
+f0103ce5:	83 c3 58             	add    $0x58,%ebx
+  extern Task tasks[];
+
+  //extern Task *cur_task;
+
+ /* if (cur_task!= NULL)
+  {
 f0103ce8:	81 fb 70 03 00 00    	cmp    $0x370,%ebx
 f0103cee:	75 b5                	jne    f0103ca5 <timer_handler+0x15>
-                sched_yield();
-            }
-        }
-    }
-    
-}
+	{
+		switch(tasks[i].state) {
+		case TASK_SLEEP:
+			tasks[i].remind_ticks --;
+			if(tasks[i].remind_ticks <= 0)
+			{
 f0103cf0:	83 c4 08             	add    $0x8,%esp
 f0103cf3:	5b                   	pop    %ebx
 f0103cf4:	c3                   	ret    
 
 f0103cf5 <set_timer>:
+#define TIME_HZ 100
 
 static unsigned long jiffies = 0;
 
 void set_timer(int hz)
 {
-  int divisor = 1193180 / hz;       /* Calculate our divisor */
 f0103cf5:	b9 dc 34 12 00       	mov    $0x1234dc,%ecx
 f0103cfa:	89 c8                	mov    %ecx,%eax
 f0103cfc:	99                   	cltd   
@@ -8998,177 +8998,177 @@ f0103d0a:	ee                   	out    %al,(%dx)
 f0103d0b:	b2 40                	mov    $0x40,%dl
 f0103d0d:	88 c8                	mov    %cl,%al
 f0103d0f:	ee                   	out    %al,(%dx)
+  int divisor = 1193180 / hz;       /* Calculate our divisor */
   outb(0x43, 0x36);             /* Set our command byte 0x36 */
   outb(0x40, divisor & 0xFF);   /* Set low byte of divisor */
-  outb(0x40, divisor >> 8);     /* Set high byte of divisor */
 f0103d10:	89 c8                	mov    %ecx,%eax
 f0103d12:	c1 f8 08             	sar    $0x8,%eax
 f0103d15:	ee                   	out    %al,(%dx)
-}
+  outb(0x40, divisor >> 8);     /* Set high byte of divisor */
 f0103d16:	c3                   	ret    
 
 f0103d17 <sys_get_ticks>:
-
-
-unsigned long sys_get_ticks()
-{
-  return jiffies;
-}
+				tasks[i].state = TASK_RUNNABLE;
+				tasks[i].remind_ticks = TIME_QUANT;
+			}
+			break;
+		case TASK_RUNNING:
+			tasks[i].remind_ticks --;
 f0103d17:	a1 28 4e 11 f0       	mov    0xf0114e28,%eax
 f0103d1c:	c3                   	ret    
 
 f0103d1d <timer_init>:
-void timer_init()
-{
+			break;
+		}
 f0103d1d:	83 ec 0c             	sub    $0xc,%esp
-  set_timer(TIME_HZ);
+	}
 f0103d20:	6a 64                	push   $0x64
 f0103d22:	e8 ce ff ff ff       	call   f0103cf5 <set_timer>
-
-  /* Enable interrupt */
-  irq_setmask_8259A(irq_mask_8259A & ~(1<<IRQ_TIMER));
+	if(cur_task->remind_ticks <=0)
+	{
+		sched_yield();
 f0103d27:	50                   	push   %eax
 f0103d28:	50                   	push   %eax
 f0103d29:	0f b7 05 3c 70 10 f0 	movzwl 0xf010703c,%eax
 f0103d30:	25 fe ff 00 00       	and    $0xfffe,%eax
 f0103d35:	50                   	push   %eax
 f0103d36:	e8 dd db ff ff       	call   f0101918 <irq_setmask_8259A>
-
-  /* Register trap handler */
-  extern void TIM_ISR();
-  register_handler( IRQ_OFFSET + IRQ_TIMER, &timer_handler, &TIM_ISR, 0, 0);
+	}
+  }*/
+	for(i=0;i<NR_TASKS;i++)
+	{
 f0103d3b:	c7 04 24 00 00 00 00 	movl   $0x0,(%esp)
 f0103d42:	6a 00                	push   $0x0
 f0103d44:	68 3c 21 10 f0       	push   $0xf010213c
 f0103d49:	68 90 3c 10 f0       	push   $0xf0103c90
 f0103d4e:	6a 20                	push   $0x20
 f0103d50:	e8 f0 e1 ff ff       	call   f0101f45 <register_handler>
-}
+		if(cpus[f].cpu_rq.task_rq[i]!=NULL)
 f0103d55:	83 c4 2c             	add    $0x2c,%esp
 f0103d58:	c3                   	ret    
 f0103d59:	00 00                	add    %al,(%eax)
 	...
 
 f0103d5c <task_create>:
+ *    and its schedule time quantum (remind_ticks).
  *
  * 6. Return the pid of the newly created task.
- *
+ 
  */
 int task_create()
-{
 f0103d5c:	57                   	push   %edi
-            break;
-        }
-    
-    }
-    if(i==NR_TASKS)
-        return -1;
+		if(tasks[i].state==TASK_FREE)
+		{
+			ts = &(tasks[i]);
+	
+			break;
+		}
 f0103d5d:	b8 28 77 11 f0       	mov    $0xf0117728,%eax
+ *    and its schedule time quantum (remind_ticks).
  *
  * 6. Return the pid of the newly created task.
- *
+ 
  */
 int task_create()
-{
 f0103d62:	56                   	push   %esi
 f0103d63:	53                   	push   %ebx
-	Task *ts = NULL;
-
-	/* Find a free task structure */
-    int i;
-    for(i =0;i<NR_TASKS;i++)  
-f0103d64:	31 db                	xor    %ebx,%ebx
-    {
-        if(tasks[i].state==TASK_FREE)
-f0103d66:	83 38 00             	cmpl   $0x0,(%eax)
-f0103d69:	75 13                	jne    f0103d7e <task_create+0x22>
-        {
-            ts = &(tasks[i]);
-f0103d6b:	6b f3 58             	imul   $0x58,%ebx,%esi
-            break;
-        }
-    
-    }
-    if(i==NR_TASKS)
-f0103d6e:	83 fb 0a             	cmp    $0xa,%ebx
-    int i;
-    for(i =0;i<NR_TASKS;i++)  
-    {
-        if(tasks[i].state==TASK_FREE)
-        {
-            ts = &(tasks[i]);
-f0103d71:	8d be d8 76 11 f0    	lea    -0xfee8928(%esi),%edi
-            break;
-        }
-    
-    }
-    if(i==NR_TASKS)
-f0103d77:	75 13                	jne    f0103d8c <task_create+0x30>
-f0103d79:	e9 e4 00 00 00       	jmp    f0103e62 <task_create+0x106>
 {
 	Task *ts = NULL;
-
+	struct PageInfo *pp;
 	/* Find a free task structure */
-    int i;
-    for(i =0;i<NR_TASKS;i++)  
+	int i;
+f0103d64:	31 db                	xor    %ebx,%ebx
+	int f;
+	f = cpunum();
+f0103d66:	83 38 00             	cmpl   $0x0,(%eax)
+f0103d69:	75 13                	jne    f0103d7e <task_create+0x22>
+	for(i=0;i<NR_TASKS;i++)
+	{
+f0103d6b:	6b f3 58             	imul   $0x58,%ebx,%esi
+		if(tasks[i].state==TASK_FREE)
+		{
+			ts = &(tasks[i]);
+	
+			break;
+f0103d6e:	83 fb 0a             	cmp    $0xa,%ebx
+	/* Find a free task structure */
+	int i;
+	int f;
+	f = cpunum();
+	for(i=0;i<NR_TASKS;i++)
+	{
+f0103d71:	8d be d8 76 11 f0    	lea    -0xfee8928(%esi),%edi
+		if(tasks[i].state==TASK_FREE)
+		{
+			ts = &(tasks[i]);
+	
+			break;
+f0103d77:	75 13                	jne    f0103d8c <task_create+0x30>
+f0103d79:	e9 e4 00 00 00       	jmp    f0103e62 <task_create+0x106>
+int task_create()
+{
+	Task *ts = NULL;
+	struct PageInfo *pp;
+	/* Find a free task structure */
+	int i;
 f0103d7e:	43                   	inc    %ebx
 f0103d7f:	83 c0 58             	add    $0x58,%eax
 f0103d82:	83 fb 0a             	cmp    $0xa,%ebx
 f0103d85:	75 df                	jne    f0103d66 <task_create+0xa>
 f0103d87:	e9 d6 00 00 00       	jmp    f0103e62 <task_create+0x106>
-    
-    }
-    if(i==NR_TASKS)
-        return -1;
-  /* Setup Page Directory and pages for kernel*/
-  if (!(ts->pgdir = setupkvm()))
+			ts = &(tasks[i]);
+	
+			break;
+		}
+	}
+	if(ts == NULL)
 f0103d8c:	e8 76 fd ff ff       	call   f0103b07 <setupkvm>
 f0103d91:	85 c0                	test   %eax,%eax
 f0103d93:	89 86 2c 77 11 f0    	mov    %eax,-0xfee88d4(%esi)
 f0103d99:	be 00 40 bf ee       	mov    $0xeebf4000,%esi
 f0103d9e:	75 12                	jne    f0103db2 <task_create+0x56>
-    panic("Not enough memory for per process page directory!\n");
+	{
 f0103da0:	52                   	push   %edx
 f0103da1:	68 37 65 10 f0       	push   $0xf0106537
 f0103da6:	6a 75                	push   $0x75
 f0103da8:	68 6a 65 10 f0       	push   $0xf010656a
 f0103dad:	e8 36 fe ff ff       	call   f0103be8 <_panic>
-  /* Setup User Stack */
-    int j;
-    struct PageInfo *u_stack;
-    for(j = 0;j<USR_STACK_SIZE/PGSIZE;j++)
-    {
-        u_stack = page_alloc(ALLOC_ZERO);
+	}
+	/* Setup Page Directory and pages for kernel*/
+	if (!(ts->pgdir = setupkvm()))
+		panic("Not enough memory for per process page directory!\n");
+
+	/* Setup User Stack */
 f0103db2:	83 ec 0c             	sub    $0xc,%esp
 f0103db5:	6a 01                	push   $0x1
 f0103db7:	e8 29 e8 ff ff       	call   f01025e5 <page_alloc>
-        if(u_stack==NULL)
+	int j;
 f0103dbc:	83 c4 10             	add    $0x10,%esp
 f0103dbf:	85 c0                	test   %eax,%eax
 f0103dc1:	0f 84 9b 00 00 00    	je     f0103e62 <task_create+0x106>
-            return -1;
-        page_insert(ts->pgdir,u_stack,(void *)USTACKTOP-USR_STACK_SIZE+PGSIZE*j,PTE_W|PTE_U);
+	for(j=USTACKTOP-USR_STACK_SIZE;j<USTACKTOP;j = j + PGSIZE)
+	{
 f0103dc7:	6a 06                	push   $0x6
 f0103dc9:	56                   	push   %esi
 f0103dca:	81 c6 00 10 00 00    	add    $0x1000,%esi
 f0103dd0:	50                   	push   %eax
 f0103dd1:	ff 77 54             	pushl  0x54(%edi)
 f0103dd4:	e8 dc e9 ff ff       	call   f01027b5 <page_insert>
-    panic("Not enough memory for per process page directory!\n");
-
-  /* Setup User Stack */
-    int j;
-    struct PageInfo *u_stack;
-    for(j = 0;j<USR_STACK_SIZE/PGSIZE;j++)
+	{
+		return -1;
+	}
+	/* Setup Page Directory and pages for kernel*/
+	if (!(ts->pgdir = setupkvm()))
+		panic("Not enough memory for per process page directory!\n");
 f0103dd9:	83 c4 10             	add    $0x10,%esp
 f0103ddc:	81 fe 00 e0 bf ee    	cmp    $0xeebfe000,%esi
 f0103de2:	75 ce                	jne    f0103db2 <task_create+0x56>
-        if(u_stack==NULL)
-            return -1;
-        page_insert(ts->pgdir,u_stack,(void *)USTACKTOP-USR_STACK_SIZE+PGSIZE*j,PTE_W|PTE_U);
-    }
-	/* Setup Trapframe */
-	memset( &(ts->tf), 0, sizeof(ts->tf));
+	int j;
+	for(j=USTACKTOP-USR_STACK_SIZE;j<USTACKTOP;j = j + PGSIZE)
+	{
+		pp = page_alloc(ALLOC_ZERO);
+		page_insert(ts->pgdir,pp,j,PTE_U | PTE_P | PTE_W);
+	}
 f0103de4:	6b f3 58             	imul   $0x58,%ebx,%esi
 f0103de7:	50                   	push   %eax
 f0103de8:	6a 44                	push   $0x44
@@ -9177,92 +9177,92 @@ f0103dec:	8d be d8 76 11 f0    	lea    -0xfee8928(%esi),%edi
 f0103df2:	8d 47 08             	lea    0x8(%edi),%eax
 f0103df5:	50                   	push   %eax
 f0103df6:	e8 d4 c3 ff ff       	call   f01001cf <memset>
+	/* Setup Trapframe */
+	memset( &(ts->tf), 0, sizeof(ts->tf));
 
-	ts->tf.tf_cs = GD_UT | 0x03;
-	ts->tf.tf_ds = GD_UD | 0x03;
 f0103dfb:	8d 86 f8 76 11 f0    	lea    -0xfee8908(%esi),%eax
+	ts->tf.tf_ss = GD_UD | 0x03;
+	ts->tf.tf_esp = USTACKTOP-PGSIZE;
 
 	/* Setup task structure (task_id and parent_id) */
-    ts->task_id = i;
-    ts->remind_ticks =TIME_QUANT;
-    ts->state = TASK_RUNNABLE;
-    if(cur_task==NULL)
+	ts->task_id = i;
+	ts->state = TASK_RUNNABLE;
 f0103e01:	83 c4 10             	add    $0x10,%esp
-    }
+		pp = page_alloc(ALLOC_ZERO);
+		page_insert(ts->pgdir,pp,j,PTE_U | PTE_P | PTE_W);
+	}
 	/* Setup Trapframe */
 	memset( &(ts->tf), 0, sizeof(ts->tf));
 
-	ts->tf.tf_cs = GD_UT | 0x03;
-	ts->tf.tf_ds = GD_UD | 0x03;
 f0103e04:	66 c7 40 0c 23 00    	movw   $0x23,0xc(%eax)
-	ts->tf.tf_es = GD_UD | 0x03;
+	ts->tf.tf_cs = GD_UT | 0x03;
 f0103e0a:	66 c7 40 08 23 00    	movw   $0x23,0x8(%eax)
+	ts->tf.tf_ss = GD_UD | 0x03;
+	ts->tf.tf_esp = USTACKTOP-PGSIZE;
 
 	/* Setup task structure (task_id and parent_id) */
-    ts->task_id = i;
-    ts->remind_ticks =TIME_QUANT;
-    ts->state = TASK_RUNNABLE;
-    if(cur_task==NULL)
+	ts->task_id = i;
+	ts->state = TASK_RUNNABLE;
 f0103e10:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
-        page_insert(ts->pgdir,u_stack,(void *)USTACKTOP-USR_STACK_SIZE+PGSIZE*j,PTE_W|PTE_U);
-    }
+	{
+		pp = page_alloc(ALLOC_ZERO);
+		page_insert(ts->pgdir,pp,j,PTE_U | PTE_P | PTE_W);
+	}
 	/* Setup Trapframe */
 	memset( &(ts->tf), 0, sizeof(ts->tf));
-
-	ts->tf.tf_cs = GD_UT | 0x03;
 f0103e15:	66 c7 86 14 77 11 f0 	movw   $0x1b,-0xfee88ec(%esi)
 f0103e1c:	1b 00 
+
+	ts->tf.tf_cs = GD_UT | 0x03;
+	ts->tf.tf_ds = GD_UD | 0x03;
+f0103e1e:	66 c7 86 20 77 11 f0 	movw   $0x23,-0xfee88e0(%esi)
+f0103e25:	23 00 
+	ts->tf.tf_es = GD_UD | 0x03;
+f0103e27:	c7 86 1c 77 11 f0 00 	movl   $0xeebfd000,-0xfee88e4(%esi)
+f0103e2e:	d0 bf ee 
+	ts->tf.tf_ss = GD_UD | 0x03;
+	ts->tf.tf_esp = USTACKTOP-PGSIZE;
+
+	/* Setup task structure (task_id and parent_id) */
+	ts->task_id = i;
+	ts->state = TASK_RUNNABLE;
+f0103e31:	85 c0                	test   %eax,%eax
+	ts->tf.tf_cs = GD_UT | 0x03;
 	ts->tf.tf_ds = GD_UD | 0x03;
 	ts->tf.tf_es = GD_UD | 0x03;
 	ts->tf.tf_ss = GD_UD | 0x03;
-f0103e1e:	66 c7 86 20 77 11 f0 	movw   $0x23,-0xfee88e0(%esi)
-f0103e25:	23 00 
-	ts->tf.tf_esp = USTACKTOP-PGSIZE;
-f0103e27:	c7 86 1c 77 11 f0 00 	movl   $0xeebfd000,-0xfee88e4(%esi)
-f0103e2e:	d0 bf ee 
-
-	/* Setup task structure (task_id and parent_id) */
-    ts->task_id = i;
-    ts->remind_ticks =TIME_QUANT;
-    ts->state = TASK_RUNNABLE;
-    if(cur_task==NULL)
-f0103e31:	85 c0                	test   %eax,%eax
-	ts->tf.tf_es = GD_UD | 0x03;
-	ts->tf.tf_ss = GD_UD | 0x03;
 	ts->tf.tf_esp = USTACKTOP-PGSIZE;
 
-	/* Setup task structure (task_id and parent_id) */
-    ts->task_id = i;
 f0103e33:	89 9e d8 76 11 f0    	mov    %ebx,-0xfee8928(%esi)
-    ts->remind_ticks =TIME_QUANT;
+	/* Setup task structure (task_id and parent_id) */
 f0103e39:	c7 86 24 77 11 f0 64 	movl   $0x64,-0xfee88dc(%esi)
 f0103e40:	00 00 00 
-    ts->state = TASK_RUNNABLE;
+	ts->task_id = i;
 f0103e43:	c7 47 50 01 00 00 00 	movl   $0x1,0x50(%edi)
-    if(cur_task==NULL)
+	ts->state = TASK_RUNNABLE;
 f0103e4a:	75 0c                	jne    f0103e58 <task_create+0xfc>
-        ts->parent_id=0;
+	if(cpus[f].cpu_task==NULL)
 f0103e4c:	c7 86 dc 76 11 f0 00 	movl   $0x0,-0xfee8924(%esi)
 f0103e53:	00 00 00 
 f0103e56:	eb 0d                	jmp    f0103e65 <task_create+0x109>
-    else
-       ts->parent_id = cur_task->task_id;
+	{
+		ts->parent_id = 0;
 f0103e58:	8b 00                	mov    (%eax),%eax
 f0103e5a:	89 86 dc 76 11 f0    	mov    %eax,-0xfee8924(%esi)
 f0103e60:	eb 03                	jmp    f0103e65 <task_create+0x109>
-    struct PageInfo *u_stack;
-    for(j = 0;j<USR_STACK_SIZE/PGSIZE;j++)
-    {
-        u_stack = page_alloc(ALLOC_ZERO);
-        if(u_stack==NULL)
-            return -1;
+	if (!(ts->pgdir = setupkvm()))
+		panic("Not enough memory for per process page directory!\n");
+
+	/* Setup User Stack */
+	int j;
+	for(j=USTACKTOP-USR_STACK_SIZE;j<USTACKTOP;j = j + PGSIZE)
 f0103e62:	83 cb ff             	or     $0xffffffff,%ebx
-    if(cur_task==NULL)
-        ts->parent_id=0;
-    else
-       ts->parent_id = cur_task->task_id;
-    return i;
-}
+	ts->state = TASK_RUNNABLE;
+	if(cpus[f].cpu_task==NULL)
+	{
+		ts->parent_id = 0;
+	}
+	else
 f0103e65:	89 d8                	mov    %ebx,%eax
 f0103e67:	5b                   	pop    %ebx
 f0103e68:	5e                   	pop    %esi
@@ -9270,36 +9270,36 @@ f0103e69:	5f                   	pop    %edi
 f0103e6a:	c3                   	ret    
 
 f0103e6b <sys_kill>:
-
-    pgdir_remove(tasks[pid].pgdir);
-}
-
-void sys_kill(int pid)
+static void task_free(int pid)
 {
+	lcr3(PADDR(kern_pgdir));
+	int i;
+	for(i=USTACKTOP-USR_STACK_SIZE;i<USTACKTOP;i = i+PGSIZE)
+	{
 f0103e6b:	57                   	push   %edi
 f0103e6c:	56                   	push   %esi
 f0103e6d:	53                   	push   %ebx
-	if (pid > 0 && pid < NR_TASKS)
+		page_remove(tasks[pid].pgdir,i);
 f0103e6e:	8b 44 24 10          	mov    0x10(%esp),%eax
 f0103e72:	48                   	dec    %eax
 f0103e73:	83 f8 08             	cmp    $0x8,%eax
 f0103e76:	0f 87 81 00 00 00    	ja     f0103efd <sys_kill+0x92>
-	/* TODO: Lab 5
-   * Remember to change the state of tasks
-   * Free the memory
-   * and invoke the scheduler for yield
-   */
-        cur_task->state = TASK_STOP;
+	ptable_remove(tasks[pid].pgdir);
+	pgdir_remove(tasks[pid].pgdir);
+//	tasks[pid].pgdir = NULL;
+}
+
+// Lab6 TODO
 f0103e7c:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 f0103e81:	c7 40 50 04 00 00 00 	movl   $0x4,0x50(%eax)
-        task_free(cur_task->task_id);
+//
 f0103e88:	8b 38                	mov    (%eax),%edi
- * HINT: You can refer to page_remove, ptable_remove, and pgdir_remove
- */
-static void task_free(int pid)
-{
-    
-    lcr3(PADDR(kern_pgdir));
+ * 2. You have to remove pages of USER STACK
+ *
+ * 3. You have to remove pages of page table
+ *
+ * 4. You have to remove pages of page directory
+ *
 f0103e8a:	a1 c8 76 11 f0       	mov    0xf01176c8,%eax
 /* -------------- Inline Functions --------------  */
 
@@ -9324,9 +9324,9 @@ lcr3(uint32_t val)
 {
 	__asm __volatile("movl %0,%%cr3" : : "r" (val));
 f0103eb0:	0f 22 d8             	mov    %eax,%cr3
-    int i;
-    for(i = 0;i<USR_STACK_SIZE/PGSIZE;i++)
-        page_remove(tasks[pid].pgdir,(void *)USTACKTOP-USR_STACK_SIZE+i*PGSIZE);
+ * HINT: You can refer to page_remove, ptable_remove, and pgdir_remove
+ */
+
 f0103eb3:	6b ff 58             	imul   $0x58,%edi,%edi
 f0103eb6:	bb 00 40 bf ee       	mov    $0xeebf4000,%ebx
 f0103ebb:	81 c7 dc 76 11 f0    	add    $0xf01176dc,%edi
@@ -9337,149 +9337,149 @@ f0103ec4:	81 c3 00 10 00 00    	add    $0x1000,%ebx
 f0103eca:	ff 77 50             	pushl  0x50(%edi)
 f0103ecd:	8d 77 50             	lea    0x50(%edi),%esi
 f0103ed0:	e8 a4 e8 ff ff       	call   f0102779 <page_remove>
-static void task_free(int pid)
-{
-    
-    lcr3(PADDR(kern_pgdir));
-    int i;
-    for(i = 0;i<USR_STACK_SIZE/PGSIZE;i++)
+ * 3. You have to remove pages of page table
+ *
+ * 4. You have to remove pages of page directory
+ *
+ * HINT: You can refer to page_remove, ptable_remove, and pgdir_remove
+ */
 f0103ed5:	83 c4 10             	add    $0x10,%esp
 f0103ed8:	81 fb 00 e0 bf ee    	cmp    $0xeebfe000,%ebx
 f0103ede:	75 e1                	jne    f0103ec1 <sys_kill+0x56>
-        page_remove(tasks[pid].pgdir,(void *)USTACKTOP-USR_STACK_SIZE+i*PGSIZE);
-    ptable_remove(tasks[pid].pgdir);
+
+
 f0103ee0:	83 ec 0c             	sub    $0xc,%esp
 f0103ee3:	ff 36                	pushl  (%esi)
 f0103ee5:	e8 48 fb ff ff       	call   f0103a32 <ptable_remove>
-
-    pgdir_remove(tasks[pid].pgdir);
+static void task_free(int pid)
+{
 f0103eea:	59                   	pop    %ecx
 f0103eeb:	ff 36                	pushl  (%esi)
 f0103eed:	e8 77 fb ff ff       	call   f0103a69 <pgdir_remove>
-   * Free the memory
-   * and invoke the scheduler for yield
-   */
-        cur_task->state = TASK_STOP;
-        task_free(cur_task->task_id);
-        sched_yield();
-f0103ef2:	83 c4 10             	add    $0x10,%esp
-	}
+//	tasks[pid].pgdir = NULL;
 }
+
+// Lab6 TODO
+//
+// Modify it so that the task will be removed form cpu runqueue
+f0103ef2:	83 c4 10             	add    $0x10,%esp
+// ( we not implement signal yet so do not try to kill process
+// running on other cpu )
 f0103ef5:	5b                   	pop    %ebx
 f0103ef6:	5e                   	pop    %esi
 f0103ef7:	5f                   	pop    %edi
-   * Free the memory
-   * and invoke the scheduler for yield
-   */
-        cur_task->state = TASK_STOP;
-        task_free(cur_task->task_id);
-        sched_yield();
-f0103ef8:	e9 ff 03 00 00       	jmp    f01042fc <sched_yield>
-	}
+//	tasks[pid].pgdir = NULL;
 }
+
+// Lab6 TODO
+//
+// Modify it so that the task will be removed form cpu runqueue
+f0103ef8:	e9 ff 03 00 00       	jmp    f01042fc <sched_yield>
+// ( we not implement signal yet so do not try to kill process
+// running on other cpu )
 f0103efd:	5b                   	pop    %ebx
 f0103efe:	5e                   	pop    %esi
 f0103eff:	5f                   	pop    %edi
 f0103f00:	c3                   	ret    
 
 f0103f01 <sys_fork>:
- *
- * HINT: You should understand how system call return
- * it's return value.
- */
-int sys_fork()
-{
+		{
+			if(now == head)
+			{
+				head = now->next;
+				cpus[f].cpu_rq.task_rq = head;
+				now->next = NULL;
 f0103f01:	55                   	push   %ebp
 f0103f02:	57                   	push   %edi
 f0103f03:	56                   	push   %esi
 f0103f04:	53                   	push   %ebx
 f0103f05:	83 ec 1c             	sub    $0x1c,%esp
-  /* pid for newly created process */
-  int pid,i;
-  pid = task_create();
+			}
+			else
+			{
 f0103f08:	e8 4f fe ff ff       	call   f0103d5c <task_create>
-  uint32_t src_addr, dst_addr, *src, *dst;
-  if(pid<0)
+				while(pre->next!=now)
+				{
 f0103f0d:	85 c0                	test   %eax,%eax
- */
-int sys_fork()
-{
-  /* pid for newly created process */
-  int pid,i;
-  pid = task_create();
+				head = now->next;
+				cpus[f].cpu_rq.task_rq = head;
+				now->next = NULL;
+			}
+			else
+			{
 f0103f0f:	89 44 24 08          	mov    %eax,0x8(%esp)
-  uint32_t src_addr, dst_addr, *src, *dst;
-  if(pid<0)
+				while(pre->next!=now)
+				{
 f0103f13:	0f 88 36 01 00 00    	js     f010404f <sys_fork+0x14e>
-      return -1;
-        if ((uint32_t)cur_task)
+					pre = pre->next;
+				}
 f0103f19:	8b 35 2c 4e 11 f0    	mov    0xf0114e2c,%esi
 f0103f1f:	85 f6                	test   %esi,%esi
 f0103f21:	0f 84 30 01 00 00    	je     f0104057 <sys_fork+0x156>
-        {
-            tasks[pid].tf = cur_task->tf;
+				pre->next = now->next;
+				now->next = NULL;
 f0103f27:	6b e8 58             	imul   $0x58,%eax,%ebp
 f0103f2a:	83 c6 08             	add    $0x8,%esi
 f0103f2d:	b9 11 00 00 00       	mov    $0x11,%ecx
-            for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
-            {
-                src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
-                src_addr = PTE_ADDR(*src);
-                dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
+			}*/
+			int f;
+			f = cpunum();
+			int j;
+			for(j=0;j<NR_TASKS;j++)
 f0103f32:	8d 85 dc 76 11 f0    	lea    -0xfee8924(%ebp),%eax
-  uint32_t src_addr, dst_addr, *src, *dst;
-  if(pid<0)
-      return -1;
-        if ((uint32_t)cur_task)
-        {
-            tasks[pid].tf = cur_task->tf;
+				while(pre->next!=now)
+				{
+					pre = pre->next;
+				}
+				pre->next = now->next;
+				now->next = NULL;
 f0103f38:	8d bd e0 76 11 f0    	lea    -0xfee8920(%ebp),%edi
-            for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
-            {
-                src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
-                src_addr = PTE_ADDR(*src);
-                dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
+			}*/
+			int f;
+			f = cpunum();
+			int j;
+			for(j=0;j<NR_TASKS;j++)
 f0103f3e:	89 44 24 0c          	mov    %eax,0xc(%esp)
-  uint32_t src_addr, dst_addr, *src, *dst;
-  if(pid<0)
-      return -1;
-        if ((uint32_t)cur_task)
-        {
-            tasks[pid].tf = cur_task->tf;
+				while(pre->next!=now)
+				{
+					pre = pre->next;
+				}
+				pre->next = now->next;
+				now->next = NULL;
 f0103f42:	f3 a5                	rep movsl %ds:(%esi),%es:(%edi)
 f0103f44:	bf 00 40 bf ee       	mov    $0xeebf4000,%edi
-            for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
-            {
-                src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
+			}*/
+			int f;
+			f = cpunum();
 f0103f49:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 f0103f4e:	51                   	push   %ecx
 f0103f4f:	6a 00                	push   $0x0
 f0103f51:	57                   	push   %edi
 f0103f52:	ff 70 54             	pushl  0x54(%eax)
 f0103f55:	e8 25 e7 ff ff       	call   f010267f <pgdir_walk>
-                src_addr = PTE_ADDR(*src);
-                dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
+			int j;
+			for(j=0;j<NR_TASKS;j++)
 f0103f5a:	83 c4 0c             	add    $0xc,%esp
-        {
-            tasks[pid].tf = cur_task->tf;
-            for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
-            {
-                src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
-                src_addr = PTE_ADDR(*src);
+				pre->next = now->next;
+				now->next = NULL;
+			}*/
+			int f;
+			f = cpunum();
+			int j;
 f0103f5d:	8b 30                	mov    (%eax),%esi
-                dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
+			for(j=0;j<NR_TASKS;j++)
 f0103f5f:	6a 00                	push   $0x0
 f0103f61:	57                   	push   %edi
 f0103f62:	8b 54 24 18          	mov    0x18(%esp),%edx
 f0103f66:	8b 5c 24 18          	mov    0x18(%esp),%ebx
-        {
-            tasks[pid].tf = cur_task->tf;
-            for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
-            {
-                src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
-                src_addr = PTE_ADDR(*src);
+				pre->next = now->next;
+				now->next = NULL;
+			}*/
+			int f;
+			f = cpunum();
+			int j;
 f0103f6a:	81 e6 00 f0 ff ff    	and    $0xfffff000,%esi
-                dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
+			for(j=0;j<NR_TASKS;j++)
 f0103f70:	ff 72 50             	pushl  0x50(%edx)
 f0103f73:	83 c3 50             	add    $0x50,%ebx
 f0103f76:	e8 04 e7 ff ff       	call   f010267f <pgdir_walk>
@@ -9494,7 +9494,7 @@ f0103f81:	89 f1                	mov    %esi,%ecx
 f0103f83:	c1 e9 0c             	shr    $0xc,%ecx
 f0103f86:	83 c4 10             	add    $0x10,%esp
 f0103f89:	39 d1                	cmp    %edx,%ecx
-                dst_addr = PTE_ADDR(*dst);
+			{
 f0103f8b:	8b 00                	mov    (%eax),%eax
 f0103f8d:	72 03                	jb     f0103f92 <sys_fork+0x91>
 		_panic(file, line, "KADDR called with invalid pa %08lx", pa);
@@ -9517,7 +9517,7 @@ f0103fa1:	68 9c 5a 10 f0       	push   $0xf0105a9c
 f0103fa6:	68 eb 00 00 00       	push   $0xeb
 f0103fab:	68 6a 65 10 f0       	push   $0xf010656a
 f0103fb0:	e8 33 fc ff ff       	call   f0103be8 <_panic>
-                memcpy(KADDR(dst_addr), KADDR(src_addr), PGSIZE);
+				if(cpus[f].cpu_rq.task_rq[j]!=NULL && cpus[f].cpu_rq.task_rq[j]->task_id==pid)
 f0103fb5:	52                   	push   %edx
 	return (void *)(pa + KERNBASE);
 f0103fb6:	81 ee 00 00 00 10    	sub    $0x10000000,%esi
@@ -9527,76 +9527,76 @@ f0103fc6:	56                   	push   %esi
 f0103fc7:	81 c7 00 10 00 00    	add    $0x1000,%edi
 f0103fcd:	50                   	push   %eax
 f0103fce:	e8 d6 c2 ff ff       	call   f01002a9 <memcpy>
-  if(pid<0)
-      return -1;
-        if ((uint32_t)cur_task)
-        {
-            tasks[pid].tf = cur_task->tf;
-            for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
+				{
+					pre = pre->next;
+				}
+				pre->next = now->next;
+				now->next = NULL;
+			}*/
 f0103fd3:	83 c4 10             	add    $0x10,%esp
 f0103fd6:	81 ff 00 e0 bf ee    	cmp    $0xeebfe000,%edi
 f0103fdc:	0f 85 67 ff ff ff    	jne    f0103f49 <sys_fork+0x48>
-                dst_addr = PTE_ADDR(*dst);
-                memcpy(KADDR(dst_addr), KADDR(src_addr), PGSIZE);
-            }
-            
-        /* Step 4: All user program use the same code for now */
-        setupvm(tasks[pid].pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
+			{
+				if(cpus[f].cpu_rq.task_rq[j]!=NULL && cpus[f].cpu_rq.task_rq[j]->task_id==pid)
+				{
+					task_free(pid);
+					tasks[pid].state = TASK_FREE;
+					cpus[f].cpu_rq.number --;
 f0103fe2:	57                   	push   %edi
 f0103fe3:	ff 35 54 7a 11 f0    	pushl  0xf0117a54
 f0103fe9:	68 00 00 10 f0       	push   $0xf0100000
 f0103fee:	ff 33                	pushl  (%ebx)
 f0103ff0:	e8 9e fa ff ff       	call   f0103a93 <setupvm>
-        setupvm(tasks[pid].pgdir, (uint32_t)UDATA_start, UDATA_SZ);
+			//	printk("DD");
 f0103ff5:	83 c4 0c             	add    $0xc,%esp
 f0103ff8:	ff 35 50 7a 11 f0    	pushl  0xf0117a50
 f0103ffe:	68 00 70 10 f0       	push   $0xf0107000
 f0104003:	ff 33                	pushl  (%ebx)
 f0104005:	e8 89 fa ff ff       	call   f0103a93 <setupvm>
-        setupvm(tasks[pid].pgdir, (uint32_t)UBSS_start, UBSS_SZ);
+					sched_yield();
 f010400a:	83 c4 0c             	add    $0xc,%esp
 f010400d:	ff 35 48 7a 11 f0    	pushl  0xf0117a48
 f0104013:	68 00 b0 10 f0       	push   $0xf010b000
 f0104018:	ff 33                	pushl  (%ebx)
 f010401a:	e8 74 fa ff ff       	call   f0103a93 <setupvm>
-        setupvm(tasks[pid].pgdir, (uint32_t)URODATA_start, URODATA_SZ);
+				}
 f010401f:	83 c4 0c             	add    $0xc,%esp
 f0104022:	ff 35 4c 7a 11 f0    	pushl  0xf0117a4c
 f0104028:	68 00 50 10 f0       	push   $0xf0105000
 f010402d:	ff 33                	pushl  (%ebx)
 f010402f:	e8 5f fa ff ff       	call   f0103a93 <setupvm>
-        
-
-        cur_task->tf.tf_regs.reg_eax = pid;
+			}
+	//	}
+	}
 f0104034:	8b 54 24 18          	mov    0x18(%esp),%edx
-        tasks[pid].tf.tf_regs.reg_eax = 0;
+}
 f0104038:	83 c4 10             	add    $0x10,%esp
-        setupvm(tasks[pid].pgdir, (uint32_t)UDATA_start, UDATA_SZ);
-        setupvm(tasks[pid].pgdir, (uint32_t)UBSS_start, UBSS_SZ);
-        setupvm(tasks[pid].pgdir, (uint32_t)URODATA_start, URODATA_SZ);
-        
-
-        cur_task->tf.tf_regs.reg_eax = pid;
+			//	printk("DD");
+					sched_yield();
+				}
+			}
+	//	}
+	}
 f010403b:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 f0104040:	89 50 24             	mov    %edx,0x24(%eax)
-        tasks[pid].tf.tf_regs.reg_eax = 0;
+}
 f0104043:	c7 85 fc 76 11 f0 00 	movl   $0x0,-0xfee8904(%ebp)
 f010404a:	00 00 00 
 f010404d:	eb 08                	jmp    f0104057 <sys_fork+0x156>
-  /* pid for newly created process */
-  int pid,i;
-  pid = task_create();
-  uint32_t src_addr, dst_addr, *src, *dst;
-  if(pid<0)
-      return -1;
+			}
+			else
+			{
+				while(pre->next!=now)
+				{
+					pre = pre->next;
 f010404f:	c7 44 24 08 ff ff ff 	movl   $0xffffffff,0x8(%esp)
 f0104056:	ff 
-
-        cur_task->tf.tf_regs.reg_eax = pid;
-        tasks[pid].tf.tf_regs.reg_eax = 0;
-        }
-    return pid;
+	//	}
+	}
 }
+
+/* TODO: Lab 5
+ * In this function, you have several things todo
 f0104057:	8b 44 24 08          	mov    0x8(%esp),%eax
 f010405b:	83 c4 1c             	add    $0x1c,%esp
 f010405e:	5b                   	pop    %ebx
@@ -9606,194 +9606,194 @@ f0104061:	5d                   	pop    %ebp
 f0104062:	c3                   	ret    
 
 f0104063 <task_init>:
- */
-void task_init()
-{
-  extern int user_entry();
-	int i;
-  UTEXT_SZ = (uint32_t)(UTEXT_end - UTEXT_start);
+ * 2. Copy the trap frame of the parent to the child
+ *
+ * 3. Copy the content of the old stack to the new one,
+ *    you can use memcpy to do the job. Remember all the
+ *    address you use should be virtual address.
+ *
 f0104063:	b8 f8 17 10 f0       	mov    $0xf01017f8,%eax
-/* TODO: Lab5
- * We've done the initialization for you,
- * please make sure you understand the code.
- */
-void task_init()
-{
+ * 1. Use task_create() to create an empty task, return -1
+ *    if cannot create a new one.
+ *
+ * 2. Copy the trap frame of the parent to the child
+ *
+ * 3. Copy the content of the old stack to the new one,
 f0104068:	53                   	push   %ebx
-  extern int user_entry();
-	int i;
-  UTEXT_SZ = (uint32_t)(UTEXT_end - UTEXT_start);
+ *    you can use memcpy to do the job. Remember all the
+ *    address you use should be virtual address.
+ *
 f0104069:	2d 00 00 10 f0       	sub    $0xf0100000,%eax
-/* TODO: Lab5
- * We've done the initialization for you,
- * please make sure you understand the code.
- */
-void task_init()
-{
+ * 1. Use task_create() to create an empty task, return -1
+ *    if cannot create a new one.
+ *
+ * 2. Copy the trap frame of the parent to the child
+ *
+ * 3. Copy the content of the old stack to the new one,
 f010406e:	83 ec 08             	sub    $0x8,%esp
-  extern int user_entry();
-	int i;
-  UTEXT_SZ = (uint32_t)(UTEXT_end - UTEXT_start);
-  UDATA_SZ = (uint32_t)(UDATA_end - UDATA_start);
-  UBSS_SZ = (uint32_t)(UBSS_end - UBSS_start);
-  URODATA_SZ = (uint32_t)(URODATA_end - URODATA_start);
+ *    you can use memcpy to do the job. Remember all the
+ *    address you use should be virtual address.
+ *
+ * 4. Setup virtual memory mapping of the user prgram 
+ *    in the new task's page table.
+ *    According to linker script, you can determine where
 f0104071:	bb d8 76 11 f0       	mov    $0xf01176d8,%ebx
- */
-void task_init()
-{
-  extern int user_entry();
-	int i;
-  UTEXT_SZ = (uint32_t)(UTEXT_end - UTEXT_start);
+ * 2. Copy the trap frame of the parent to the child
+ *
+ * 3. Copy the content of the old stack to the new one,
+ *    you can use memcpy to do the job. Remember all the
+ *    address you use should be virtual address.
+ *
 f0104076:	a3 54 7a 11 f0       	mov    %eax,0xf0117a54
-  UDATA_SZ = (uint32_t)(UDATA_end - UDATA_start);
+ * 4. Setup virtual memory mapping of the user prgram 
 f010407b:	b8 3c 70 10 f0       	mov    $0xf010703c,%eax
 f0104080:	2d 00 70 10 f0       	sub    $0xf0107000,%eax
 f0104085:	a3 50 7a 11 f0       	mov    %eax,0xf0117a50
-  UBSS_SZ = (uint32_t)(UBSS_end - UBSS_start);
+ *    in the new task's page table.
 f010408a:	b8 58 7a 11 f0       	mov    $0xf0117a58,%eax
 f010408f:	2d 00 b0 10 f0       	sub    $0xf010b000,%eax
 f0104094:	a3 48 7a 11 f0       	mov    %eax,0xf0117a48
-  URODATA_SZ = (uint32_t)(URODATA_end - URODATA_start);
+ *    According to linker script, you can determine where
 f0104099:	b8 88 51 10 f0       	mov    $0xf0105188,%eax
 f010409e:	2d 00 50 10 f0       	sub    $0xf0105000,%eax
 f01040a3:	a3 4c 7a 11 f0       	mov    %eax,0xf0117a4c
-
-	/* Initial task sturcture */
-	for (i = 0; i < NR_TASKS; i++)
-	{
-		memset(&(tasks[i]), 0, sizeof(Task));
+ *    is the user program. We've done this part for you,
+ *    but you should understand how it works.
+ *
+ * 5. The very important step is to let child and 
+ *    parent be distinguishable!
 f01040a8:	50                   	push   %eax
 f01040a9:	6a 58                	push   $0x58
 f01040ab:	6a 00                	push   $0x0
 f01040ad:	53                   	push   %ebx
 f01040ae:	e8 1c c1 ff ff       	call   f01001cf <memset>
-  UDATA_SZ = (uint32_t)(UDATA_end - UDATA_start);
-  UBSS_SZ = (uint32_t)(UBSS_end - UBSS_start);
-  URODATA_SZ = (uint32_t)(URODATA_end - URODATA_start);
-
-	/* Initial task sturcture */
-	for (i = 0; i < NR_TASKS; i++)
+ * 4. Setup virtual memory mapping of the user prgram 
+ *    in the new task's page table.
+ *    According to linker script, you can determine where
+ *    is the user program. We've done this part for you,
+ *    but you should understand how it works.
+ *
 f01040b3:	83 c4 10             	add    $0x10,%esp
-	{
-		memset(&(tasks[i]), 0, sizeof(Task));
-		tasks[i].state = TASK_FREE;
+ * 5. The very important step is to let child and 
+ *    parent be distinguishable!
+ *
 f01040b6:	c7 43 50 00 00 00 00 	movl   $0x0,0x50(%ebx)
 f01040bd:	83 c3 58             	add    $0x58,%ebx
-  UDATA_SZ = (uint32_t)(UDATA_end - UDATA_start);
-  UBSS_SZ = (uint32_t)(UBSS_end - UBSS_start);
-  URODATA_SZ = (uint32_t)(URODATA_end - URODATA_start);
-
-	/* Initial task sturcture */
-	for (i = 0; i < NR_TASKS; i++)
+ * 4. Setup virtual memory mapping of the user prgram 
+ *    in the new task's page table.
+ *    According to linker script, you can determine where
+ *    is the user program. We've done this part for you,
+ *    but you should understand how it works.
+ *
 f01040c0:	81 fb 48 7a 11 f0    	cmp    $0xf0117a48,%ebx
 f01040c6:	75 e0                	jne    f01040a8 <task_init+0x45>
-		tasks[i].state = TASK_FREE;
+ *
+ * HINT: You should understand how system call return
+ * it's return value.
+ */
 
-	}
-	// Setup a TSS so that we get the right stack
-	// when we trap to the kernel.
-	memset(&(tss), 0, sizeof(tss));
+//
 f01040c8:	53                   	push   %ebx
 f01040c9:	6a 68                	push   $0x68
 f01040cb:	6a 00                	push   $0x0
 f01040cd:	68 30 4e 11 f0       	push   $0xf0114e30
 f01040d2:	e8 f8 c0 ff ff       	call   f01001cf <memset>
-	// fs and gs stay in user data segment
-	tss.ts_fs = GD_UD | 0x03;
-	tss.ts_gs = GD_UD | 0x03;
-
-	/* Setup TSS in GDT */
-	gdt[GD_TSS0 >> 3] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
+// (please try to load balance, don't put all task into one cpu)
+//
+int sys_fork()
+{
+	/* pid for newly created process */
+	int pid;
 f01040d7:	b8 30 4e 11 f0       	mov    $0xf0114e30,%eax
 f01040dc:	89 c2                	mov    %eax,%edx
 f01040de:	c1 ea 10             	shr    $0x10,%edx
 f01040e1:	66 a3 2a a0 10 f0    	mov    %ax,0xf010a02a
 f01040e7:	c1 e8 18             	shr    $0x18,%eax
 f01040ea:	88 15 2c a0 10 f0    	mov    %dl,0xf010a02c
+ * HINT: You should understand how system call return
+ * it's return value.
+ */
 
-	}
-	// Setup a TSS so that we get the right stack
-	// when we trap to the kernel.
-	memset(&(tss), 0, sizeof(tss));
-	tss.ts_esp0 = (uint32_t)bootstack + KSTKSIZE;
+//
+// Lab6 TODO:
 f01040f0:	c7 05 34 4e 11 f0 00 	movl   $0xf0114000,0xf0114e34
 f01040f7:	40 11 f0 
-	tss.ts_ss0 = GD_KD;
+//
 f01040fa:	66 c7 05 38 4e 11 f0 	movw   $0x10,0xf0114e38
 f0104101:	10 00 
-
-	// fs and gs stay in user data segment
-	tss.ts_fs = GD_UD | 0x03;
+// Modify it so that the task will disptach to different cpu runqueue
+// (please try to load balance, don't put all task into one cpu)
+//
 f0104103:	66 c7 05 88 4e 11 f0 	movw   $0x23,0xf0114e88
 f010410a:	23 00 
-	tss.ts_gs = GD_UD | 0x03;
+int sys_fork()
 f010410c:	66 c7 05 8c 4e 11 f0 	movw   $0x23,0xf0114e8c
 f0104113:	23 00 
-
-	/* Setup TSS in GDT */
-	gdt[GD_TSS0 >> 3] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
+{
+	/* pid for newly created process */
+	int pid;
 f0104115:	66 c7 05 28 a0 10 f0 	movw   $0x68,0xf010a028
 f010411c:	68 00 
 f010411e:	c6 05 2e a0 10 f0 40 	movb   $0x40,0xf010a02e
 f0104125:	a2 2f a0 10 f0       	mov    %al,0xf010a02f
-	gdt[GD_TSS0 >> 3].sd_s = 0;
+	pid = task_create();
 f010412a:	c6 05 2d a0 10 f0 89 	movb   $0x89,0xf010a02d
+	if(pid<0)
+		return -1;
 
-	/* Setup first task */
-	i = task_create();
 f0104131:	e8 26 fc ff ff       	call   f0103d5c <task_create>
-	cur_task = &(tasks[i]);
-
-  /* For user program */
-  setupvm(cur_task->pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
+	int j;
+	int f = cpunum();
+        memcpy(&(tasks[pid].tf) , &(cpus[f].cpu_task->tf),sizeof(struct Trapframe));
+        for( j= (USTACKTOP-USR_STACK_SIZE); j<USTACKTOP; j+= PGSIZE)
 f0104136:	83 c4 0c             	add    $0xc,%esp
 f0104139:	ff 35 54 7a 11 f0    	pushl  0xf0117a54
 f010413f:	68 00 00 10 f0       	push   $0xf0100000
-	gdt[GD_TSS0 >> 3] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
-	gdt[GD_TSS0 >> 3].sd_s = 0;
+	int pid;
+	pid = task_create();
+	if(pid<0)
+		return -1;
 
-	/* Setup first task */
-	i = task_create();
-	cur_task = &(tasks[i]);
+	int j;
 f0104144:	6b c0 58             	imul   $0x58,%eax,%eax
-
-  /* For user program */
-  setupvm(cur_task->pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
+	int f = cpunum();
+        memcpy(&(tasks[pid].tf) , &(cpus[f].cpu_task->tf),sizeof(struct Trapframe));
+        for( j= (USTACKTOP-USR_STACK_SIZE); j<USTACKTOP; j+= PGSIZE)
 f0104147:	ff b0 2c 77 11 f0    	pushl  -0xfee88d4(%eax)
-	gdt[GD_TSS0 >> 3] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
-	gdt[GD_TSS0 >> 3].sd_s = 0;
+	int pid;
+	pid = task_create();
+	if(pid<0)
+		return -1;
 
-	/* Setup first task */
-	i = task_create();
-	cur_task = &(tasks[i]);
+	int j;
 f010414d:	8d 90 d8 76 11 f0    	lea    -0xfee8928(%eax),%edx
 f0104153:	89 15 2c 4e 11 f0    	mov    %edx,0xf0114e2c
-
-  /* For user program */
-  setupvm(cur_task->pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
+	int f = cpunum();
+        memcpy(&(tasks[pid].tf) , &(cpus[f].cpu_task->tf),sizeof(struct Trapframe));
+        for( j= (USTACKTOP-USR_STACK_SIZE); j<USTACKTOP; j+= PGSIZE)
 f0104159:	e8 35 f9 ff ff       	call   f0103a93 <setupvm>
-  setupvm(cur_task->pgdir, (uint32_t)UDATA_start, UDATA_SZ);
+        {
 f010415e:	83 c4 0c             	add    $0xc,%esp
 f0104161:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 f0104166:	ff 35 50 7a 11 f0    	pushl  0xf0117a50
 f010416c:	68 00 70 10 f0       	push   $0xf0107000
 f0104171:	ff 70 54             	pushl  0x54(%eax)
 f0104174:	e8 1a f9 ff ff       	call   f0103a93 <setupvm>
-  setupvm(cur_task->pgdir, (uint32_t)UBSS_start, UBSS_SZ);
+                struct PageInfo* a;
 f0104179:	83 c4 0c             	add    $0xc,%esp
 f010417c:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 f0104181:	ff 35 48 7a 11 f0    	pushl  0xf0117a48
 f0104187:	68 00 b0 10 f0       	push   $0xf010b000
 f010418c:	ff 70 54             	pushl  0x54(%eax)
 f010418f:	e8 ff f8 ff ff       	call   f0103a93 <setupvm>
-  setupvm(cur_task->pgdir, (uint32_t)URODATA_start, URODATA_SZ);
+                a = page_lookup( tasks[pid].pgdir , (void *)j ,NULL );
 f0104194:	83 c4 0c             	add    $0xc,%esp
 f0104197:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 f010419c:	ff 35 4c 7a 11 f0    	pushl  0xf0117a4c
 f01041a2:	68 00 50 10 f0       	push   $0xf0105000
 f01041a7:	ff 70 54             	pushl  0x54(%eax)
 f01041aa:	e8 e4 f8 ff ff       	call   f0103a93 <setupvm>
-  cur_task->tf.tf_eip = (uint32_t)user_entry;
+                int *tmp = page2kva(a);
 f01041af:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 }
 
@@ -9820,15 +9820,15 @@ ltr(uint16_t sel)
 	__asm __volatile("ltr %0" : : "r" (sel));
 f01041c8:	b2 28                	mov    $0x28,%dl
 f01041ca:	0f 00 da             	ltr    %dx
-	lldt(0);
 
-	// Load the TSS selector 
-	ltr(GD_TSS0);
-
-	cur_task->state = TASK_RUNNING;
+		/* Step 4: All user program use the same code for now */
+		setupvm(tasks[pid].pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
+		setupvm(tasks[pid].pgdir, (uint32_t)UDATA_start, UDATA_SZ);
+		setupvm(tasks[pid].pgdir, (uint32_t)UBSS_start, UBSS_SZ);
+		setupvm(tasks[pid].pgdir, (uint32_t)URODATA_start, URODATA_SZ);
 f01041cd:	c7 40 50 02 00 00 00 	movl   $0x2,0x50(%eax)
-	
-}
+	}
+	int min = 100;
 f01041d4:	83 c4 18             	add    $0x18,%esp
 f01041d7:	5b                   	pop    %ebx
 f01041d8:	c3                   	ret    
@@ -9836,242 +9836,242 @@ f01041d9:	00 00                	add    %al,(%eax)
 	...
 
 f01041dc <do_puts>:
+#include <kernel/cpu.h>
 #include <kernel/syscall.h>
 #include <kernel/trap.h>
 #include <inc/stdio.h>
 
 void do_puts(char *str, uint32_t len)
-{
 f01041dc:	57                   	push   %edi
 f01041dd:	56                   	push   %esi
 f01041de:	53                   	push   %ebx
+{
 	uint32_t i;
-	for (i = 0; i < len; i++)
 f01041df:	31 db                	xor    %ebx,%ebx
+#include <kernel/cpu.h>
 #include <kernel/syscall.h>
 #include <kernel/trap.h>
 #include <inc/stdio.h>
 
 void do_puts(char *str, uint32_t len)
-{
 f01041e1:	8b 7c 24 10          	mov    0x10(%esp),%edi
 f01041e5:	8b 74 24 14          	mov    0x14(%esp),%esi
+{
 	uint32_t i;
-	for (i = 0; i < len; i++)
 f01041e9:	eb 11                	jmp    f01041fc <do_puts+0x20>
+	for (i = 0; i < len; i++)
 	{
-		k_putch(str[i]);
 f01041eb:	0f b6 04 1f          	movzbl (%edi,%ebx,1),%eax
 f01041ef:	83 ec 0c             	sub    $0xc,%esp
+#include <kernel/trap.h>
 #include <inc/stdio.h>
 
 void do_puts(char *str, uint32_t len)
 {
 	uint32_t i;
-	for (i = 0; i < len; i++)
 f01041f2:	43                   	inc    %ebx
+	for (i = 0; i < len; i++)
 	{
-		k_putch(str[i]);
 f01041f3:	50                   	push   %eax
 f01041f4:	e8 26 da ff ff       	call   f0101c1f <k_putch>
+#include <kernel/trap.h>
 #include <inc/stdio.h>
 
 void do_puts(char *str, uint32_t len)
 {
 	uint32_t i;
-	for (i = 0; i < len; i++)
 f01041f9:	83 c4 10             	add    $0x10,%esp
 f01041fc:	39 f3                	cmp    %esi,%ebx
 f01041fe:	72 eb                	jb     f01041eb <do_puts+0xf>
+	for (i = 0; i < len; i++)
 	{
 		k_putch(str[i]);
 	}
-}
 f0104200:	5b                   	pop    %ebx
 f0104201:	5e                   	pop    %esi
 f0104202:	5f                   	pop    %edi
 f0104203:	c3                   	ret    
 
 f0104204 <do_getc>:
+}
 
 int32_t do_getc()
-{
 f0104204:	83 ec 0c             	sub    $0xc,%esp
+{
 	return k_getc();
-}
 f0104207:	83 c4 0c             	add    $0xc,%esp
+		k_putch(str[i]);
 	}
 }
 
 int32_t do_getc()
 {
-	return k_getc();
 f010420a:	e9 11 d9 ff ff       	jmp    f0101b20 <k_getc>
 
 f010420f <do_syscall>:
+	return k_getc();
 }
 
 int32_t do_syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
-{
 f010420f:	53                   	push   %ebx
-	int32_t retVal = -1;
+{
 f0104210:	83 c8 ff             	or     $0xffffffff,%eax
+int32_t do_getc()
 {
 	return k_getc();
 }
 
 int32_t do_syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
-{
 f0104213:	83 ec 08             	sub    $0x8,%esp
 f0104216:	8b 5c 24 10          	mov    0x10(%esp),%ebx
 f010421a:	8b 54 24 14          	mov    0x14(%esp),%edx
 f010421e:	8b 4c 24 18          	mov    0x18(%esp),%ecx
+{
 	int32_t retVal = -1;
 	extern Task *cur_task;
 
-	switch (syscallno)
 f0104222:	83 fb 0a             	cmp    $0xa,%ebx
 f0104225:	0f 87 87 00 00 00    	ja     f01042b2 <do_syscall+0xa3>
 f010422b:	ff 24 9d 78 65 10 f0 	jmp    *-0xfef9a88(,%ebx,4)
-    retVal = 0;
-    break;
 
-	}
-	return retVal;
-}
+  case SYS_cls:
+		/* TODO: Lab 5
+     * You can reference kernel/screen.c
+     */
+    sys_cls();
 f0104232:	83 c4 08             	add    $0x8,%esp
 f0104235:	5b                   	pop    %ebx
+	switch (syscallno)
 	{
 	case SYS_fork:
 		/* TODO: Lab 5
      * You can reference kernel/task.c, kernel/task.h
      */
-        retVal =sys_fork();
 f0104236:	e9 c6 fc ff ff       	jmp    f0103f01 <sys_fork>
-    retVal = 0;
-    break;
 
-	}
-	return retVal;
-}
+  case SYS_cls:
+		/* TODO: Lab 5
+     * You can reference kernel/screen.c
+     */
+    sys_cls();
 f010423b:	83 c4 08             	add    $0x8,%esp
 f010423e:	5b                   	pop    %ebx
+		k_putch(str[i]);
 	}
 }
 
 int32_t do_getc()
 {
-	return k_getc();
 f010423f:	e9 dc d8 ff ff       	jmp    f0101b20 <k_getc>
+
 	case SYS_getc:
 		retVal = do_getc();
 		break;
 
 	case SYS_puts:
-		do_puts((char*)a1, a2);
 f0104244:	53                   	push   %ebx
 f0104245:	53                   	push   %ebx
 f0104246:	51                   	push   %ecx
 f0104247:	52                   	push   %edx
 f0104248:	e8 8f ff ff ff       	call   f01041dc <do_puts>
 f010424d:	eb 57                	jmp    f01042a6 <do_syscall+0x97>
+		break;
 
 	case SYS_getpid:
 		/* TODO: Lab 5
      * Get current task's pid
      */
-        retVal = cur_task->task_id;
 f010424f:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 f0104254:	8b 00                	mov    (%eax),%eax
-		break;
+        retVal = cur_task->task_id;
 f0104256:	eb 5a                	jmp    f01042b2 <do_syscall+0xa3>
-	case SYS_sleep:
-		/* TODO: Lab 5
-     * Yield this task
-     * You can reference kernel/sched.c for yielding the task
-     */ 
-        cur_task->remind_ticks = a1;
+
+	case SYS_getcid:
+		/* Lab6: get current cpu's cid */
+		retVal = thiscpu->cpu_id;
+		break;
+
 f0104258:	a1 2c 4e 11 f0       	mov    0xf0114e2c,%eax
 f010425d:	89 50 4c             	mov    %edx,0x4c(%eax)
-        cur_task->state = TASK_SLEEP;
+	case SYS_sleep:
 f0104260:	c7 40 50 03 00 00 00 	movl   $0x3,0x50(%eax)
-        sched_yield();
+		/* TODO: Lab 5
 f0104267:	e8 90 00 00 00       	call   f01042fc <sched_yield>
+{
 	return k_getc();
 }
 
 int32_t do_syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, uint32_t a5)
 {
-	int32_t retVal = -1;
 f010426c:	83 c8 ff             	or     $0xffffffff,%eax
-     * You can reference kernel/sched.c for yielding the task
+		retVal = thiscpu->cpu_id;
+		break;
+
+	case SYS_sleep:
+		/* TODO: Lab 5
+     * Yield this task
+f010426f:	eb 41                	jmp    f01042b2 <do_syscall+0xa3>
      */ 
         cur_task->remind_ticks = a1;
         cur_task->state = TASK_SLEEP;
         sched_yield();
 		break;
-f010426f:	eb 41                	jmp    f01042b2 <do_syscall+0xa3>
-	case SYS_kill:
-		/* TODO: Lab 5
-     * Kill specific task
-     * You can reference kernel/task.c, kernel/task.h
-     */
-        sys_kill(a1);
+
 f0104271:	83 ec 0c             	sub    $0xc,%esp
 f0104274:	52                   	push   %edx
 f0104275:	e8 f1 fb ff ff       	call   f0103e6b <sys_kill>
 f010427a:	eb 2a                	jmp    f01042a6 <do_syscall+0x97>
-    retVal = 0;
-    break;
 
-	}
-	return retVal;
-}
+  case SYS_cls:
+		/* TODO: Lab 5
+     * You can reference kernel/screen.c
+     */
+    sys_cls();
 f010427c:	83 c4 08             	add    $0x8,%esp
 f010427f:	5b                   	pop    %ebx
+     * Kill specific task
+     * You can reference kernel/task.c, kernel/task.h
+     */
+        sys_kill(a1);
+        retVal = 0;
+		break;
+f0104280:	e9 25 f9 ff ff       	jmp    f0103baa <sys_get_num_free_page>
 
+  case SYS_cls:
+		/* TODO: Lab 5
+     * You can reference kernel/screen.c
+     */
+    sys_cls();
+f0104285:	83 c4 08             	add    $0x8,%esp
+f0104288:	5b                   	pop    %ebx
   case SYS_get_num_free_page:
 		/* TODO: Lab 5
      * You can reference kernel/mem.c
      */
     retVal = sys_get_num_free_page();
-f0104280:	e9 25 f9 ff ff       	jmp    f0103baa <sys_get_num_free_page>
-    retVal = 0;
     break;
+f0104289:	e9 44 f9 ff ff       	jmp    f0103bd2 <sys_get_num_used_page>
 
-	}
-	return retVal;
-}
-f0104285:	83 c4 08             	add    $0x8,%esp
-f0104288:	5b                   	pop    %ebx
-
+  case SYS_cls:
+		/* TODO: Lab 5
+     * You can reference kernel/screen.c
+     */
+    sys_cls();
+f010428e:	83 c4 08             	add    $0x8,%esp
+f0104291:	5b                   	pop    %ebx
   case SYS_get_num_used_page:
 		/* TODO: Lab 5
      * You can reference kernel/mem.c
      */
     retVal = sys_get_num_used_page();
-f0104289:	e9 44 f9 ff ff       	jmp    f0103bd2 <sys_get_num_used_page>
-    retVal = 0;
     break;
-
-	}
-	return retVal;
-}
-f010428e:	83 c4 08             	add    $0x8,%esp
-f0104291:	5b                   	pop    %ebx
-
+f0104292:	e9 80 fa ff ff       	jmp    f0103d17 <sys_get_ticks>
   case SYS_get_ticks:
 		/* TODO: Lab 5
      * You can reference kernel/timer.c
      */
     retVal = sys_get_ticks();
-f0104292:	e9 80 fa ff ff       	jmp    f0103d17 <sys_get_ticks>
-
-  case SYS_settextcolor:
-		/* TODO: Lab 5
-     * You can reference kernel/screen.c
-     */
-    sys_settextcolor((unsigned char) a1,(unsigned char) a2);
+    break;
 f0104297:	50                   	push   %eax
 f0104298:	0f b6 c9             	movzbl %cl,%ecx
 f010429b:	50                   	push   %eax
@@ -10079,41 +10079,41 @@ f010429c:	0f b6 d2             	movzbl %dl,%edx
 f010429f:	51                   	push   %ecx
 f01042a0:	52                   	push   %edx
 f01042a1:	e8 6f da ff ff       	call   f0101d15 <sys_settextcolor>
-    retVal = 0;
-    break;
+
+  case SYS_settextcolor:
 f01042a6:	83 c4 10             	add    $0x10,%esp
 f01042a9:	eb 05                	jmp    f01042b0 <do_syscall+0xa1>
+		/* TODO: Lab 5
+     * You can reference kernel/screen.c
+     */
+    sys_settextcolor((unsigned char) a1,(unsigned char) a2);
+    retVal = 0;
+    break;
+f01042ab:	e8 19 d9 ff ff       	call   f0101bc9 <sys_cls>
 
+f01042b0:	31 c0                	xor    %eax,%eax
   case SYS_cls:
 		/* TODO: Lab 5
      * You can reference kernel/screen.c
      */
     sys_cls();
-f01042ab:	e8 19 d9 ff ff       	call   f0101bc9 <sys_cls>
-    retVal = 0;
-f01042b0:	31 c0                	xor    %eax,%eax
-    break;
-
-	}
-	return retVal;
-}
 f01042b2:	83 c4 08             	add    $0x8,%esp
 f01042b5:	5b                   	pop    %ebx
 f01042b6:	c3                   	ret    
 
 f01042b7 <syscall_handler>:
+    retVal = 0;
+    break;
 
-static void syscall_handler(struct Trapframe *tf)
-{
 f01042b7:	53                   	push   %ebx
 f01042b8:	83 ec 10             	sub    $0x10,%esp
 f01042bb:	8b 5c 24 18          	mov    0x18(%esp),%ebx
-   * call do_syscall
-   * Please remember to fill in the return value
-   * HINT: You have to know where to put the return value
-   */
-    int32_t val;
-    val = do_syscall(tf->tf_regs.reg_eax, tf->tf_regs.reg_edx, tf->tf_regs.reg_ecx, tf->tf_regs.reg_ebx, tf->tf_regs.reg_edi, tf->tf_regs.reg_esi); 
+	return retVal;
+}
+
+static void syscall_handler(struct Trapframe *tf)
+{
+	/* TODO: Lab5
 f01042bf:	ff 73 04             	pushl  0x4(%ebx)
 f01042c2:	ff 33                	pushl  (%ebx)
 f01042c4:	ff 73 10             	pushl  0x10(%ebx)
@@ -10121,81 +10121,81 @@ f01042c7:	ff 73 18             	pushl  0x18(%ebx)
 f01042ca:	ff 73 14             	pushl  0x14(%ebx)
 f01042cd:	ff 73 1c             	pushl  0x1c(%ebx)
 f01042d0:	e8 3a ff ff ff       	call   f010420f <do_syscall>
-    tf->tf_regs.reg_eax = val;
+   * call do_syscall
 f01042d5:	89 43 1c             	mov    %eax,0x1c(%ebx)
-
-
-}
+   * Please remember to fill in the return value
+   * HINT: You have to know where to put the return value
+   */
 f01042d8:	83 c4 28             	add    $0x28,%esp
 f01042db:	5b                   	pop    %ebx
 f01042dc:	c3                   	ret    
 
 f01042dd <syscall_init>:
+    int32_t val;
+    val = do_syscall(tf->tf_regs.reg_eax, tf->tf_regs.reg_edx, tf->tf_regs.reg_ecx, tf->tf_regs.reg_ebx, tf->tf_regs.reg_edi, tf->tf_regs.reg_esi); 
+    tf->tf_regs.reg_eax = val;
+f01042dd:	83 ec 18             	sub    $0x18,%esp
+
+
+}
 
 void syscall_init()
 {
-f01042dd:	83 ec 18             	sub    $0x18,%esp
-  /* TODO: Lab5
-   * Please set gate of system call into IDT
-   * You can leverage the API register_handler in kernel/trap.c
-   */
-    extern void do_sys();
-    register_handler( T_SYSCALL, &syscall_handler, &do_sys, 1, 3);
 f01042e0:	6a 03                	push   $0x3
 f01042e2:	6a 01                	push   $0x1
 f01042e4:	68 42 21 10 f0       	push   $0xf0102142
 f01042e9:	68 b7 42 10 f0       	push   $0xf01042b7
 f01042ee:	6a 30                	push   $0x30
 f01042f0:	e8 50 dc ff ff       	call   f0101f45 <register_handler>
-
-}
+  /* TODO: Lab5
+   * Please set gate of system call into IDT
 f01042f5:	83 c4 2c             	add    $0x2c,%esp
 f01042f8:	c3                   	ret    
 f01042f9:	00 00                	add    %al,(%eax)
 	...
 
 f01042fc <sched_yield>:
+* 4. CONTEXT SWITCH, leverage the macro ctx_switch(ts)
 *    Please make sure you understand the mechanism.
 */
-static int i=1;
-void sched();
-void sched_yield(void)
-{   
+
+//
+// TODO: Lab6
 f01042fc:	55                   	push   %ebp
-	extern Task *cur_task;
-    volatile int next;
-    while(1){
-        next = (cur_task->task_id + i++)%NR_TASKS;
-        if(i==NR_TASKS)
-            i = 0;
+// You should:
+//
+// 1. Design your Runqueue structure first (in kernel/task.c)
+//
+// 2. modify sys_fork() in kernel/task.c ( we dispatch a task
+//    to cpu runqueue only when we call fork system call )
 f01042fd:	31 ed                	xor    %ebp,%ebp
+* 4. CONTEXT SWITCH, leverage the macro ctx_switch(ts)
 *    Please make sure you understand the mechanism.
 */
-static int i=1;
-void sched();
-void sched_yield(void)
-{   
+
+//
+// TODO: Lab6
 f01042ff:	57                   	push   %edi
-	extern Task tasks[];
-	extern Task *cur_task;
-    volatile int next;
-    while(1){
-        next = (cur_task->task_id + i++)%NR_TASKS;
+// Modify your Round-robin scheduler to fit the multi-core
+// You should:
+//
+// 1. Design your Runqueue structure first (in kernel/task.c)
+//
 f0104300:	bf 0a 00 00 00       	mov    $0xa,%edi
+* 4. CONTEXT SWITCH, leverage the macro ctx_switch(ts)
 *    Please make sure you understand the mechanism.
 */
-static int i=1;
-void sched();
-void sched_yield(void)
-{   
+
+//
+// TODO: Lab6
 f0104305:	56                   	push   %esi
 f0104306:	53                   	push   %ebx
 f0104307:	83 ec 1c             	sub    $0x1c,%esp
-	extern Task tasks[];
-	extern Task *cur_task;
-    volatile int next;
-    while(1){
-        next = (cur_task->task_id + i++)%NR_TASKS;
+// Modify your Round-robin scheduler to fit the multi-core
+// You should:
+//
+// 1. Design your Runqueue structure first (in kernel/task.c)
+//
 f010430a:	8b 35 2c 4e 11 f0    	mov    0xf0114e2c,%esi
 f0104310:	8b 0d 38 a0 10 f0    	mov    0xf010a038,%ecx
 f0104316:	8b 1e                	mov    (%esi),%ebx
@@ -10203,60 +10203,60 @@ f0104318:	8d 04 19             	lea    (%ecx,%ebx,1),%eax
 f010431b:	41                   	inc    %ecx
 f010431c:	99                   	cltd   
 f010431d:	f7 ff                	idiv   %edi
-        if(i==NR_TASKS)
-            i = 0;
+// 2. modify sys_fork() in kernel/task.c ( we dispatch a task
+//    to cpu runqueue only when we call fork system call )
 f010431f:	83 f9 0a             	cmp    $0xa,%ecx
 f0104322:	0f 44 cd             	cmove  %ebp,%ecx
-{   
-	extern Task tasks[];
-	extern Task *cur_task;
-    volatile int next;
-    while(1){
-        next = (cur_task->task_id + i++)%NR_TASKS;
+// TODO: Lab6
+// Modify your Round-robin scheduler to fit the multi-core
+// You should:
+//
+// 1. Design your Runqueue structure first (in kernel/task.c)
+//
 f0104325:	89 54 24 0c          	mov    %edx,0xc(%esp)
-        if(i==NR_TASKS)
-            i = 0;
-        if(next == cur_task->task_id)
+// 2. modify sys_fork() in kernel/task.c ( we dispatch a task
+//    to cpu runqueue only when we call fork system call )
+//
 f0104329:	8b 44 24 0c          	mov    0xc(%esp),%eax
 f010432d:	39 d8                	cmp    %ebx,%eax
 f010432f:	75 06                	jne    f0104337 <sched_yield+0x3b>
-            if(cur_task->state==TASK_RUNNING)
+// 3. modify sys_kill() in kernel/task.c ( we remove a task
 f0104331:	83 7e 50 02          	cmpl   $0x2,0x50(%esi)
 f0104335:	74 75                	je     f01043ac <sched_yield+0xb0>
-                break; 
-        if(tasks[next].state==TASK_RUNNABLE)
+//    from cpu runqueue when we call kill_self system call
+//
 f0104337:	8b 44 24 0c          	mov    0xc(%esp),%eax
 f010433b:	6b c0 58             	imul   $0x58,%eax,%eax
 f010433e:	83 b8 28 77 11 f0 01 	cmpl   $0x1,-0xfee88d8(%eax)
 f0104345:	75 d1                	jne    f0104318 <sched_yield+0x1c>
-        {
-            cur_task =&(tasks[next]);
+// 4. modify your scheduler so that each cpu will do scheduling
+//    with its runqueue
 f0104347:	8b 44 24 0c          	mov    0xc(%esp),%eax
-        if(i==NR_TASKS)
-            i = 0;
-        if(next == cur_task->task_id)
-            if(cur_task->state==TASK_RUNNING)
-                break; 
-        if(tasks[next].state==TASK_RUNNABLE)
+// 2. modify sys_fork() in kernel/task.c ( we dispatch a task
+//    to cpu runqueue only when we call fork system call )
+//
+// 3. modify sys_kill() in kernel/task.c ( we remove a task
+//    from cpu runqueue when we call kill_self system call
+//
 f010434b:	89 0d 38 a0 10 f0    	mov    %ecx,0xf010a038
-        {
-            cur_task =&(tasks[next]);
+// 4. modify your scheduler so that each cpu will do scheduling
+//    with its runqueue
 f0104351:	6b c0 58             	imul   $0x58,%eax,%eax
 f0104354:	8d 90 d8 76 11 f0    	lea    -0xfee8928(%eax),%edx
-            cur_task->state = TASK_RUNNING;
-            cur_task->remind_ticks = TIME_QUANT;
+//    
+//    (cpu can only schedule tasks which in its runqueue!!) 
 f010435a:	c7 80 24 77 11 f0 64 	movl   $0x64,-0xfee88dc(%eax)
 f0104361:	00 00 00 
-            lcr3(PADDR(cur_task->pgdir));
+//    (do not schedule idle task if there are still another process can run)	
 f0104364:	8b 80 2c 77 11 f0    	mov    -0xfee88d4(%eax),%eax
-        if(next == cur_task->task_id)
-            if(cur_task->state==TASK_RUNNING)
-                break; 
-        if(tasks[next].state==TASK_RUNNABLE)
-        {
-            cur_task =&(tasks[next]);
+//
+// 3. modify sys_kill() in kernel/task.c ( we remove a task
+//    from cpu runqueue when we call kill_self system call
+//
+// 4. modify your scheduler so that each cpu will do scheduling
+//    with its runqueue
 f010436a:	89 15 2c 4e 11 f0    	mov    %edx,0xf0114e2c
-            cur_task->state = TASK_RUNNING;
+//    
 f0104370:	c7 42 50 02 00 00 00 	movl   $0x2,0x50(%edx)
 /* -------------- Inline Functions --------------  */
 
@@ -10281,9 +10281,9 @@ lcr3(uint32_t val)
 {
 	__asm __volatile("movl %0,%%cr3" : : "r" (val));
 f0104395:	0f 22 d8             	mov    %eax,%cr3
-            cur_task->remind_ticks = TIME_QUANT;
-            lcr3(PADDR(cur_task->pgdir));
-            env_pop_tf(&cur_task->tf);
+//    (cpu can only schedule tasks which in its runqueue!!) 
+//    (do not schedule idle task if there are still another process can run)	
+//
 f0104398:	83 ec 0c             	sub    $0xc,%esp
 f010439b:	83 c2 08             	add    $0x8,%edx
 f010439e:	52                   	push   %edx
@@ -10291,12 +10291,12 @@ f010439f:	e8 0a dc ff ff       	call   f0101fae <env_pop_tf>
 f01043a4:	83 c4 10             	add    $0x10,%esp
 f01043a7:	e9 5e ff ff ff       	jmp    f010430a <sched_yield+0xe>
 f01043ac:	89 0d 38 a0 10 f0    	mov    %ecx,0xf010a038
-
-        
-
-    }
-            
-}
+{   
+	extern Task tasks[];
+	extern Task *cur_task;
+    volatile int next,i;
+    while(1){
+        next = (cur_task->task_id + i++)%NR_TASKS;
 f01043b2:	83 c4 1c             	add    $0x1c,%esp
 f01043b5:	5b                   	pop    %ebx
 f01043b6:	5e                   	pop    %esi
