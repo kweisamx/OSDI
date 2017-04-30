@@ -258,7 +258,16 @@ mem_init_mp(void)
 	//     Permissions: kernel RW, user NONE
 	// TODO:
 	// Lab6: Your code here:
-
+     int i;
+     for (i = 0; i < NCPU; ++i) {
+         uint32_t kstacktop_i = KSTACKTOP - i * (KSTKSIZE + KSTKGAP);
+         boot_map_region(kern_pgdir, 
+                 ROUNDDOWN(kstacktop_i, PGSIZE) - KSTKSIZE,
+                 KSTKSIZE, 
+                 PADDR(percpu_kstacks[i]),
+                 PTE_W
+                 );
+        }
 }
 
 // --------------------------------------------------------------
@@ -308,14 +317,19 @@ page_init(void)
             pages[i].pp_ref = 1; //from the hint tell us the 0 page is taken
             pages[i].pp_link=NULL;
         }
-        if(i<npages_basemem)
+        else if(i<npages_basemem)
         {
+            size_t phyaddr = i * PGSIZE;
+            if (phyaddr >= ROUNDDOWN(MPENTRY_PADDR, PGSIZE) && phyaddr <= ROUNDUP(MPENTRY_PADDR+1, PGSIZE)) {
+                printk("[PAGE INIT] IGNORE MPENTRY_ADDR\n");
+                continue;
+            }
             pages[i].pp_ref = 0;//free
             pages[i].pp_link = page_free_list;
             page_free_list = &pages[i];
         }
         //(ext-io)/pg is number of io , the other is number of part of ext(kernel)
-        if(i < ((EXTPHYSMEM-IOPHYSMEM)/PGSIZE) || i < ((uint32_t)boot_alloc(0)- KERNBASE)/PGSIZE)
+        else if(i < ((EXTPHYSMEM-IOPHYSMEM)/PGSIZE) || i < ((uint32_t)boot_alloc(0)- KERNBASE)/PGSIZE)
         {
             pages[i].pp_ref = 1; //from the hint tell us the 0 page is taken
             pages[i].pp_link=NULL;
@@ -607,7 +621,7 @@ mmio_map_region(physaddr_t pa, size_t size)
 	// value will be preserved between calls to mmio_map_region
 	// (just like nextfree in boot_alloc).
 	static uintptr_t base = MMIOBASE;
-
+    uintptr_t ret_base = base;
 	// Reserve size bytes of virtual memory starting at base and
 	// map physical pages [pa,pa+size) to virtual addresses
 	// [base,base+size).  Since this is device memory and not
@@ -627,9 +641,10 @@ mmio_map_region(physaddr_t pa, size_t size)
 	//
 	// Lab6 TODO
 	// Your code here:
-	
-
-	panic("mmio_map_region not implemented");
+    boot_map_region(kern_pgdir, base, ROUNDUP(size, PGSIZE), pa, PTE_PCD|PTE_PWT|PTE_W); 
+    base = base + ROUNDUP(size, PGSIZE);
+    return ret_base;
+	 //   panic("mmio_map_region not implemented");
 }
 
 /* This is a simple wrapper function for mapping user program */
@@ -654,7 +669,7 @@ setupvm(pde_t *pgdir, uint32_t start, uint32_t size)
  */
 pde_t *
 setupkvm()
-{
+{   /*
     struct PageInfo *s;
     s = page_alloc(ALLOC_ZERO);
     pde_t u_pgdir = page2kva(s);
@@ -663,6 +678,43 @@ setupkvm()
     boot_map_region(u_pgdir,KERNBASE,0xffffffff-KERNBASE,0,PTE_W);
     boot_map_region(u_pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W) | (PTE_P));
     return u_pgdir;
+    */
+    pde_t* pgdir;
+    struct PageInfo *page = page_alloc(1); 
+    if (page == NULL)
+        return NULL;
+    pgdir = page2kva(page);
+    
+    boot_map_region(pgdir, KSTACKTOP-KSTKSIZE, KSTKSIZE, PADDR(bootstack), (PTE_W)); 
+    boot_map_region(pgdir, KERNBASE, (1<<32)-KERNBASE, 0, (PTE_W));
+    boot_map_region(pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W));
+    /*  
+    int i;
+    for (i = 0; i < NCPU; ++i) {
+     uint32_t kstacktop_i = KSTACKTOP - i * (KSTKSIZE + KSTKGAP);                              
+     boot_map_region(pgdir, 
+                     ROUNDDOWN(kstacktop_i, PGSIZE) - KSTKSIZE,
+                     KSTKSIZE, 
+                     PADDR(percpu_kstacks[i]),
+                     PTE_W
+                     );
+
+                     }*/
+
+    uint32_t kstacktop_i = KSTACKTOP - cpunum() * (KSTKSIZE + KSTKGAP);
+
+    boot_map_region(pgdir, 
+                     ROUNDDOWN(kstacktop_i, PGSIZE) - KSTKSIZE,
+                     KSTKSIZE, 
+                     PADDR(percpu_kstacks[cpunum()]),
+                     PTE_W
+                    );
+
+
+
+    boot_map_region(pgdir, MMIOBASE + (3) * PGSIZE, PGSIZE, lapicaddr, PTE_PCD|PTE_PWT|PTE_W);
+
+    return pgdir;
 }
 
 
