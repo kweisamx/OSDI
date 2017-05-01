@@ -262,11 +262,7 @@ mem_init_mp(void)
      for (i = 0; i < NCPU; ++i) {
          uint32_t kstacktop_i = KSTACKTOP - i * (KSTKSIZE + KSTKGAP);
          boot_map_region(kern_pgdir, 
-                 ROUNDDOWN(kstacktop_i, PGSIZE) - KSTKSIZE,
-                 KSTKSIZE, 
-                 PADDR(percpu_kstacks[i]),
-                 PTE_W
-                 );
+                 ROUNDDOWN(kstacktop_i, PGSIZE) - KSTKSIZE, KSTKSIZE, PADDR(percpu_kstacks[i]), PTE_W );
         }
 }
 
@@ -320,8 +316,7 @@ page_init(void)
         else if(i<npages_basemem)
         {
             size_t phyaddr = i * PGSIZE;
-            if (phyaddr >= ROUNDDOWN(MPENTRY_PADDR, PGSIZE) && phyaddr <= ROUNDUP(MPENTRY_PADDR+1, PGSIZE)) {
-                printk("[PAGE INIT] IGNORE MPENTRY_ADDR\n");
+            if (phyaddr >= ROUNDDOWN(MPENTRY_PADDR, PGSIZE) && phyaddr <= ROUNDUP(MPENTRY_PADDR+PGSIZE, PGSIZE)) {
                 continue;
             }
             pages[i].pp_ref = 0;//free
@@ -621,7 +616,6 @@ mmio_map_region(physaddr_t pa, size_t size)
 	// value will be preserved between calls to mmio_map_region
 	// (just like nextfree in boot_alloc).
 	static uintptr_t base = MMIOBASE;
-    uintptr_t ret_base = base;
 	// Reserve size bytes of virtual memory starting at base and
 	// map physical pages [pa,pa+size) to virtual addresses
 	// [base,base+size).  Since this is device memory and not
@@ -641,8 +635,9 @@ mmio_map_region(physaddr_t pa, size_t size)
 	//
 	// Lab6 TODO
 	// Your code here:
+    uintptr_t ret_base = base;
     boot_map_region(kern_pgdir, base, ROUNDUP(size, PGSIZE), pa, PTE_PCD|PTE_PWT|PTE_W); 
-    base = base + ROUNDUP(size, PGSIZE);
+    base += ROUNDUP(size, PGSIZE);
     return ret_base;
 	 //   panic("mmio_map_region not implemented");
 }
@@ -669,18 +664,17 @@ setupvm(pde_t *pgdir, uint32_t start, uint32_t size)
  */
 pde_t *
 setupkvm()
-{   /*
+{   
     struct PageInfo *s;
     s = page_alloc(ALLOC_ZERO);
-    pde_t u_pgdir = page2kva(s);
+    pde_t *u_pgdir = page2kva(s);
     boot_map_region(u_pgdir, UPAGES, ROUNDUP((sizeof(struct PageInfo) * npages), PGSIZE), PADDR(pages), (PTE_U | PTE_P));
     boot_map_region(u_pgdir,KSTACKTOP - KSTKSIZE,KSTKSIZE,PADDR(bootstack),PTE_W);
     boot_map_region(u_pgdir,KERNBASE,0xffffffff-KERNBASE,0,PTE_W);
     boot_map_region(u_pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W) | (PTE_P));
-    return u_pgdir;
-    */
+    /*
     pde_t* pgdir;
-    struct PageInfo *page = page_alloc(1); 
+    struct PageInfo *page = page_alloc(ALLOC_ZERO); 
     if (page == NULL)
         return NULL;
     pgdir = page2kva(page);
@@ -688,33 +682,18 @@ setupkvm()
     boot_map_region(pgdir, KSTACKTOP-KSTKSIZE, KSTKSIZE, PADDR(bootstack), (PTE_W)); 
     boot_map_region(pgdir, KERNBASE, (1<<32)-KERNBASE, 0, (PTE_W));
     boot_map_region(pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W));
-    /*  
-    int i;
-    for (i = 0; i < NCPU; ++i) {
-     uint32_t kstacktop_i = KSTACKTOP - i * (KSTKSIZE + KSTKGAP);                              
-     boot_map_region(pgdir, 
-                     ROUNDDOWN(kstacktop_i, PGSIZE) - KSTKSIZE,
-                     KSTKSIZE, 
-                     PADDR(percpu_kstacks[i]),
-                     PTE_W
-                     );
-
-                     }*/
-
+    */
+    //lab6
     uint32_t kstacktop_i = KSTACKTOP - cpunum() * (KSTKSIZE + KSTKGAP);
-
-    boot_map_region(pgdir, 
+    boot_map_region(u_pgdir, 
                      ROUNDDOWN(kstacktop_i, PGSIZE) - KSTKSIZE,
                      KSTKSIZE, 
                      PADDR(percpu_kstacks[cpunum()]),
                      PTE_W
                     );
+    boot_map_region(u_pgdir, MMIOBASE + (3) * PGSIZE, PGSIZE, lapicaddr, PTE_PCD|PTE_PWT|PTE_W);
 
-
-
-    boot_map_region(pgdir, MMIOBASE + (3) * PGSIZE, PGSIZE, lapicaddr, PTE_PCD|PTE_PWT|PTE_W);
-
-    return pgdir;
+    return u_pgdir;
 }
 
 
