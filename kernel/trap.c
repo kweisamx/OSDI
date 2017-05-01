@@ -4,6 +4,7 @@
 #include <inc/assert.h>
 #include <inc/mmu.h>
 #include <inc/x86.h>
+#include <kernel/cpu.h>
 
 /* For debugging, so print_trapframe can distinguish between printing
  * a saved trapframe and printing the current trapframe and print some
@@ -152,7 +153,8 @@ trap_dispatch(struct Trapframe *tf)
 		{
 			// Trapped from user mode.
 			extern Task *cur_task;
-
+            extern struct CpuInfo cpus[NCPU];
+            int cpuid = cpunum();
 			// Disable interrupt first
 			// Think: Why we disable interrupt here?
 			__asm __volatile("cli");
@@ -160,8 +162,10 @@ trap_dispatch(struct Trapframe *tf)
 			// Copy trap frame (which is currently on the stack)
 			// into 'cur_task->tf', so that running the environment
 			// will restart at the trap point.
-			cur_task->tf = *tf;
-			tf = &(cur_task->tf);
+			//cur_task->tf = *tf;
+			//tf = &(cur_task->tf);
+			cpus[cpuid].cpu_task->tf = *tf;
+			tf = &(cpus[cpuid].cpu_task->tf);
 				
 		}
 		// Do ISR

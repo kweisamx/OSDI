@@ -672,17 +672,6 @@ setupkvm()
     boot_map_region(u_pgdir,KSTACKTOP - KSTKSIZE,KSTKSIZE,PADDR(bootstack),PTE_W);
     boot_map_region(u_pgdir,KERNBASE,0xffffffff-KERNBASE,0,PTE_W);
     boot_map_region(u_pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W) | (PTE_P));
-    /*
-    pde_t* pgdir;
-    struct PageInfo *page = page_alloc(ALLOC_ZERO); 
-    if (page == NULL)
-        return NULL;
-    pgdir = page2kva(page);
-    
-    boot_map_region(pgdir, KSTACKTOP-KSTKSIZE, KSTKSIZE, PADDR(bootstack), (PTE_W)); 
-    boot_map_region(pgdir, KERNBASE, (1<<32)-KERNBASE, 0, (PTE_W));
-    boot_map_region(pgdir, IOPHYSMEM, ROUNDUP((EXTPHYSMEM - IOPHYSMEM), PGSIZE), IOPHYSMEM, (PTE_W));
-    */
     //lab6
     uint32_t kstacktop_i = KSTACKTOP - cpunum() * (KSTKSIZE + KSTKGAP);
     boot_map_region(u_pgdir, 
@@ -691,7 +680,7 @@ setupkvm()
                      PADDR(percpu_kstacks[cpunum()]),
                      PTE_W
                     );
-    boot_map_region(u_pgdir, MMIOBASE + (3) * PGSIZE, PGSIZE, lapicaddr, PTE_PCD|PTE_PWT|PTE_W);
+    boot_map_region(u_pgdir, MMIOBASE + 3 * PGSIZE, PGSIZE, lapicaddr, PTE_PCD|PTE_PWT|PTE_W);
 
     return u_pgdir;
 }

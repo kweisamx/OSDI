@@ -102,6 +102,7 @@ int task_create()
 
 	/* Find a free task structure */
     int i;
+    int cpuid = cpunum();
     for(i =0;i<NR_TASKS;i++)  
     {
         if(tasks[i].state==TASK_FREE)
@@ -140,10 +141,14 @@ int task_create()
     ts->task_id = i;
     ts->remind_ticks =TIME_QUANT;
     ts->state = TASK_RUNNABLE;
-    if(cur_task==NULL)
+   // if(cur_task==null)
+   //     ts->parent_id=0;
+   // else
+   //     ts->parent_id = cur_task->task_id;
+    if(cpus[cpuid].cpu_task == NULL)
         ts->parent_id=0;
     else
-       ts->parent_id = cur_task->task_id;
+        ts->parent_id = cpus[cpuid].cpu_task->task_id;
     return i;
 }
 
@@ -310,28 +315,51 @@ void task_init_percpu()
 	
 	// Setup a TSS so that we get the right stack
 	// when we trap to the kernel.
-	memset(&(tss), 0, sizeof(tss));
-	tss.ts_esp0 = (uint32_t)bootstack + KSTKSIZE;
-	tss.ts_ss0 = GD_KD;
-
+	//memset(&(tss), 0, sizeof(tss));
+	//tss.ts_esp0 = (uint32_t)bootstack + KSTKSIZE;
+	//tss.ts_ss0 = GD_KD;
+    int cpuid = cpunum();
+    memset(&(cpus[cpuid].cpu_tss), 0, sizeof(cpus[cpuid].cpu_tss));
+    cpus[cpuid].cpu_tss.ts_esp0 = percpu_kstacks[cpuid] + KSTKSIZE;
+    cpus[cpuid].cpu_tss.ts_ss0 = GD_KD;
+    
 	// fs and gs stay in user data segment
-	tss.ts_fs = GD_UD | 0x03;
-	tss.ts_gs = GD_UD | 0x03;
+	//tss.ts_fs = GD_UD | 0x03;
+	//tss.ts_gs = GD_UD | 0x03;
+    cpus[cpuid].cpu_tss.ts_fs = GD_UD | 0x03;
+    cpus[cpuid].cpu_tss.ts_gs = GD_UD | 0x03;
+
+
 
 	/* Setup TSS in GDT */
-	gdt[GD_TSS0 >> 3] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
-	gdt[GD_TSS0 >> 3].sd_s = 0;
+	//gdt[GD_TSS0 >> 3] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
+	//gdt[GD_TSS0 >> 3].sd_s = 0;
+	gdt[(GD_TSS0 >> 3) + cpuid ] = SEG16(STS_T32A, (uint32_t)(&tss), sizeof(struct tss_struct), 0);
+	gdt[(GD_TSS0 >> 3) + cpuid].sd_s = 0;
 
 	/* Setup first task */
 	i = task_create();
-	cur_task = &(tasks[i]);
+	//cur_task = &(tasks[i]);
+    cpus[cpuid].cpu_task = &(tasks[i]);
 
 	/* For user program */
-	setupvm(cur_task->pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
-	setupvm(cur_task->pgdir, (uint32_t)UDATA_start, UDATA_SZ);
-	setupvm(cur_task->pgdir, (uint32_t)UBSS_start, UBSS_SZ);
-	setupvm(cur_task->pgdir, (uint32_t)URODATA_start, URODATA_SZ);
-	cur_task->tf.tf_eip = (uint32_t)user_entry;
+	//setupvm(cur_task->pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
+	//setupvm(cur_task->pgdir, (uint32_t)UDATA_start, UDATA_SZ);
+	//setupvm(cur_task->pgdir, (uint32_t)UBSS_start, UBSS_SZ);
+	//setupvm(cur_task->pgdir, (uint32_t)URODATA_start, URODATA_SZ);
+	setupvm(cpus[cpuid].cpu_task->pgdir, (uint32_t)UTEXT_start, UTEXT_SZ);
+	setupvm(cpus[cpuid].cpu_task->pgdir, (uint32_t)UDATA_start, UDATA_SZ);
+	setupvm(cpus[cpuid].cpu_task->pgdir, (uint32_t)UBSS_start, UBSS_SZ);
+	setupvm(cpus[cpuid].cpu_task->pgdir, (uint32_t)URODATA_start, URODATA_SZ);
+	//cur_task->tf.tf_eip = (uint32_t)user_entry;
+    if(cpuid > 0)
+    {
+        cpus[cpuid].cpu_task->tf.tf_eip = (uint32_t)idle_entry;
+    }
+    else
+    {
+        cpus[cpuid].cpu_task->tf.tf_eip = (uint32_t)user_entry;
+    }
 
 	/* Load GDT&LDT */
 	lgdt(&gdt_pd);
@@ -340,7 +368,7 @@ void task_init_percpu()
 	lldt(0);
 
 	// Load the TSS selector 
-	ltr(GD_TSS0);
-
-	cur_task->state = TASK_RUNNING;
+	//ltr(GD_TSS0);
+    ltr((GD_TSS0 + 8*cpuid));
+	cpus[cpuid].cpu_task->state = TASK_RUNNING;
 }
