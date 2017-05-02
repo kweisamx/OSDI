@@ -30,10 +30,11 @@ void timer_handler(struct Trapframe *tf)
   int i;
 
   jiffies++;
-
+  extern struct CpuInfo cpus[NCPU]; 
   extern Task tasks[];
 
   extern Task *cur_task;
+  int cpuid = cpunum();
 
   if (cur_task != NULL)
   {
@@ -63,6 +64,24 @@ void timer_handler(struct Trapframe *tf)
                 sched_yield();
             }
         }
+        /*
+        int i;
+        for(i = 0;i<NR_TASKS;i++)
+        {
+            if(cpus[cpuid].cpu_rq.tasks[i]!=NULL)
+            {
+            switch( cpus[cpuid].cpu_rq.tasks[i]->state)
+                cpus[cpuid].cpu_rq.tasks[i].remind_ticks--;
+                if(cpus[cpuid].cpu_rq.tasks[i].remind_ticks==0)
+                    cpus[cpuid].cpu_rq.tasks[i].state = TASK_RUNNABLE;
+            }
+            cpus[cpuid].cpu_rq.tasks[i]->remind_ticks--;
+            if(cur_task->remind_ticks==0)
+            {
+                cur_task->state = TASK_RUNNABLE;
+                sched_yield();
+            }
+        }*/
     }
     
 }

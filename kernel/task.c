@@ -289,7 +289,7 @@ void task_init()
 		tasks[i].state = TASK_FREE;
 
 	}
-	task_init_percpu();
+	//task_init_percpu();
 }
 
 // Lab6 TODO
