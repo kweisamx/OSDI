@@ -32,10 +32,12 @@ void kernel_main(void)
   	syscall_init();
 	boot_aps();
 
+  printk("%d cpuid \n",thiscpu->cpu_id);
   printk("Kernel code base start=0x%08x to = 0x%08x\n", stext, etext);
   printk("Readonly data start=0x%08x to = 0x%08x\n", etext, rdata_end);
   printk("Kernel data base start=0x%08x to = 0x%08x\n", data_start, end);
-
+  int cid = cpunum();
+  printk("cid = %d\n",cid);
 
   /* Enable interrupt */
   __asm __volatile("sti");
@@ -50,7 +52,7 @@ void kernel_main(void)
   "pushl %2\n\t" \
   "pushl %3\n\t" \
   "iret\n" \
-  :: "m" (cur_task->tf.tf_esp), "i" (GD_UD | 0x03), "i" (GD_UT | 0x03), "m" (cur_task->tf.tf_eip)
+  :: "m" (cpus[cid].cpu_task->tf.tf_esp), "i" (GD_UD | 0x03), "i" (GD_UT | 0x03), "m" (cpus[cid].cpu_task->tf.tf_eip)
   :"ax");
 }
 
