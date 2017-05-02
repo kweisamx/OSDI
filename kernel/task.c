@@ -245,12 +245,12 @@ int sys_fork()
   uint32_t src_addr, dst_addr, *src, *dst;
   if(pid<0)
       return -1;
-        if ((uint32_t)cur_task)
+        if ((uint32_t)cpus[cid].cpu_task)
         {
-            tasks[pid].tf = cpus[0].cpu_task->tf;
+            tasks[pid].tf = cpus[cid].cpu_task->tf;
             for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
             {
-                src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
+                src = pgdir_walk(cpus[cid].cpu_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
                 src_addr = PTE_ADDR(*src);
                 dst = pgdir_walk(tasks[pid].pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
                 dst_addr = PTE_ADDR(*dst);
@@ -264,7 +264,7 @@ int sys_fork()
         setupvm(tasks[pid].pgdir, (uint32_t)URODATA_start, URODATA_SZ);
         
 
-        cpus[0].cpu_task->tf.tf_regs.reg_eax = pid;
+        cpus[cid].cpu_task->tf.tf_regs.reg_eax = pid;
         tasks[pid].tf.tf_regs.reg_eax = 0;
         }
     return pid;
