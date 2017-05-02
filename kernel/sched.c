@@ -46,21 +46,22 @@ void sched_yield(void)
 {   
 	extern Task tasks[];
 	extern Task *cur_task;
-    volatile int next;
+    volatile int next,cid;
+    cid = cpunum();
     while(1){
-        next = (cur_task->task_id + i++)%NR_TASKS;
+        next = (cpus[0].cpu_task->task_id + i++)%NR_TASKS;
         if(i==NR_TASKS)
             i = 0;
-        if(next == cur_task->task_id)
-            if(cur_task->state==TASK_RUNNING)
+        if(next == cpus[0].cpu_task->task_id)
+            if(cpus[0].cpu_task->state==TASK_RUNNING)
                 break; 
         if(tasks[next].state==TASK_RUNNABLE)
         {
-            cur_task =&(tasks[next]);
-            cur_task->state = TASK_RUNNING;
-            cur_task->remind_ticks = TIME_QUANT;
-            lcr3(PADDR(cur_task->pgdir));
-            env_pop_tf(&cur_task->tf);
+            cpus[cid].cpu_task =&(tasks[next]);
+            cpus[cid].cpu_task->state = TASK_RUNNING;
+            cpus[cid].cpu_task->remind_ticks = TIME_QUANT;
+            lcr3(PADDR(cpus[cid].cpu_task->pgdir));
+            env_pop_tf(&cpus[cid].cpu_task->tf);
         }
 
         

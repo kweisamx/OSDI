@@ -239,14 +239,15 @@ void sys_kill(int pid)
 int sys_fork()
 {
   /* pid for newly created process */
-  int pid,i;
+  int pid,i,cid;
+  cid = cpunum();
   pid = task_create();
   uint32_t src_addr, dst_addr, *src, *dst;
   if(pid<0)
       return -1;
         if ((uint32_t)cur_task)
         {
-            tasks[pid].tf = cur_task->tf;
+            tasks[pid].tf = cpus[0].cpu_task->tf;
             for(i = 0; i < USR_STACK_SIZE/PGSIZE; i++)
             {
                 src = pgdir_walk(cur_task->pgdir, (void *)(USTACKTOP-USR_STACK_SIZE+i*PGSIZE), 0);
@@ -263,7 +264,7 @@ int sys_fork()
         setupvm(tasks[pid].pgdir, (uint32_t)URODATA_start, URODATA_SZ);
         
 
-        cur_task->tf.tf_regs.reg_eax = pid;
+        cpus[0].cpu_task->tf.tf_regs.reg_eax = pid;
         tasks[pid].tf.tf_regs.reg_eax = 0;
         }
     return pid;
@@ -341,7 +342,6 @@ int i;
 /*	i = task_create();
 	cur_task = &(tasks[i]); */
 	
-	//lab6
 	//spin_lock((struct spinlock*)&task);
 	i = task_create();
 	//spin_unlock((struct spinlock*)&task);
