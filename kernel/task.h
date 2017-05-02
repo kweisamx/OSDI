@@ -3,7 +3,7 @@
 
 #include <inc/trap.h>
 #include <kernel/mem.h>
-#define NR_TASKS	10
+#define NR_TASKS	64
 #define TIME_QUANT	100
 
 typedef enum
@@ -18,7 +18,7 @@ typedef enum
 // Each task's user space
 #define USR_STACK_SIZE	(40960)
 
-typedef struct
+typedef struct 
 {
 	int task_id;
 	int parent_id;
@@ -26,7 +26,7 @@ typedef struct
 	int32_t remind_ticks;
 	TaskState state;	//Task state
   pde_t *pgdir;  //Per process Page Directory
-	
+//	struct Task *next;	
 } Task;
 
 // TODO Lab6
@@ -41,8 +41,11 @@ typedef struct
 //
 typedef struct
 {
-    int index;
-    Task *tasks;
+	int index;
+	int number;
+	int flag;
+//	Task* task_rq;
+	Task* task_rq[NR_TASKS];
 } Runqueue;
 
 
@@ -50,13 +53,10 @@ void task_init();
 void task_init_percpu();
 void env_pop_tf(struct Trapframe *tf);
 
-/*me*/
-int sys_fork();//kernel/task.c
-void sys_kill(int pid);
 /* TODO Lab 5
  * Interface for real implementation of kill and fork
  * Since their real implementation should be in kernel/task.c
  */
-
-
+int sys_fork();
+void sys_kill(int pid);
 #endif
