@@ -40,7 +40,8 @@ void kernel_main(void)
   /* Enable interrupt */
   __asm __volatile("sti");
 
-  lcr3(PADDR(cur_task->pgdir));
+  //lcr3(PADDR(cur_task->pgdir));
+  lcr3(PADDR(thiscpu->cpu_task->pgdir));
   /* Move to user mode */
   asm volatile("movl %0,%%eax\n\t" \
   "pushl %1\n\t" \
@@ -78,14 +79,14 @@ boot_aps(void)
 	// Your code here:
     extern unsigned char mpentry_start[],mpentry_end[];
     memmove(KADDR(MPENTRY_PADDR), mpentry_start, mpentry_end - mpentry_start);
-    struct CpuInfo* c = cpus;
+    struct CpuInfo* c;
     int cpuid = cpunum();
-    for(c; thiscpu < (cpus+ncpu);c++)
+    for(c = cpus;  c < cpus+ncpu ; c++)
     {
         if(c != cpus + cpuid)
         {
             mpentry_kstack = percpu_kstacks[c-cpus]+KSTKSIZE;
-            lapic_startap(thiscpu->cpu_id,PADDR(KADDR(MPENTRY_PADDR)));
+            lapic_startap(c->cpu_id,PADDR(KADDR(MPENTRY_PADDR)));
             while(c->cpu_status!=CPU_STARTED);
         }
     
@@ -165,13 +166,15 @@ mp_main(void)
 	
 	// Your code here:
 	
+    lapic_init();
+    task_init_percpu();
+    lidt(&idt_pd);
 
 	// TODO: Lab6
 	// Now that we have finished some basic setup, it's time to tell
 	// boot_aps() we're up ( using xchg )
 	// Your code here:
-
-
+    xchg(&thiscpu->cpu_status,CPU_STARTED);    
 
 	/* Enable interrupt */
 	__asm __volatile("sti");
