@@ -262,9 +262,13 @@ int sys_fork()
         setupvm(tasks[pid].pgdir, (uint32_t)UDATA_start, UDATA_SZ);
         setupvm(tasks[pid].pgdir, (uint32_t)UBSS_start, UBSS_SZ);
         setupvm(tasks[pid].pgdir, (uint32_t)URODATA_start, URODATA_SZ);
-        
+        int t_index,t_number;
+        t_index = cpus[cid].cpu_rq.index;
+        t_number = cpus[cid].cpu_rq.number;
+        cpus[cid].cpu_rq.task_rq[(t_index + t_number)%NR_TASKS] = &tasks[pid];                              
+        cpus[cid].cpu_rq.number ++;
 
-        cpus[cid].cpu_task->tf.tf_regs.reg_eax = pid;
+        //cpus[cid].cpu_task->tf.tf_regs.reg_eax = pid;
         tasks[pid].tf.tf_regs.reg_eax = 0;
         }
     return pid;
