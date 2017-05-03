@@ -28,17 +28,10 @@ void timer_handler(struct Trapframe *tf)
 {
   extern void sched_yield();
   extern struct CpuInfo cpus[NCPU];
-//  extern int cpunum();
-  int f ;
-  f=cpunum();
-  int i;
+  int cid = cpunum();
   jiffies++;
   lapic_eoi();
-//	cprintf("cpu %d tick %d\n",cpunum(),jiffies);
-	//lapic_eoi();	
-
   extern Task tasks[];
-
   //extern Task *cur_task;
 
  /* if (cur_task!= NULL)
@@ -53,90 +46,32 @@ void timer_handler(struct Trapframe *tf)
    * 4. sched_yield() if the time is up for current task
    *
    *
-	for(i = 0 ; i<NR_TASKS ; i++)
-	{
-		switch(tasks[i].state) {
-		case TASK_SLEEP:
-			tasks[i].remind_ticks --;
-			if(tasks[i].remind_ticks <= 0)
-			{
-				tasks[i].state = TASK_RUNNABLE;
-				tasks[i].remind_ticks = TIME_QUANT;
-			}
-			break;
-		case TASK_RUNNING:
-			tasks[i].remind_ticks --;
-			break;
-		}
-	}
-	if(cur_task->remind_ticks <=0)
-	{
-		sched_yield();
-	}
   }*/
-	for(i=0;i<NR_TASKS;i++)
+    int i;
+    for(i=0;i<NR_TASKS;i++)
 	{
-		if(cpus[f].cpu_rq.task_rq[i]!=NULL)
+		if(cpus[cid].cpu_rq.task_rq[i]!=NULL)
 		{
-		switch( cpus[f].cpu_rq.task_rq[i]->state)
-			{
-			case TASK_SLEEP:
-				cpus[f].cpu_rq.task_rq[i]->remind_ticks--;
-				if(cpus[f].cpu_rq.task_rq[i]->remind_ticks<=0)
-				{
-					cpus[f].cpu_rq.task_rq[i]->state = TASK_RUNNABLE;
-					cpus[f].cpu_rq.task_rq[i]->remind_ticks = TIME_QUANT;
-				}
-				break;
-			case TASK_RUNNING:
-				cpus[f].cpu_rq.task_rq[i]->remind_ticks --;
-				break;
-			}
-		}
-	}
-	if(cpus[f].cpu_task->remind_ticks<=0)
-	{
-		sched_yield();
-	}
-//	lapic_eoi();
-/*	Task *tail, *now, *head;
-	// find tail
-	head = cpus[f].cpu_rq.task_rq;
-	now = head;
-	while(now->next!=NULL)
-	{
-		now = now->next;
-	}
-	tail = now;
-//	tail -> next = head;	
-	if(cpus[f].cpu_task!=NULL)
-	{
-		now = head;
-		while(now!=NULL)
+		if(cpus[cid].cpu_rq.task_rq[i]->state==TASK_SLEEP)
 		{
-			switch(now->state)
-			{	
-				case TASK_SLEEP:
-					now->remind_ticks --;
-					if(now->remind_ticks <= 0)
-					{
-						now->state = TASK_RUNNABLE;
-						now->remind_ticks = TIME_QUANT;
-						//tail->next = now;
-					}
-					break;
-				case TASK_RUNNING:
-					now->remind_ticks --;
-					break;
-			}
-			if(head->remind_ticks<=0)
-			{
-				sched_yield();
-			}
-			now = now->next;
+			cpus[cid].cpu_rq.task_rq[i]->remind_ticks--;
+			if(cpus[cid].cpu_rq.task_rq[i]->remind_ticks==0)
+            {
+                cpus[cid].cpu_rq.task_rq[i]->state = TASK_RUNNABLE;
+                cpus[cid].cpu_rq.task_rq[i]->remind_ticks = TIME_QUANT;
+            }
+        }
+        else
+        {
+            cpus[cid].cpu_rq.task_rq[i]->remind_ticks --;
+            if(cpus[cid].cpu_task->remind_ticks<=0)
+            {
+                sched_yield();
+            }
+        }
 		}
-	}*/
-//	lapic_eoi();
+		
+	}
 	
 }
 

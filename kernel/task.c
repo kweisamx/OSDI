@@ -272,9 +272,9 @@ int sys_fork()
         setupvm(tasks[pid].pgdir, (uint32_t)URODATA_start, URODATA_SZ);
         
         int t_index,t_number;
-        t_index = cpus[cid].cpu_rq.index;
+        //t_index = cpus[cid].cpu_rq.index;
         t_number = cpus[cid].cpu_rq.number;
-        cpus[cid].cpu_rq.task_rq[(t_index + t_number)%NR_TASKS] = &tasks[pid];                              
+        cpus[cid].cpu_rq.task_rq[(t_number)%NR_TASKS] = &tasks[pid];                              
         cpus[cid].cpu_rq.number ++;
         
         //cpus[cid].cpu_task->tf.tf_regs.reg_eax = pid;
@@ -382,8 +382,8 @@ int i;
 	else
 	{
 		cpus[cid].cpu_task->tf.tf_eip = (uint32_t)user_entry;
-        cpus[0].cpu_rq.number = 1;
-        cpus[cid].cpu_rq.task_rq[0] = cpus[0].cpu_task;
+        cpus[cid].cpu_rq.number = 1;
+        cpus[cid].cpu_rq.task_rq[0] = cpus[cid].cpu_task;
 	}
 	/* Load GDT&LDT */
 	lgdt(&gdt_pd);

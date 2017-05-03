@@ -48,7 +48,8 @@ void sched_yield(void)
 	extern Task *cur_task;
     volatile int next,cid;
     cid = cpunum();
-    while(1){
+    /*while(1){
+        
         next = (cpus[0].cpu_task->task_id + i++)%NR_TASKS;
         if(i==NR_TASKS)
             i = 0;
@@ -63,11 +64,14 @@ void sched_yield(void)
             lcr3(PADDR(cpus[cid].cpu_task->pgdir));
             env_pop_tf(&cpus[cid].cpu_task->tf);
         }
+        
 
         
 
     }
-            
+    */
+
+    for()    
 }
 
 
