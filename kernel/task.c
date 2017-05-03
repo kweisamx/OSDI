@@ -199,9 +199,17 @@ void sys_kill(int pid)
    * Free the memory
    * and invoke the scheduler for yield
    */
-        cur_task->state = TASK_STOP;
-        task_free(cur_task->task_id);
-        sched_yield();
+        int i,cid = cpunum();
+        for(i = 0;i<NR_TASKS;i++)
+        {
+            if(cpus[cid].cpu_rq.task_rq[i]!=NULL&& cpus[cid].cpu_rq.task_rq[i]->task_id == pid)
+            {
+                task_free(pid);
+                tasks[pid].state = TASK_FREE;
+                cpus[cid].cpu_rq.number--;
+                sched_yield();
+            }
+        }
 	}
 }
 
@@ -367,7 +375,6 @@ int i;
 	{
 		cpus[cid].cpu_task->tf.tf_eip = (uint32_t)idle_entry;
         cpus[cid].cpu_rq.number = 1;
-        cpus[cid].cpu_rq.index = 0;
         cpus[cid].cpu_rq.task_rq[0] = cpus[cid].cpu_task;
         
 
@@ -377,7 +384,6 @@ int i;
 		cpus[cid].cpu_task->tf.tf_eip = (uint32_t)user_entry;
         cpus[0].cpu_rq.number = 1;
         cpus[cid].cpu_rq.task_rq[0] = cpus[0].cpu_task;
-        cpus[cid].cpu_rq.index = 0;
 	}
 	/* Load GDT&LDT */
 	lgdt(&gdt_pd);
