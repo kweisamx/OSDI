@@ -6,6 +6,7 @@
 #include <kernel/task.h>
 #include <kernel/mem.h>
 #include <kernel/cpu.h>
+#include <kernel/spinlock.h>
 
 // Global descriptor table.
 //
@@ -96,8 +97,10 @@ extern void sched_yield(void);
  * 6. Return the pid of the newly created task.
  
  */
+struct spinlock lock;
 int task_create()
 {
+	spin_lock((struct spinlock*)&lock);
 	Task *ts = NULL;
 
 	/* Find a free task structure */
@@ -149,6 +152,8 @@ int task_create()
         ts->parent_id=0;
     else
         ts->parent_id = cpus[cpuid].cpu_task->task_id;
+
+	spin_unlock((struct spinlock*)&lock);
     return i;
 }
 
@@ -274,7 +279,8 @@ int sys_fork()
         int min_cid,j,thecpu;
         min_cid =1000;
         thecpu = 0;
-        for(j = 0;j<4;j++)
+        //printk("ncpu = %d\n",ncpu);
+        for(j = 0;j<ncpu;j++)
         {
             if(cpus[j].cpu_rq.number < min_cid)
             {
@@ -342,7 +348,8 @@ void task_init()
 //
 void task_init_percpu()
 {
-int i;
+
+    int i;
 	extern int user_entry();
 	extern int idle_entry();
 	int cid;
@@ -376,9 +383,7 @@ int i;
 /*	i = task_create();
 	cur_task = &(tasks[i]); */
 	
-	//spin_lock((struct spinlock*)&task);
 	i = task_create();
-	//spin_unlock((struct spinlock*)&task);
 	cpus[cid].cpu_task = &(tasks[i]);
 	
 	/* For user program */
