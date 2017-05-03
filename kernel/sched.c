@@ -20,7 +20,6 @@
 * 4. CONTEXT SWITCH, leverage the macro ctx_switch(ts)
 *    Please make sure you understand the mechanism.
 */
-static int i=1;
 void sched();
 
 //
@@ -64,14 +63,46 @@ void sched_yield(void)
             lcr3(PADDR(cpus[cid].cpu_task->pgdir));
             env_pop_tf(&cpus[cid].cpu_task->tf);
         }
-        
+           
 
         
 
     }
     */
+    int i = 0 ;
+    int j = (cpus[cid].cpu_rq.index + 1)%NR_TASKS;
+   // for(i = 0;i<NR_TASKS;i++)
+    while(1)
+    {
+        if(cpus[cid].cpu_rq.task_rq[j]!= NULL && cpus[cid].cpu_rq.task_rq[j]->state == TASK_RUNNABLE)// if the task is not NULL and it wait to run
+            /*we will see the right now the cpu task state*/
+        {
+            switch(cpus[cid].cpu_task->state)
+            {
+                case TASK_RUNNING:
+                    cpus[cid].cpu_task->state = TASK_RUNNABLE;
+                    cpus[cid].cpu_task->remind_ticks = TIME_QUANT;
+                    break;
+                case TASK_SLEEP:
+                    break;
+                case TASK_FREE:
+                    break;
+                case TASK_STOP:
+                    break;
 
-    for()    
+            }
+            cpus[cid].cpu_task = cpus[cid].cpu_rq.task_rq[j];      
+            lcr3( PADDR( cpus[cid].cpu_rq.task_rq[j]->pgdir ) );
+            cpus[cid].cpu_rq.task_rq[j]->state = TASK_RUNNING;
+            cpus[cid].cpu_rq.index = j;
+            env_pop_tf(&cpus[cid].cpu_task->tf);
+        }
+        else if(cpus[cid].cpu_rq.task_rq[j]!=NULL && cpus[cid].cpu_rq.task_rq[j]->state ==TASK_RUNNING)//run back again
+        {
+            break;
+        }
+        j = (j+1)%NR_TASKS;
+    }
 }
 
 

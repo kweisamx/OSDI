@@ -271,13 +271,34 @@ int sys_fork()
         setupvm(tasks[pid].pgdir, (uint32_t)UBSS_start, UBSS_SZ);
         setupvm(tasks[pid].pgdir, (uint32_t)URODATA_start, URODATA_SZ);
         
-        int t_index,t_number;
-        //t_index = cpus[cid].cpu_rq.index;
-        t_number = cpus[cid].cpu_rq.number;
-        cpus[cid].cpu_rq.task_rq[(t_number)%NR_TASKS] = &tasks[pid];                              
+        int min_cid,j,thecpu;
+        min_cid =1000;
+        thecpu = 0;
+        for(j = 0;j<4;j++)
+        {
+            if(cpus[j].cpu_rq.number < min_cid)
+            {
+                min_cid = cpus[j].cpu_rq.number;
+                thecpu = j;
+            }
+        }
+       /*
+        
+        int queue_number;
+        queue_number = cpus[cid].cpu_rq.number;
+        cpus[cid].cpu_rq.task_rq[(queue_number)%NR_TASKS] = &tasks[pid];                              
         cpus[cid].cpu_rq.number ++;
         
         //cpus[cid].cpu_task->tf.tf_regs.reg_eax = pid;
+        */
+        
+        int queue_number;
+        queue_number = cpus[thecpu].cpu_rq.number;
+        cpus[thecpu].cpu_rq.task_rq[(queue_number)%NR_TASKS] = &tasks[pid];                              
+        cpus[thecpu].cpu_rq.number ++;
+        
+        //cpus[thecpu].cpu_task->tf.tf_regs.reg_eax = pid;
+        
         tasks[pid].tf.tf_regs.reg_eax = 0;
         }
     return pid;
@@ -375,6 +396,7 @@ int i;
 	{
 		cpus[cid].cpu_task->tf.tf_eip = (uint32_t)idle_entry;
         cpus[cid].cpu_rq.number = 1;
+        cpus[cid].cpu_rq.index = 0;
         cpus[cid].cpu_rq.task_rq[0] = cpus[cid].cpu_task;
         
 
@@ -383,7 +405,9 @@ int i;
 	{
 		cpus[cid].cpu_task->tf.tf_eip = (uint32_t)user_entry;
         cpus[cid].cpu_rq.number = 1;
+        cpus[cid].cpu_rq.index = 0;
         cpus[cid].cpu_rq.task_rq[0] = cpus[cid].cpu_task;
+
 	}
 	/* Load GDT&LDT */
 	lgdt(&gdt_pd);

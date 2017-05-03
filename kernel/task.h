@@ -43,7 +43,6 @@ typedef struct
 {
 	int index;
 	int number;
-	int flag;
 	Task* task_rq[NR_TASKS];
 } Runqueue;
 
