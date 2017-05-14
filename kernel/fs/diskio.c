@@ -66,6 +66,8 @@ DSTATUS disk_initialize (BYTE pdrv)
   /* Note: You can create a function under disk.c  
    *       to help you get the disk status.
    */
+  disk_init();
+  return 0;
 }
 
 /**
@@ -82,6 +84,9 @@ DSTATUS disk_status (BYTE pdrv)
 /* Note: You can create a function under disk.c  
  *       to help you get the disk status.
  */
+	if(pdrv & STA_NOINIT)
+		panic("disk not init");
+	return pdrv;
 }
 
 /**
@@ -101,6 +106,8 @@ DRESULT disk_read (BYTE pdrv, BYTE* buff, DWORD sector, UINT count)
     BYTE *ptr = buff;
     UINT cur_sector = sector;
     /* TODO */
+	return ide_read_sectors(DISK_ID,i,cur_sector,ptr);
+
 }
 
 /**
@@ -120,14 +127,14 @@ DRESULT disk_write (BYTE pdrv, const BYTE* buff, DWORD sector, UINT count)
     BYTE *ptr = buff;
     UINT cur_sector = sector;
     /* TODO */    
-
+	ide_write_sectors(1,i,sector,ptr);
 }
 
 /**
   * @brief  Get disk information form disk
   * @param  pdrv: Physical drive number
   * @param  cmd: disk control command (See diskio.h)
-  *         - GET_SECTOR_COUNT
+  *         - GET_SECTOR_COUNT //block number
   *         - GET_BLOCK_SIZE (Same as sector size)
   * @param  buff: return memory space
   * @retval Results of Disk Functions (See diskio.h)
@@ -138,6 +145,15 @@ DRESULT disk_ioctl (BYTE pdrv, BYTE cmd, void* buff)
 {
     uint32_t *retVal = (uint32_t *)buff;
     /* TODO */    
+	if(cmd == GET_SECTOR_COUNT){
+		*retVal = 32 * (1<<20)/512;			//32MB / 512byte
+		}
+	else if (cmd == GET_BLOCK_SIZE)
+	{
+		*retVal = 512;
+	}
+		return RES_OK;
+		
 }
 
 /**
@@ -147,4 +163,5 @@ DRESULT disk_ioctl (BYTE pdrv, BYTE cmd, void* buff)
 DWORD get_fattime (void)
 {
     /* TODO */
+	return sys_get_ticks();
 }

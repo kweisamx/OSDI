@@ -36,7 +36,7 @@ clean:
 	rm -rf $(OBJDIR)/kernel/drv/*.o
 
 qemu:
-	qemu-system-i386 -hda kernel.img -hdb lab7.img -monitor stdio -smp $(CPUS)
+	qemu -hda kernel.img -hdb lab7.img -monitor stdio -smp $(CPUS)
 
 debug:
 	qemu-system-i386 -hda kernel.img -hdb lab7.img -monitor stdio -s -S -smp $(CPUS)

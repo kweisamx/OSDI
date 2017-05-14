@@ -76,7 +76,8 @@ void disk_test()
 
 	printk("Disk test pass!\n");
 }
-
+//lba : logical block address 
+//edi :  edi is the offset in that segment
 int ide_read_sectors(unsigned char drive, unsigned char numsects, unsigned int lba,
 		unsigned int edi) {
 	int retVal = 0;
