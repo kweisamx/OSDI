@@ -47,13 +47,15 @@ extern struct fs_dev fat_fs;
 */
 int fat_mount(struct fs_dev *fs, const void* data)
 {
-
+	//struct FATFS getdata = (struct FATFS * )fs->data;
+	//if(fs->path)
+	//	f_mount(getdata,fs->path,(BYTE *)1);
 }
 
 /* Note: Just call f_mkfs at root path '/' */
 int fat_mkfs(const char* device_name)
 {
-
+	//f_mkfs("/",0,0);
 }
 
 /* Note: Convert the POSIX's open flag to elmfat's flag.
@@ -66,7 +68,7 @@ int fat_open(struct fs_fd* file)
 
 int fat_close(struct fs_fd* file)
 {
-
+	return f_close(file->data);	
 }
 int fat_read(struct fs_fd* file, void* buf, size_t count)
 {
