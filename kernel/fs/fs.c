@@ -107,7 +107,13 @@ int fs_mount(const char* device_name, const char* path, const void* data)
 /* Note: Before call ops->open() you may copy the path and flags parameters into fd object structure */
 int file_open(struct fs_fd* fd, const char *path, int flags)
 {
-
+	int ret;
+	fd->flags = flags;
+	strcpy(fd->path,path);
+	ret = fd->fs->ops->open(fd);
+	if(!ret)
+		return -STATUS_EIO;
+	return ret;
 }
 
 int file_read(struct fs_fd* fd, void *buf, size_t len)

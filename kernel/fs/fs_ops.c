@@ -47,7 +47,7 @@ extern struct fs_dev fat_fs;
 */
 int fat_mount(struct fs_dev *fs, const void* data)
 {
-	//struct FATFS getdata = (struct FATFS * )fs->data;
+//	struct FATFS getdata = fs->data;
 	//if(fs->path)
 	//	f_mount(getdata,fs->path,(BYTE *)1);
 }
@@ -64,6 +64,12 @@ int fat_mkfs(const char* device_name)
 */
 int fat_open(struct fs_fd* file)
 {
+	
+	f_open(file->data,file->path,file->flags);
+	//if(file->flags & O_APPEND)
+	//{
+		
+	//}
 }
 
 int fat_close(struct fs_fd* file)
