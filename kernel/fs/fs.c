@@ -111,23 +111,40 @@ int file_open(struct fs_fd* fd, const char *path, int flags)
 	fd->flags = flags;
 	strcpy(fd->path,path);
 	ret = fd->fs->ops->open(fd);
-	if(!ret)
+	if(ret<0)
 		return -STATUS_EIO;
 	return ret;
 }
 
 int file_read(struct fs_fd* fd, void *buf, size_t len)
 {
-
+	int ret;
+	ret = fd->fs->ops->read(fd,buf,len);
+	printk("the file_read = %d\n",ret);
+	if(ret<0)
+		return -1;
+	return ret;
 }
 
 int file_write(struct fs_fd* fd, const void *buf, size_t len)
 {
+	int ret;
+	ret = fat_write(fd,buf,len);
+	printk("the file_write = %d\n",ret);
+	if(ret<0)
+		return -1;
+	return ret;
 
 }
 
 int file_close(struct fs_fd* fd)
 {
+	int ret;
+	ret = fd->fs->ops->close(fd);
+	printk("the file_close = %d\n",ret);
+	if(ret<0)
+		return -1;
+	return ret;
 
 }
 int file_lseek(struct fs_fd* fd, off_t offset)

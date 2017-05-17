@@ -45,6 +45,17 @@
  *        └──────────────┘
  */
 extern struct fs_fd fd_table[];
+int check_valid_fd(struct fs_fd *fd) {
+	bool is_valid = false;
+	int i;
+	for (i = 0; i < FS_FD_MAX; ++i)
+	if (fd == &fd_table[i]) {                                                                                                      
+		is_valid = true;
+		break;
+	}
+	return is_valid;
+}
+
 // Below is POSIX like I/O system call 
 int sys_open(const char *file, int flags, int mode)
 {
@@ -56,8 +67,8 @@ int sys_open(const char *file, int flags, int mode)
 	if(ret<0)
 		return -STATUS_ENOSPC;
 	new_fd = &fd_table[ret];
-	file_open(new_fd,new_fd->path,new_fd->flags);
-	
+	file_open(new_fd,file,flags);
+	printk("the check fd is %d num = %d\n ",check_valid_fd(new_fd),ret);
 	return ret;
 }
 
@@ -80,6 +91,7 @@ int sys_read(int fd, void *buf, size_t len)
 	int ret ;
 	struct fs_fd  *readfd;
 	readfd = fd_get(fd);
+
 	ret = file_read(readfd,buf,len);
 	if(ret<0)
 		return -STATUS_ENOSPC;
@@ -92,6 +104,7 @@ int sys_write(int fd, const void *buf, size_t len)
 	int ret ;
 	struct fs_fd  *writefd;
 	writefd = fd_get(fd);
+	printk("the check fd is %d num = %d\n ",check_valid_fd(writefd),ret);
 	ret = file_write(writefd,buf,len);
 	if(ret<0)
 		return -STATUS_ENOSPC;
