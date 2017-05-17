@@ -68,7 +68,7 @@ int sys_close(int fd)
 	struct fs_fd *close_fd;
 	close_fd = fd_get(fd);
 	ret =  file_close(close_fd);
-	if(!ret)
+	if(ret<0)
 		return -STATUS_ENOSPC;
 	fd_put(close_fd);
 	return ret;
@@ -81,7 +81,7 @@ int sys_read(int fd, void *buf, size_t len)
 	struct fs_fd  *readfd;
 	readfd = fd_get(fd);
 	ret = file_read(readfd,buf,len);
-	if(!ret)
+	if(ret<0)
 		return -STATUS_ENOSPC;
 	return ret;
 
@@ -93,7 +93,7 @@ int sys_write(int fd, const void *buf, size_t len)
 	struct fs_fd  *writefd;
 	writefd = fd_get(fd);
 	ret = file_write(writefd,buf,len);
-	if(!ret)
+	if(ret<0)
 		return -STATUS_ENOSPC;
 	return ret;
 }
