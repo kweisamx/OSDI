@@ -64,12 +64,12 @@ int fat_mkfs(const char* device_name)
 */
 int fat_open(struct fs_fd* file)
 {
-	
-	f_open(file->data,file->path,file->flags);
-	//if(file->flags & O_APPEND)
-	//{
-		
-	//}
+	int res;
+	res =f_open(file->data,file->path,file->flags);
+	if(file->flags & O_APPEND)
+	{
+		res = f_lseek(file->data,SEEK_END);
+	}
 }
 
 int fat_close(struct fs_fd* file)

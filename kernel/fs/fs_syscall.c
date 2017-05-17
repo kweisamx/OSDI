@@ -53,7 +53,7 @@ int sys_open(const char *file, int flags, int mode)
 	int ret;
 	struct fs_fd *new_fd;
 	ret  = fd_new();
-	if(!ret)
+	if(ret<0)
 		return -STATUS_ENOSPC;
 	new_fd = &fd_table[ret];
 	file_open(new_fd,new_fd->path,new_fd->flags);
