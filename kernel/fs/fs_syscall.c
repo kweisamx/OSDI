@@ -114,7 +114,25 @@ int sys_write(int fd, const void *buf, size_t len)
 /* Note: Check the whence parameter and calcuate the new offset value before do file_seek() */
 off_t sys_lseek(int fd, off_t offset, int whence)
 {
-/* TODO */
+	off_t new_offset = 0
+	/* TODO */
+	switch(whence)
+	{
+		case SEEK_END:
+			new_offset = fd->size + offset;
+			break;
+		case SEEK_SET:
+			new_offset = offset;
+			break;
+		case SEEK_CUR:
+			new_offset = fd->pos + offset;
+			break;
+	}
+	int ret;
+	ret = file_seek(fd,new_offset);
+	if(ret<0)
+		return -1;
+	return ret;
 }
 
 int sys_unlink(const char *pathname)

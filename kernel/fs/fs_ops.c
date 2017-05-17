@@ -115,13 +115,14 @@ int fat_write(struct fs_fd* file, const void* buf, size_t count)
     int ret;
     ret = f_write(data, buf, count, &bw);
     if (ret< 0)
-	    return -1;
+	    return -1;/*
     int next_pos = file->pos + bw;
     int size_offset = 0;
     if (next_pos > file->size) 
 	    size_offset = next_pos - file->size;
 	file->size += size_offset; 
 	file->pos = next_pos;  
+	*/
 	return bw;
 
 }
