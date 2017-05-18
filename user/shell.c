@@ -3,7 +3,7 @@
 #include <inc/string.h>
 #include <inc/shell.h>
 #include <inc/assert.h> 
-
+#include <fs.h>    
 char hist[SHELL_HIST_MAX][BUF_LEN];
 
 int hist_head;
@@ -27,7 +27,8 @@ int filetest3(int argc, char **argv);
 int filetest4(int argc, char **argv);
 int filetest5(int argc, char **argv);
 int spinlocktest(int argc, char **argv);
-
+int list_files(int argc, char *argv[]);
+int touch(int argc, char *argv[]);
 
 struct Command commands[] = {
   { "help", "Display this list of commands", mon_help },
@@ -42,7 +43,9 @@ struct Command commands[] = {
   { "filetest3", "Laqrge block test", filetest3},
   { "filetest4", "Error test", filetest4},
   { "filetest5", "unlink test", filetest5},
-  { "spinlocktest", "Test spinlock", spinlocktest }
+  { "spinlocktest", "Test spinlock", spinlocktest },
+  { "ls", "listfile",list_files},
+  {"touch","create file",touch}
 };
 const int NCOMMANDS = (sizeof(commands)/sizeof(commands[0]));
 
@@ -529,7 +532,37 @@ int fs_speed_test(int argc, char **argv)
         close(fd);
     }
 }
-
+int list_files(int argc, char *argv[])
+{
+    if(argc < 2){ 
+    cprintf("Please add the path!\n");
+    return 0;   
+	}   
+	list(argv[1]); 
+	return 0;
+}
+int touch(int argc,char *argv[])
+{
+    if(argc < 2){ 
+    cprintf("Please add the filename!\n");
+    return 0;   
+	}   
+	int fd;
+	fd = open(argv[1], O_WRONLY | O_CREAT | O_TRUNC,0);
+	if(fd<0)
+		cprintf("file can't build!\n");
+	int ret;
+	char *buf = " ";
+	ret = write(fd,buf,12);
+	if(ret<0)
+		cprintf("file can't build!w\n");
+	close(fd);
+	return 0;
+	
+}/*
+int remove(int argc,char *argv[])
+{
+}*/
 void shell()
 {
   char *buf;

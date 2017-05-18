@@ -5,6 +5,7 @@
 #include <inc/stdio.h>
 #include <inc/syscall.h>
 #include <fs.h>
+#include <ff.h>
 
 /*TODO: Lab7, file I/O system call interface.*/
 /*Note: Here you need handle the file system call from user.
@@ -168,6 +169,28 @@ int sys_unlink(const char *pathname)
 		return -STATUS_ENOENT;
 	return STATUS_OK;
 }
+int sys_list(const char *pathname)
+{
+    DIR dir;
+	FILINFO fno;
+	int res;
+	if(strcmp(pathname, "/")){
+		cprintf("File or path not exist");
+		return 0;
+	}
+	f_opendir(&dir, pathname);
+	res = f_readdir(&dir, &fno);
+	char *type;
+	if(fno.fattrib == 32)
+		type ="FILE";
+	while (strlen(fno.fname)) {
+		printk("filename = %s, fsize = %d type = %s \n",fno.fname,fno.fsize,type);
+		res = f_readdir(&dir, &fno);
+	}   
+	f_closedir(&dir);
+	return 0;			
+}
+
 
 
               
