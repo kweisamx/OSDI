@@ -63,12 +63,14 @@ int sys_open(const char *file, int flags, int mode)
 /* TODO */
 	int ret;
 	struct fs_fd *new_fd;
-	ret  = fd_new();
+	ret = fd_new();
 	if(ret<0)
-		return -STATUS_ENOSPC;
-	new_fd = &fd_table[ret];
+		return -1;
+	new_fd = fd_get(ret);
+	//printk("the check fd is %d num = %d\n ",check_valid_fd(new_fd),ret);
 	file_open(new_fd,file,flags);
-	printk("the check fd is %d num = %d\n ",check_valid_fd(new_fd),ret);
+	//printk("the check fd is %d num = %d\n ",check_valid_fd(new_fd),ret);
+	fd_put(new_fd);
 	return ret;
 }
 
@@ -78,10 +80,12 @@ int sys_close(int fd)
 	int ret;
 	struct fs_fd *close_fd;
 	close_fd = fd_get(fd);
-	ret =  file_close(close_fd);
-	if(ret<0)
-		return -STATUS_ENOSPC;
 	fd_put(close_fd);
+	ret = file_close(close_fd);
+	if(ret<0)
+		return -1;
+	fd_put(close_fd);
+	//printk("the check fd is %d\n ",check_valid_fd(close_fd));
 	return ret;
 	
 }
@@ -95,6 +99,7 @@ int sys_read(int fd, void *buf, size_t len)
 	ret = file_read(readfd,buf,len);
 	if(ret<0)
 		return -STATUS_ENOSPC;
+	fd_put(readfd);
 	return ret;
 
 }
@@ -104,32 +109,35 @@ int sys_write(int fd, const void *buf, size_t len)
 	int ret ;
 	struct fs_fd  *writefd;
 	writefd = fd_get(fd);
-	printk("the check fd is %d num = %d\n ",check_valid_fd(writefd),ret);
+	//printk("the check fd is %d num = %d\n ",check_valid_fd(writefd),ret);
 	ret = file_write(writefd,buf,len);
 	if(ret<0)
 		return -STATUS_ENOSPC;
+	fd_put(writefd);
 	return ret;
 }
 
 /* Note: Check the whence parameter and calcuate the new offset value before do file_seek() */
 off_t sys_lseek(int fd, off_t offset, int whence)
 {
-	off_t new_offset = 0
+	off_t new_offset = 0;
+	struct fs_fd *lseekfd = fd_get(fd);
 	/* TODO */
 	switch(whence)
 	{
 		case SEEK_END:
-			new_offset = fd->size + offset;
+			new_offset = lseekfd->size + offset;
 			break;
 		case SEEK_SET:
 			new_offset = offset;
 			break;
 		case SEEK_CUR:
-			new_offset = fd->pos + offset;
+			new_offset = lseekfd->pos + offset;
 			break;
 	}
 	int ret;
-	ret = file_seek(fd,new_offset);
+	ret = file_lseek(lseekfd,new_offset);
+	fd_put(lseekfd);
 	if(ret<0)
 		return -1;
 	return ret;
