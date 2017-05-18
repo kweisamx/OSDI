@@ -110,27 +110,39 @@ int fat_read(struct fs_fd* file, void* buf, size_t count)
 }
 int fat_write(struct fs_fd* file, const void* buf, size_t count)
 {
-	FIL* data = file->data;
+	FIL *data = file->data;
     UINT bw;
     int ret;
     ret = f_write(data, buf, count, &bw);
     if (ret< 0)
-	    return -1;/*
+	    return -1;
     int next_pos = file->pos + bw;
     int size_offset = 0;
     if (next_pos > file->size) 
 	    size_offset = next_pos - file->size;
 	file->size += size_offset; 
 	file->pos = next_pos;  
-	*/
+	
 	return bw;
 
 }
 int fat_lseek(struct fs_fd* file, off_t offset)
 {
+	FIL *data = file->data;
+	int ret;
+	ret = f_lseek(data,offset);
+	if(ret<0)
+		return -1;
+	return ret;
 }
 int fat_unlink(struct fs_fd* file, const char *pathname)
 {
+	FIL *data = file->data;
+	int ret;
+	ret = f_unlink(pathname);
+	if(ret<0)
+		return -1;
+	return ret;
 }
 
 struct fs_ops elmfat_ops = {

@@ -80,13 +80,15 @@ int sys_close(int fd)
 	int ret;
 	struct fs_fd *close_fd;
 	close_fd = fd_get(fd);
+	//if(close_fd<0)
+	//	return -STATUS_EINVAL;
 	fd_put(close_fd);
 	ret = file_close(close_fd);
 	if(ret<0)
 		return -1;
 	fd_put(close_fd);
 	//printk("the check fd is %d\n ",check_valid_fd(close_fd));
-	return ret;
+	return STATUS_OK;
 	
 }
 int sys_read(int fd, void *buf, size_t len)
@@ -145,7 +147,12 @@ off_t sys_lseek(int fd, off_t offset, int whence)
 
 int sys_unlink(const char *pathname)
 {
-/* TODO */ 
+/* TODO */
+	int ret;
+	ret  = file_unlink(pathname);
+	if(ret<0)
+		return -1;
+	return ret;
 }
 
 

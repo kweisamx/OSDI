@@ -128,7 +128,7 @@ int32_t do_syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, ui
   	retVal =sys_lseek(a1,a2,a3);
 	break;
   case SYS_unlink:
-    retVal = -1; //Not yet implemented
+    retVal = sys_unlink(a1); //Not yet implemented
     break;
   }
 	return retVal;

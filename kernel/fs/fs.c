@@ -149,10 +149,31 @@ int file_close(struct fs_fd* fd)
 }
 int file_lseek(struct fs_fd* fd, off_t offset)
 {
+	int ret;
+	ret = fat_lseek(fd,offset);
+	//printk("the file_close = %d\n",ret);
+	if(ret<0)
+		return -1;
+	return ret;
 
 }
 int file_unlink(const char *path)
 {
+	
+	int ret = -1,i;
+	for(i = 0; i<FS_FD_MAX;i++)
+	{
+		struct fs_fd *unlink_fd = &fd_table[i];
+		if(!strcmp(unlink_fd->path,path))
+		{
+			ret = fat_unlink(unlink_fd ,path);
+			break;
+		}
+			
+	}
+	if(ret<0)
+		return -1;
+	return ret;
 }
 
 
