@@ -62,15 +62,19 @@ int sys_open(const char *file, int flags, int mode)
     //We dont care the mode.
 /* TODO */
 	int ret;
-	struct fs_fd *new_fd;
+	struct fs_fd *new_fd,*openret;
 	ret = fd_new();
 	if(ret<0)
 		return -1;
 	new_fd = fd_get(ret);
 	//printk("the check fd is %d num = %d\n ",check_valid_fd(new_fd),ret);
-	file_open(new_fd,file,flags);
+	openret = file_open(new_fd,file,flags);
 	//printk("the check fd is %d num = %d\n ",check_valid_fd(new_fd),ret);
 	fd_put(new_fd);
+	if(openret ==4)
+		return -2;
+	else if (openret ==8)
+		return -STATUS_EEXIST;
 	return ret;
 }
 
@@ -80,8 +84,8 @@ int sys_close(int fd)
 	int ret;
 	struct fs_fd *close_fd;
 	close_fd = fd_get(fd);
-	//if(close_fd<0)
-	//	return -STATUS_EINVAL;
+	if(!check_valid_fd(close_fd))
+		return -STATUS_EINVAL;
 	fd_put(close_fd);
 	ret = file_close(close_fd);
 	if(ret<0)
@@ -97,6 +101,10 @@ int sys_read(int fd, void *buf, size_t len)
 	int ret ;
 	struct fs_fd  *readfd;
 	readfd = fd_get(fd);
+	if(len<0||buf<=0)
+		return -STATUS_EINVAL;
+	if(!check_valid_fd(readfd))
+		return -STATUS_EBADF;
 
 	ret = file_read(readfd,buf,len);
 	if(ret<0)
@@ -111,6 +119,12 @@ int sys_write(int fd, const void *buf, size_t len)
 	int ret ;
 	struct fs_fd  *writefd;
 	writefd = fd_get(fd);
+
+	if(len<0||buf<=0)
+		return -STATUS_EINVAL;
+	if(!check_valid_fd(writefd))
+		return -STATUS_EBADF;
+	
 	//printk("the check fd is %d num = %d\n ",check_valid_fd(writefd),ret);
 	ret = file_write(writefd,buf,len);
 	if(ret<0)
@@ -150,9 +164,9 @@ int sys_unlink(const char *pathname)
 /* TODO */
 	int ret;
 	ret  = file_unlink(pathname);
-	if(ret<0)
-		return -1;
-	return ret;
+	if(ret==-1)
+		return -STATUS_ENOENT;
+	return STATUS_OK;
 }
 
 
