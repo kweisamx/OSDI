@@ -190,6 +190,20 @@ int sys_list(const char *pathname)
 	f_closedir(&dir);
 	return 0;			
 }
+int sys_remove(const char *filename)
+{
+	int ret,retrm;
+	/*
+	ret = sys_open(filename,O_WRONLY | O_TRUNC,0);
+	if(ret<0)
+		return -1;*/
+	//retrm = f_truncate(fd_table[ret].data);
+	retrm = sys_unlink(filename);
+	if(retrm<0)
+		printk("Cannot not remove path\n");
+	//close(ret);
+	return retrm;
+}
 
 
 

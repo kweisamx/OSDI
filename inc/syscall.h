@@ -24,6 +24,7 @@ enum {
   SYS_unlink,
   SYS_readdir,
   SYS_list,
+  SYS_remove,
   NSYSCALLS
 };
 

@@ -29,6 +29,7 @@ int filetest5(int argc, char **argv);
 int spinlocktest(int argc, char **argv);
 int list_files(int argc, char *argv[]);
 int touch(int argc, char *argv[]);
+int removefile(int argc, char *argv[]);
 
 struct Command commands[] = {
   { "help", "Display this list of commands", mon_help },
@@ -45,7 +46,8 @@ struct Command commands[] = {
   { "filetest5", "unlink test", filetest5},
   { "spinlocktest", "Test spinlock", spinlocktest },
   { "ls", "listfile",list_files},
-  {"touch","create file",touch}
+  {"touch","create file",touch},
+  { "rm", "removefile",removefile}
 };
 const int NCOMMANDS = (sizeof(commands)/sizeof(commands[0]));
 
@@ -553,16 +555,25 @@ int touch(int argc,char *argv[])
 		cprintf("file can't build!\n");
 	int ret;
 	char *buf = " ";
-	ret = write(fd,buf,12);
+	ret = write(fd,buf,0);
 	if(ret<0)
 		cprintf("file can't build!w\n");
 	close(fd);
 	return 0;
 	
-}/*
-int remove(int argc,char *argv[])
+}
+int removefile(int argc,char *argv[])
 {
-}*/
+    if(argc < 2){ 
+    cprintf("Please add the path!\n");
+    return 0;   
+	}
+	int fd;
+    fd = open(argv[1], O_WRONLY | O_CREAT, 0);
+	unlink(argv[1]);
+	close(fd);
+	return 0;
+}
 void shell()
 {
   char *buf;
